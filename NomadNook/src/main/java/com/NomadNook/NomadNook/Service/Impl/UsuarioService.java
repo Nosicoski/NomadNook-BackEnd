@@ -6,18 +6,20 @@ import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
 import com.NomadNook.NomadNook.Service.IUsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
-
+@Service
 public class UsuarioService  implements IUsuarioService {
 
 
 
     private final IUsuarioRepository usuarioRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
-
+    @Autowired
     public UsuarioService(IUsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }

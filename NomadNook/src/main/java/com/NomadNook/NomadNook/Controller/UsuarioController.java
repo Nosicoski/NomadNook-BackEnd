@@ -12,9 +12,13 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
-@RequiredArgsConstructor
+
 public class UsuarioController {
     private final UsuarioService usuarioService;
+
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
 
     @GetMapping("/buscar/{id}")
     public ResponseEntity<Usuario> buscarUser(@PathVariable Long id) {
