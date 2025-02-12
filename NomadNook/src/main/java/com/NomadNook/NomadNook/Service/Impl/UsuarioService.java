@@ -19,6 +19,7 @@ public class UsuarioService  implements IUsuarioService {
 
     private final IUsuarioRepository usuarioRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
+
     @Autowired
     public UsuarioService(IUsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
