@@ -12,7 +12,7 @@
     <artifactId>NomadNook</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>NomadNook</name>
-    <description>Proyecto backend</description>
+    <description>Proyecto backend </description>
     <url/>
     <licenses>
         <license/>
@@ -73,8 +73,11 @@
         </dependency>
 
         <!-- DEPENDENCIAS AGREGADAS LUEGO DE LA CREACION DEL PROYECTO AQUI -->
-        <!-- JWT DEPENDENCIA -->
-
+        <!-- DEPENDENCIAS JWT -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -90,7 +93,6 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
         </dependency>
-
 
         <!-- modelmapper (No se si usamos Dtos pero bueno)-->
         <dependency>
@@ -126,7 +128,17 @@
         </dependency>
 
 
+
+
+
+
     </dependencies>
+
+
+
+
+
+
 
 
     <build>
