@@ -7,8 +7,11 @@ import com.NomadNook.NomadNook.Service.IAlojamientoService;
 import com.NomadNook.NomadNook.Service.IUsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+@Service
 
 public class AlojamientoService implements IAlojamientoService {private final IAlojamientoRepository alojamientoRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(AlojamientoService.class);

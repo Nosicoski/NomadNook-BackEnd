@@ -7,8 +7,11 @@ import com.NomadNook.NomadNook.Repository.IReservaRepository;
 import com.NomadNook.NomadNook.Service.IReservaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+@Service
 
 public class ReservaService implements IReservaService {
     private final IReservaRepository reservaRepository;
@@ -32,9 +35,10 @@ public class ReservaService implements IReservaService {
     }
 
     @Override
-    public List<Reserva> listReservasByCliente(Long clienteId) {
-        return reservaRepository.findByClienteId(clienteId);
+    public List<Reserva> listAllReservas() {
+        return reservaRepository.findAll();
     }
+
 
     @Override
     public Reserva updateReserva(Long id, Reserva reserva) {
