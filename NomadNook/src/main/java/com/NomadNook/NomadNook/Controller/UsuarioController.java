@@ -20,7 +20,7 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Usuario>> todosUser() {
         return ResponseEntity.ok(usuarioService.listAllUsers());
     }
