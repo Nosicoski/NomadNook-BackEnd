@@ -6,7 +6,9 @@ import com.NomadNook.NomadNook.Security.Dto.LoginRequest;
 import com.NomadNook.NomadNook.Security.Dto.LoginResponse;
 import com.NomadNook.NomadNook.Security.Auth.JwtService;
 import com.NomadNook.NomadNook.Security.Dto.RegisterRequest;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +31,8 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@Getter
+@Setter
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
