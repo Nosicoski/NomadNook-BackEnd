@@ -14,7 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -66,18 +65,19 @@ public class AuthController {
                             usuario.getEmail(),
                             usuario.getPassword(),
                             Collections.singleton(
-                                            new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()))
+                                    new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()))
                     )
-
             );
 
-            // Retornar respuesta
-            return ResponseEntity.ok(new LoginResponse(
-                    token,
-                    usuario.getEmail(),
-                    usuario.getRol(),
-                    "Usuario creado exitosamente"
-            ));
+            // Retornar respuesta utilizando el builder
+            LoginResponse response = LoginResponse.builder()
+                    .token(token)
+                    .email(usuario.getEmail())
+                    .rol(usuario.getRol())
+                    .mensaje("Login exitoso")
+                    .build();
+
+            return ResponseEntity.ok(response);
 
         } catch (Exception e) {
             return ResponseEntity
@@ -107,12 +107,14 @@ public class AuthController {
                     )
             );
 
-            return ResponseEntity.ok(new LoginResponse(
-                    token,
-                    usuario.getEmail(),
-                    usuario.getRol(),
-                    "Login exitoso"
-            ));
+            LoginResponse response = LoginResponse.builder()
+                    .token(token)
+                    .email(usuario.getEmail())
+                    .rol(usuario.getRol())
+                    .mensaje("Login exitoso")
+                    .build();
+
+            return ResponseEntity.ok(response);
 
         } catch (AuthenticationException e) {
             LoginResponse response = new LoginResponse();

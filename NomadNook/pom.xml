@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -28,6 +30,8 @@
     </scm>
     <properties>
         <java.version>21</java.version>
+        <!-- Propiedad para la versión de Lombok -->
+        <lombok.version>1.18.36</lombok.version>
     </properties>
     <dependencies>
         <!-- Spring JPA DEPENDENCIA  -->
@@ -39,40 +43,43 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
         <!-- H2 DEPENDENCIA  -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-
         <!-- postgresql DEPENDENCIA  -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- Lombok DEPENDENCIA  -->
+        <!-- Lombok DEPENDENCIA -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <!-- Spring Security DEPENDENCIA  -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <!-- DEPENDENCIAS AGREGADAS LUEGO DE LA CREACION DEL PROYECTO AQUI -->
+        <!-- openapi DEPENDENCIA -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.0.2</version>
+        </dependency>
         <!-- JWT DEPENDENCIAS -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -93,8 +100,7 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
         </dependency>
-
-        <!-- modelmapper (No se si usamos Dtos pero bueno)-->
+        <!-- modelmapper -->
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
@@ -106,42 +112,27 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
-        <!-- gson-->
+        <!-- gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
-
-
-        <!-- jakarta-->
+        <!-- jakarta validation -->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.2</version>
         </dependency>
-        <!-- spring-boot-starter-web-->
+        <!-- spring-boot-starter-web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-
-
-
-
-
     </dependencies>
-
-
-
-
-
-
-
-
     <build>
         <plugins>
+            <!-- Plugin para compilar y procesar anotaciones (Lombok) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -150,10 +141,12 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <!-- Plugin de Spring Boot -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -168,6 +161,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
-
