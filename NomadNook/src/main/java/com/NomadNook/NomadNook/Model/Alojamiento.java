@@ -2,6 +2,8 @@ package com.NomadNook.NomadNook.Model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,7 +15,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "alojamientos")
 public class Alojamiento {
 
@@ -38,11 +39,12 @@ public class Alojamiento {
 
     @ManyToOne
     @JoinColumn(name = "propietario_id", nullable = false)
+    @JsonBackReference
     private Usuario propietario;
 
 
-    @OneToMany
-    @JoinColumn(name = "alojamiento_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Imagen> imagenes;
 
     public enum TipoAlojamiento {
