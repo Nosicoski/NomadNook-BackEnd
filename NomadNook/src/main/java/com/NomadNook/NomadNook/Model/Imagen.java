@@ -2,6 +2,7 @@ package com.NomadNook.NomadNook.Model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,6 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "imagenes")
 public class Imagen {
 
@@ -19,7 +19,8 @@ public class Imagen {
 
     private String url;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "alojamiento_id", nullable = false)
+    @JsonBackReference
     private Alojamiento alojamiento;
 }

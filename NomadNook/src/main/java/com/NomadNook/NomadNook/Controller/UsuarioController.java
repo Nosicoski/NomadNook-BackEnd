@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/api/usuarios")
 
 public class UsuarioController {
     private final UsuarioService usuarioService;
@@ -19,6 +19,12 @@ public class UsuarioController {
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
+
+    @GetMapping
+    public ResponseEntity<List<Usuario>> todosUser() {
+        return ResponseEntity.ok(usuarioService.listAllUsers());
+    }
+
 
     @GetMapping("/buscar/{id}")
     public ResponseEntity<Usuario> buscarUser(@PathVariable Long id) {
