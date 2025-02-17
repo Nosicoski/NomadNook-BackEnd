@@ -6,7 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-
+@Getter
+@Setter
 @Entity
 @Data
 @NoArgsConstructor
@@ -24,4 +25,28 @@ public class Disponibilidad {
     private Alojamiento alojamiento;
 
     private LocalDate fechaDisponible;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Alojamiento getAlojamiento() {
+        return alojamiento;
+    }
+
+    public void setAlojamiento(Alojamiento alojamiento) {
+        this.alojamiento = alojamiento;
+    }
+
+    public LocalDate getFechaDisponible() {
+        return fechaDisponible;
+    }
+
+    public void setFechaDisponible(LocalDate fechaDisponible) {
+        this.fechaDisponible = fechaDisponible;
+    }
 }
