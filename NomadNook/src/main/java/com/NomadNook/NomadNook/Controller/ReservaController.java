@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Reserva")
+@RequestMapping("/api/Reservas")
 public class ReservaController {private final IReservaService reservaService;
 
     public ReservaController(IReservaService reservaService) {
