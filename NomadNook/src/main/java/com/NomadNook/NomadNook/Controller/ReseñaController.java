@@ -25,26 +25,30 @@ public class ReseñaController { private final IReseñaService resenaService;
 
 
     // TRAE todas las Reseñas
-    @GetMapping
+
+    @GetMapping ("/listarTodos")
     public ResponseEntity<List<Reseña>> getAll() {
         return ResponseEntity.ok(resenaService.listAllResenas());
     }
 
 
     // TRAE una Reseña por ID
-    @GetMapping("/{id}")
+
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<Reseña> getById(@PathVariable Long id) {
         return ResponseEntity.ok(resenaService.getResenaById(id));
     }
 
 
     // ACTUALIZA una Reseña por ID
-    @PutMapping("/{id}")
+
+    @PutMapping ("/actualizar/{id}")
     public ResponseEntity<Reseña> update(@PathVariable Long id, @RequestBody Reseña resena) {
         return ResponseEntity.ok(resenaService.updateResena(id, resena));
     }
     // ELIMINA una Reseña por ID
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         resenaService.deleteResena(id);
         return ResponseEntity.noContent().build();

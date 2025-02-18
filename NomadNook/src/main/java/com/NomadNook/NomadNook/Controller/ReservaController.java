@@ -26,13 +26,15 @@ public class ReservaController {private final IReservaService reservaService;
 
 
     // TRAE todas las Reservas
-    @GetMapping
+
+    @GetMapping ("/listarTodos")
     public ResponseEntity<List<Reserva>> getAllReservas() {
         List<Reserva> reservas = reservaService.listAllReservas();
         return ResponseEntity.ok(reservas);
     }
     // TRAE una Reserva por ID
-    @GetMapping("/{id}")
+
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<Reserva> getReservaById(@PathVariable Long id) {
         Reserva reserva = reservaService.getReservaById(id);
         return ResponseEntity.ok(reserva);
@@ -40,14 +42,16 @@ public class ReservaController {private final IReservaService reservaService;
 
 
     // ACTUALIZA una Reserva por ID
-    @PutMapping("/{id}")
+
+    @PutMapping ("/actualizar/{id}")
     public ResponseEntity<Reserva> updateReserva(@PathVariable Long id, @RequestBody Reserva reserva) {
         Reserva updatedReserva = reservaService.updateReserva(id, reserva);
         return ResponseEntity.ok(updatedReserva);
     }
 
     // ELIMINA una Reserva por ID
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> deleteReserva(@PathVariable Long id) {
         reservaService.deleteReserva(id);
         return ResponseEntity.noContent().build();

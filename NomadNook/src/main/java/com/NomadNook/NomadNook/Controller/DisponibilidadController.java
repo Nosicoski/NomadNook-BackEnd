@@ -23,26 +23,30 @@ public class DisponibilidadController {  private final IDisponibilidadService di
     }
 
     // TRAE todas las Disponibilidades
-    @GetMapping
+
+    @GetMapping ("/listarTodos")
     public ResponseEntity<List<Disponibilidad>> getAll() {
         return ResponseEntity.ok(disponibilidadService.listAllDisponibilidades());
     }
 
     // TRAE Disponibilidades por ID
-    @GetMapping("/{id}")
+
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<Disponibilidad> getById(@PathVariable Long id) {
         return ResponseEntity.ok(disponibilidadService.getDisponibilidadById(id));
     }
 
 
     // ACTUALIZA Disponibilidades por ID
-    @PutMapping("/{id}")
+
+    @PutMapping ("/actualizar/{id}")
     public ResponseEntity<Disponibilidad> update(@PathVariable Long id, @RequestBody Disponibilidad disponibilidad) {
         return ResponseEntity.ok(disponibilidadService.updateDisponibilidad(id, disponibilidad));
     }
 
     // ELIMINA Disponibilidades por ID
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         disponibilidadService.deleteDisponibilidad(id);
         return ResponseEntity.noContent().build();

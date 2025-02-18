@@ -39,13 +39,13 @@ public class UsuarioController {
     }
 
     // ACTUALIZA un Usuario por ID
-    @PutMapping("/{id}")
+    @PutMapping ("/actualizar/{id}")
     public ResponseEntity<Usuario> actualizarUser(@PathVariable Long id, @RequestBody Usuario usuario) {
         return ResponseEntity.ok(usuarioService.updateUser(id, usuario));
 
     }
     // ELIMINA un Usuario por ID
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
         usuarioService.deleteUser(id);
         return ResponseEntity.noContent().build();
