@@ -20,37 +20,37 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Usuario>> todosUser() {
+
+
+    // CREA un Usuario
+    @PostMapping("/guardar")
+    public ResponseEntity<Usuario> guardarUser(@RequestBody Usuario usuario) {
+        return ResponseEntity.ok(usuarioService.createUser(usuario));
+    }
+    // TRAE todos los Usuarios
+    @GetMapping ("/listarTodos")
+    public ResponseEntity<List<Usuario>> listarTodos() {
         return ResponseEntity.ok(usuarioService.listAllUsers());
     }
-
-
+    // TRAE un Usuario por ID
     @GetMapping("/buscar/{id}")
     public ResponseEntity<Usuario> buscarUser(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.getUserById(id));
     }
 
-    @PostMapping("/guardar")
-    public ResponseEntity<Usuario> guardarUser(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.createUser(usuario));
-    }
-
+    // ACTUALIZA un Usuario por ID
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> actualizarUser(@PathVariable Long id, @RequestBody Usuario usuario) {
         return ResponseEntity.ok(usuarioService.updateUser(id, usuario));
 
     }
-
+    // ELIMINA un Usuario por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
         usuarioService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping ("/listarTodos")
-    public ResponseEntity<List<Usuario>> listarTodos() {
-        return ResponseEntity.ok(usuarioService.listAllUsers());
-    }
+
 }
 

@@ -11,29 +11,36 @@ import java.util.List;
 
 public class AlojamientoController { private final IAlojamientoService alojamientoService;
 
+
+
     public AlojamientoController(IAlojamientoService alojamientoService) {
         this.alojamientoService = alojamientoService;
     }
+// TRAE todos los alojamientos
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<List<Alojamiento>> getAll() {
         return ResponseEntity.ok(alojamientoService.listAllAlojamientos());
     }
+    // TRAE un alojamiento por ID
 
     @GetMapping("/{id}")
     public ResponseEntity<Alojamiento> getById(@PathVariable Long id) {
         return ResponseEntity.ok(alojamientoService.getAlojamientoById(id));
     }
+    // CREA un alojamiento
 
-    @PostMapping
+    @PostMapping("/guardar")
     public ResponseEntity<Alojamiento> create(@RequestBody Alojamiento alojamiento) {
         return ResponseEntity.ok(alojamientoService.createAlojamiento(alojamiento));
     }
+    // ACTUALIZA un alojamiento (hay que pasarle un ID)
 
     @PutMapping("/{id}")
     public ResponseEntity<Alojamiento> update(@PathVariable Long id, @RequestBody Alojamiento alojamiento) {
         return ResponseEntity.ok(alojamientoService.updateAlojamiento(id, alojamiento));
     }
+    // ELIMINA un alojamiento (hay que pasarle un ID)
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
