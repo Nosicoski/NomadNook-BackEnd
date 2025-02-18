@@ -1,15 +1,14 @@
 package com.NomadNook.NomadNook.Security.Dto;
 
 import com.NomadNook.NomadNook.Model.Usuario;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class RegisterRequest {
     private String nombre;
     private String apellido;

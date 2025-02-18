@@ -67,37 +67,37 @@ public class AuthController {
 
         try {
             // Crear nuevo usuario
-            Usuario usuario = Usuario.builder()
-                    .nombre(request.getNombre())
-                    .apellido(request.getApellido())
-                    .email(request.getEmail())
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .telefono(request.getTelefono())
-                    .rol(request.getRol() != null ? request.getRol() : Usuario.Rol.CLIENTE)
-                    .fechaRegistro(LocalDateTime.now())
-                    .build();
+            Usuario usuario = new Usuario();
+            usuario.setNombre(request.getNombre());
+            usuario.setApellido(request.getApellido());
+            usuario.setEmail(request.getEmail());
+            usuario.setPassword(passwordEncoder.encode(request.getPassword()));
+            usuario.setTelefono(request.getTelefono());
+            usuario.setRol(request.getRol() != null ? request.getRol() : Usuario.Rol.CLIENTE);
+            usuario.setFechaRegistro(LocalDateTime.now());
 
             // Guardar usuario
             usuarioRepository.save(usuario);
 
             // Generar token
             String token = jwtService.generateToken(
-                    User.builder()
-                            .username(usuario.getEmail())
-                            .password(usuario.getPassword())
-                            .authorities(Collections.singleton(
-                                    new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name())
-                            ))
-                            .build()
+                    new User(
+                            usuario.getEmail(),
+                            usuario.getPassword(),
+                            Collections.singleton(
+                                    new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()))
+                    )
             );
 
-            // Retornar respuesta
-            return ResponseEntity.ok(LoginResponse.builder()
+            // Retornar respuesta utilizando el builder
+            LoginResponse response = LoginResponse.builder()
                     .token(token)
                     .email(usuario.getEmail())
                     .rol(usuario.getRol())
-                    .mensaje("Usuario registrado exitosamente")
-                    .build());
+                    .mensaje("Login exitoso")
+                    .build();
+
+            return ResponseEntity.ok(response);
 
         } catch (Exception e) {
             return ResponseEntity
@@ -120,34 +120,35 @@ public class AuthController {
                     .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
             String token = jwtService.generateToken(
-                    User.builder()
-                            .username(usuario.getEmail())
-                            .password(usuario.getPassword())
-                            .authorities(Collections.singleton(
-                                    new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name())
-                            ))
-                            .build()
+                    new User(
+                            usuario.getEmail(),
+                            usuario.getPassword(),
+                            Collections.singleton(new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()))
+                    )
             );
 
-            return ResponseEntity.ok(LoginResponse.builder()
+            LoginResponse response = LoginResponse.builder()
                     .token(token)
                     .email(usuario.getEmail())
                     .rol(usuario.getRol())
                     .mensaje("Login exitoso")
-                    .build());
+                    .build();
+
+            return ResponseEntity.ok(response);
 
         } catch (AuthenticationException e) {
+            LoginResponse response = new LoginResponse();
+            response.setMensaje("Credenciales inválidas");
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(LoginResponse.builder()
-                            .mensaje("Credenciales inválidas")
-                            .build());
+                    .body(response);
+
         } catch (Exception e) {
+            LoginResponse response = new LoginResponse();
+            response.setMensaje("Error en el login: " + e.getMessage());
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(LoginResponse.builder()
-                            .mensaje("Error en el login: " + e.getMessage())
-                            .build());
+                    .body(response);
         }
     }
 }

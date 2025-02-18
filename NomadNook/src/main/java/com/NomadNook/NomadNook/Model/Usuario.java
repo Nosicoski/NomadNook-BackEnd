@@ -1,22 +1,26 @@
 package com.NomadNook.NomadNook.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-
+import java.util.List;
 
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Builder
+@Table(name = "Usuario")
 public class Usuario {
 
     @Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String nombre;
     private String apellido;
@@ -36,6 +40,10 @@ private Long id;
     public enum Rol {
         ADMIN, CLIENTE
     }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Alojamiento> alojamientos;
 
     public Long getId() {
         return id;
@@ -99,5 +107,13 @@ private Long id;
 
     public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    public List<Alojamiento> getAlojamientos() {
+        return alojamientos;
+    }
+
+    public void setAlojamientos(List<Alojamiento> alojamientos) {
+        this.alojamientos = alojamientos;
     }
 }

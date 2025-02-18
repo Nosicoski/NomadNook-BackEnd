@@ -2,71 +2,58 @@ package com.NomadNook.NomadNook.Controller;
 
 import com.NomadNook.NomadNook.Model.Reserva;
 import com.NomadNook.NomadNook.Service.IReservaService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/reservas")
-public class ReservaController {
+@RequestMapping("/api/Reservas")
+public class ReservaController {private final IReservaService reservaService;
 
-    @Autowired
-    private IReservaService reservaService;
-
-    // Crear una nueva reserva
-    @PostMapping
-    public ResponseEntity<Reserva> crearReserva(@RequestBody Reserva reserva) {
-        Reserva nuevaReserva = reservaService.createReserva(reserva);
-        return new ResponseEntity<>(nuevaReserva, HttpStatus.CREATED);
+    public ReservaController(IReservaService reservaService) {
+        this.reservaService = reservaService;
     }
 
-    // Obtener todas las reservas
-    @GetMapping
-    public ResponseEntity<List<Reserva>> obtenerTodasLasReservas() {
-        List<Reserva> reservas = reservaService.listReservas();
-        return new ResponseEntity<>(reservas, HttpStatus.OK);
+
+    // CREA una Reserva
+    @PostMapping("/guardar")
+    public ResponseEntity<Reserva> createReserva(@RequestBody Reserva reserva) {
+        Reserva createdReserva = reservaService.createReserva(reserva);
+        return ResponseEntity.ok(createdReserva);
     }
 
-    // Obtener una reserva por id
-    @GetMapping("/{id}")
-    public ResponseEntity<Reserva> obtenerReservaPorId(@PathVariable Long id) {
-        Optional<Reserva> reserva = reservaService.getReservaById(id);
-        return reserva.map(r -> new ResponseEntity<>(r, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
+
+    // TRAE todas las Reservas
+
+    @GetMapping ("/listarTodos")
+    public ResponseEntity<List<Reserva>> getAllReservas() {
+        List<Reserva> reservas = reservaService.listAllReservas();
+        return ResponseEntity.ok(reservas);
+    }
+    // TRAE una Reserva por ID
+
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<Reserva> getReservaById(@PathVariable Long id) {
+        Reserva reserva = reservaService.getReservaById(id);
+        return ResponseEntity.ok(reserva);
     }
 
-    // Obtener reservas por cliente
-    @GetMapping("/cliente/{clienteId}")
-    public ResponseEntity<List<Reserva>> obtenerReservasPorCliente(@PathVariable Long clienteId) {
-        List<Reserva> reservas = reservaService.listReservasByCliente(clienteId);
-        if (reservas.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(reservas, HttpStatus.OK);
+
+    // ACTUALIZA una Reserva por ID
+
+    @PutMapping ("/actualizar/{id}")
+    public ResponseEntity<Reserva> updateReserva(@PathVariable Long id, @RequestBody Reserva reserva) {
+        Reserva updatedReserva = reservaService.updateReserva(id, reserva);
+        return ResponseEntity.ok(updatedReserva);
     }
 
-    // Actualizar una reserva
-    @PutMapping("/{id}")
-    public ResponseEntity<Reserva> actualizarReserva(@PathVariable Long id, @RequestBody Reserva reserva) {
-        Optional<Reserva> reservaExistente = reservaService.getReservaById(id);
-        if (reservaExistente.isPresent()) {
-            reserva.setId(id); // Asegúrate de que la reserva tenga el ID correcto
-            Reserva reservaActualizada = reservaService.updateReserva(id, reserva);
-            return new ResponseEntity<>(reservaActualizada, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+    // ELIMINA una Reserva por ID
 
-    // Eliminar una reserva
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarReserva(@PathVariable Long id) {
-        if (reservaService.deleteReserva(id)) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Respuesta 204 (eliminado correctamente)
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<Void> deleteReserva(@PathVariable Long id) {
+        reservaService.deleteReserva(id);
+        return ResponseEntity.noContent().build();
     }
 }

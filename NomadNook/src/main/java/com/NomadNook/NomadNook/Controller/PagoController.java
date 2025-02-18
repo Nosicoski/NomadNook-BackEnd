@@ -23,15 +23,29 @@ public class PagoController {
         this.pagoService = pagoService;
     }
 
-    // Obtener todos los pagos
-    @GetMapping
+
+    // CREA un nuevo pago
+
+    @PostMapping("/guardar")
+    public ResponseEntity<Pago> createPago(@RequestBody Pago pago) {
+        Pago nuevoPago = pagoService.createPago(pago);
+        return new ResponseEntity<>(nuevoPago, HttpStatus.CREATED);
+    }
+
+
+
+    // TRAE todos los pagos
+
+    @GetMapping ("/listarTodos")
+
     public ResponseEntity<List<Pago>> getAllPagos() {
         List<Pago> pagos = pagoService.getAllPagos();
         return new ResponseEntity<>(pagos, HttpStatus.OK);
     }
 
-    // Obtener un pago por su ID
-    @GetMapping("/{id}")
+    // TRAE un pago por su ID
+
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<Pago> getPagoById(@PathVariable Long id) {
         Optional<Pago> pago = pagoService.getPagoById(id);
         if (pago.isPresent()) {
@@ -41,15 +55,10 @@ public class PagoController {
         }
     }
 
-    // Crear un nuevo pago
-    @PostMapping("/guardar")
-    public ResponseEntity<Pago> createPago(@RequestBody Pago pago) {
-        Pago nuevoPago = pagoService.createPago(pago);
-        return new ResponseEntity<>(nuevoPago, HttpStatus.CREATED);
-    }
 
-    // Borrar un pago existente
-    @DeleteMapping("/{id}")
+    // ELIMINA un pago existente por ID
+
+    @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> deletePago(@PathVariable Long id) {
         if (pagoService.deletePago(id)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -58,8 +67,8 @@ public class PagoController {
         }
     }
 
-    //Actualizar un pago existente
-    @PutMapping("/{id}")
+    //ACTUALIZA un pago existente por ID
+    @PutMapping ("/actualizar/{id}")
     public ResponseEntity<Pago> updatePago(@PathVariable Long id, @RequestBody Pago pago) {
         Optional<Pago> updatedPago = pagoService.updatePago(id, pago);
         if (updatedPago.isPresent()) {
