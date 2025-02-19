@@ -30,16 +30,7 @@ public class AlojamientoService implements IAlojamientoService {
     @Override
     public Alojamiento createAlojamiento(Alojamiento alojamiento) {
 
-        Long usuarioId = alojamiento.getPropietario().getId();
-        Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
-        if(usuario == null) {
-            return null;
-        }
-        List<Alojamiento> alojamientos = alojamientoRepository.findAllByPropietarioId(usuario.getId());
-        alojamientos.add(alojamiento);
-        usuario.setAlojamientos(alojamientos);
         Alojamiento savedAlojamiento = alojamientoRepository.save(alojamiento);
-        usuarioRepository.save(usuario);
         LOGGER.info("Alojamiento creado con id: {}", savedAlojamiento.getId());
         return alojamiento;
     }
