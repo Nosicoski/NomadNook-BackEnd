@@ -33,12 +33,10 @@ public class AlojamientoService implements IAlojamientoService {
 
         Long usuarioId = alojamiento.getPropietario().getId();
         Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
-        LOGGER.info(usuario.toString());
         if(usuario == null) {
             return null;
         }
         List<Alojamiento> alojamientos = alojamientoRepository.findAllByPropietarioId(usuario.getId());
-        alojamientos.forEach(System.out::println);
         alojamientos.add(alojamiento);
         usuario.setAlojamientos(alojamientos);
         Alojamiento savedAlojamiento = alojamientoRepository.save(alojamiento);
