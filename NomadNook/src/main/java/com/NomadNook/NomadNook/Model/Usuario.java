@@ -41,7 +41,7 @@ public class Usuario {
         ADMIN, CLIENTE
     }
 
-    @OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
     private List<Alojamiento> alojamientos;
 
