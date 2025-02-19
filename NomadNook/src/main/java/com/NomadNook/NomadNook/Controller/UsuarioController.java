@@ -3,6 +3,7 @@ package com.NomadNook.NomadNook.Controller;
 
 import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Service.Impl.UsuarioService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class UsuarioController {
 
     // CREA un Usuario
     @PostMapping("/guardar")
-    public ResponseEntity<Usuario> guardarUser(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> guardarUser(@Valid @RequestBody Usuario usuario) {
         return ResponseEntity.ok(usuarioService.createUser(usuario));
     }
     // TRAE todos los Usuarios
