@@ -36,6 +36,26 @@ public class AuthController {
     private final IUsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
+    public AuthenticationManager getAuthenticationManager() {
+        return authenticationManager;
+    }
+
+    public JwtService getJwtService() {
+        return jwtService;
+    }
+
+    public UserDetailsService getUserDetailsService() {
+        return userDetailsService;
+    }
+
+    public IUsuarioRepository getUsuarioRepository() {
+        return usuarioRepository;
+    }
+
+    public PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         // Verificar si el email ya existe
