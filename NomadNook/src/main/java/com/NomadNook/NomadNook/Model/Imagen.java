@@ -5,8 +5,6 @@ package com.NomadNook.NomadNook.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-@Getter
-@Setter
 @Entity
 @Data
 @NoArgsConstructor

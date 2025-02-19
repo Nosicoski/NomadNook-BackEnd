@@ -6,7 +6,6 @@ import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
 import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
-import com.NomadNook.NomadNook.Service.IUsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

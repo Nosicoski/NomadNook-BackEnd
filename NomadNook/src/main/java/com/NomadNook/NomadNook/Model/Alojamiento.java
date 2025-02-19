@@ -10,8 +10,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-@Getter
-@Setter
 @Entity
 @Data
 @NoArgsConstructor
@@ -44,7 +42,7 @@ public class Alojamiento {
     private Usuario propietario;
 
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "alojamiento", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
     private List<Imagen> imagenes;
 
