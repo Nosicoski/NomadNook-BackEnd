@@ -2,9 +2,10 @@ package com.NomadNook.NomadNook.Service.Impl;
 
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Alojamiento;
+import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
+import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
-import com.NomadNook.NomadNook.Service.IUsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,18 +14,25 @@ import java.util.List;
 
 @Service
 
-public class AlojamientoService implements IAlojamientoService {private final IAlojamientoRepository alojamientoRepository;
+public class AlojamientoService implements IAlojamientoService {
+
+    private final IUsuarioRepository usuarioRepository;
+    private final IAlojamientoRepository alojamientoRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(AlojamientoService.class);
 
-    public AlojamientoService(IAlojamientoRepository alojamientoRepository) {
+    public AlojamientoService(
+            IAlojamientoRepository alojamientoRepository,
+            IUsuarioRepository usuarioRepository) {
         this.alojamientoRepository = alojamientoRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Override
     public Alojamiento createAlojamiento(Alojamiento alojamiento) {
+
         Alojamiento savedAlojamiento = alojamientoRepository.save(alojamiento);
         LOGGER.info("Alojamiento creado con id: {}", savedAlojamiento.getId());
-        return savedAlojamiento;
+        return alojamiento;
     }
 
     @Override
