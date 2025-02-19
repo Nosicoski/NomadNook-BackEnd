@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/NomadNook.iml" filepath="$PROJECT_DIR$/.idea/NomadNook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NomadNook/NomadNook.iml" filepath="$PROJECT_DIR$/NomadNook/NomadNook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/NomadNook-BackEnd.iml" filepath="$PROJECT_DIR$/.idea/NomadNook-BackEnd.iml" />
     </modules>
   </component>
 </project>
