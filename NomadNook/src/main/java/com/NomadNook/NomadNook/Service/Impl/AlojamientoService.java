@@ -29,7 +29,12 @@ public class AlojamientoService implements IAlojamientoService {
 
     @Override
     public Alojamiento createAlojamiento(Alojamiento alojamiento) {
+        // Verificar si ya existe un alojamiento con el mismo nombre 
+        if (alojamientoRepository.existsByTitulo(alojamiento.getTitulo())) {
+            throw new IllegalArgumentException("Ya existe un alojamiento con el mismo nombre.");
+        }
 
+        //Guardar alojamiento
         Alojamiento savedAlojamiento = alojamientoRepository.save(alojamiento);
         LOGGER.info("Alojamiento creado con id: {}", savedAlojamiento.getId());
         return alojamiento;
@@ -48,9 +53,17 @@ public class AlojamientoService implements IAlojamientoService {
 
     @Override
     public Alojamiento updateAlojamiento(Long id, Alojamiento alojamiento) {
+        // Verificar si el alojamiento con el id existe
         Alojamiento existingAlojamiento = alojamientoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró el alojamiento con id: " + id));
 
+        // Verificar si el nombre ha cambiado y si ya existe otro alojamiento con ese nombre
+        if (!existingAlojamiento.getTitulo().equals(alojamiento.getTitulo()) &&
+        alojamientoRepository.existsByTitulo(alojamiento.getTitulo())) {
+            throw new IllegalArgumentException("Ya existe un alojamiento con el mismo nombre");
+        }
+
+        // Actualizar el alojamiento
         existingAlojamiento.setTitulo(alojamiento.getTitulo());
         existingAlojamiento.setDescripcion(alojamiento.getDescripcion());
         existingAlojamiento.setTipo(alojamiento.getTipo());
@@ -61,6 +74,7 @@ public class AlojamientoService implements IAlojamientoService {
         existingAlojamiento.setDisponible(alojamiento.getDisponible());
         // Si se requiere, aquí se puede actualizar la lista de imágenes u otros atributos relacionados.
 
+        // Guardar el alojamiento actualizado
         Alojamiento updatedAlojamiento = alojamientoRepository.save(existingAlojamiento);
         LOGGER.info("Alojamiento actualizado con id: {}", updatedAlojamiento.getId());
         return updatedAlojamiento;

@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface IReservaRepository extends JpaRepository<Reserva, Long> {
-    List<Reserva> findByClienteId(Long clienteId);
+    // Buscar reservas por cliente
+    List<Reserva> findByClienteId(Long clienteId); // Consulta personalizada por ID de cliente
 }
