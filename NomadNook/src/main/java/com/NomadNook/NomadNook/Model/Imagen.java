@@ -25,27 +25,4 @@ public class Imagen {
     @JsonBackReference
     private Alojamiento alojamiento;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public Alojamiento getAlojamiento() {
-        return alojamiento;
-    }
-
-    public void setAlojamiento(Alojamiento alojamiento) {
-        this.alojamiento = alojamiento;
-    }
 }

@@ -17,13 +17,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
+//@Configuration
 public class ConfigInit {
 
-    @Autowired
+//    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Bean
+ //   @Bean
     CommandLineRunner init(IUsuarioRepository usuarioRepository,
                            IAlojamientoRepository alojamientoRepository,
                            IImagenRepository imagenRepository) {

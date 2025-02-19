@@ -2,7 +2,9 @@ package com.NomadNook.NomadNook.Service.Impl;
 
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Alojamiento;
+import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
+import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
 import com.NomadNook.NomadNook.Service.IUsuarioService;
 import org.slf4j.Logger;
@@ -13,18 +15,36 @@ import java.util.List;
 
 @Service
 
-public class AlojamientoService implements IAlojamientoService {private final IAlojamientoRepository alojamientoRepository;
+public class AlojamientoService implements IAlojamientoService {
+
+    private final IUsuarioRepository usuarioRepository;
+    private final IAlojamientoRepository alojamientoRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(AlojamientoService.class);
 
-    public AlojamientoService(IAlojamientoRepository alojamientoRepository) {
+    public AlojamientoService(
+            IAlojamientoRepository alojamientoRepository,
+            IUsuarioRepository usuarioRepository) {
         this.alojamientoRepository = alojamientoRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Override
     public Alojamiento createAlojamiento(Alojamiento alojamiento) {
+
+        Long usuarioId = alojamiento.getPropietario().getId();
+        Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
+        LOGGER.info(usuario.toString());
+        if(usuario == null) {
+            return null;
+        }
+        List<Alojamiento> alojamientos = alojamientoRepository.findAllByPropietarioId(usuario.getId());
+        alojamientos.forEach(System.out::println);
+        alojamientos.add(alojamiento);
+        usuario.setAlojamientos(alojamientos);
         Alojamiento savedAlojamiento = alojamientoRepository.save(alojamiento);
+        usuarioRepository.save(usuario);
         LOGGER.info("Alojamiento creado con id: {}", savedAlojamiento.getId());
-        return savedAlojamiento;
+        return alojamiento;
     }
 
     @Override

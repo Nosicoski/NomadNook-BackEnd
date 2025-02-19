@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IAlojamientoRepository extends JpaRepository<Alojamiento, Long> {
     List<Alojamiento> findByDisponibleTrue();
+    List<Alojamiento> findAllByPropietarioId(Long id);
 }
