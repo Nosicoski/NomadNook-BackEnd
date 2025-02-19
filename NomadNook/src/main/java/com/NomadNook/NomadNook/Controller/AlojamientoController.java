@@ -9,9 +9,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/alojamientos")
 
-public class AlojamientoController { private final IAlojamientoService alojamientoService;
+public class AlojamientoController {
 
-
+    private final IAlojamientoService alojamientoService;
 
     public AlojamientoController(IAlojamientoService alojamientoService) {
         this.alojamientoService = alojamientoService;
