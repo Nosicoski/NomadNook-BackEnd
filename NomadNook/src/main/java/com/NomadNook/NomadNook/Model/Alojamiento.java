@@ -60,7 +60,7 @@ public class Alojamiento {
     private List<Imagen> imagenes;
 
     public enum TipoAlojamiento {
-        CABAÑA, DEPARTAMENTO, CASA
+        PLAYA,MONTANA,NEVADA,SELVA,BOSQUE,CAMPO,
     }
 
 }
