@@ -26,28 +26,36 @@ public class Alojamiento {
     @NotBlank(message = "El título no puede estar vacío") // Valida que el campo no sea nulo ni vacío
     private String titulo;
 
+
     @NotBlank(message = "La descripción no puede estar vacía") // Valida que el campo no sea nulo ni vacío
     private String descripcion;
+
 
     @Enumerated(EnumType.STRING)
     @NotNull(message = "El tipo de alojamiento es obligatorio") // Valida que el tipo no sea nulo
     private TipoAlojamiento tipo;
 
+
     @Min(value = 1, message = "La capacidad debe ser al menos 1")  // Valida que la capacidad sea al menos 1
     @Max(value = 100, message = "La capacidad no puede superar los 100") // Valida que la capacidad no sea mayor a 100
     private Integer capacidad;
 
+
     @DecimalMin(value = "0.0", inclusive = false, message = "El precio por noche debe ser mayor que 0") // Valida que el precio sea mayor que 0
     private BigDecimal precioPorNoche;
+
 
     @NotBlank(message = "La ubicación no puede estar vacía") // Valida que el campo no sea nulo ni vacío
     private String ubicacion;
 
+
     @NotBlank(message = "La dirección no puede estar vacía") // Valida que el campo no sea nulo ni vacío
     private String direccion;
 
+
     @NotNull(message = "El campo de disponibilidad es obligatorio") // Valida que el campo no sea nulo
     private Boolean disponible;
+
 
     @ManyToOne
     @JoinColumn(name = "propietario_id", nullable = false)
@@ -59,8 +67,9 @@ public class Alojamiento {
     @JsonManagedReference
     private List<Imagen> imagenes;
 
+
     public enum TipoAlojamiento {
-        PLAYA,MONTANA,NEVADA,SELVA,BOSQUE,CAMPO,
+        PLAYA,MONTANA,NEVADA,SELVA,BOSQUE,CAMPO
     }
 
 }
