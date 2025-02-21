@@ -27,5 +27,9 @@ public class Disponibilidad {
     private LocalDate fechaDisponible;
 
 
+    public enum EstadoDisponibilidad {
+        DISPONIBLE, OCUPADA, MANTENIMIENTO
+    }
+
     }
 
