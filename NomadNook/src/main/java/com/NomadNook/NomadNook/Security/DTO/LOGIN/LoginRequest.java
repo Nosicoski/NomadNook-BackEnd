@@ -1,4 +1,4 @@
-package com.NomadNook.NomadNook.Security.Dto;
+package com.NomadNook.NomadNook.Security.DTO.LOGIN;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
