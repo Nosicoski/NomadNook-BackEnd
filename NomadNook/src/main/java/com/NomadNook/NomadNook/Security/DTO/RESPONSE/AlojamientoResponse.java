@@ -12,8 +12,7 @@ import java.util.List;
 @Setter
 @Builder
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class AlojamientoResponse {
     private String titulo;
     private String descripcion;

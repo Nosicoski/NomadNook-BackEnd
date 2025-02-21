@@ -6,7 +6,6 @@ import lombok.*;
 @Setter
 @Builder
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class UsuarioResponse {
 }
