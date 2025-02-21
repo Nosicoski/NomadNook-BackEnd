@@ -2,10 +2,10 @@ package com.NomadNook.NomadNook.Security;
 
 import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
-import com.NomadNook.NomadNook.Security.Dto.LoginRequest;
-import com.NomadNook.NomadNook.Security.Dto.LoginResponse;
+import com.NomadNook.NomadNook.Security.DTO.LOGIN.LoginRequest;
+import com.NomadNook.NomadNook.Security.DTO.LOGIN.LoginResponse;
 import com.NomadNook.NomadNook.Security.Auth.JwtService;
-import com.NomadNook.NomadNook.Security.Dto.RegisterRequest;
+import com.NomadNook.NomadNook.Security.DTO.LOGIN.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
