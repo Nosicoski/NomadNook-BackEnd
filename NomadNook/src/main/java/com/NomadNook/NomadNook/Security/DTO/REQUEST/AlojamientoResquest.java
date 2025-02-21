@@ -16,8 +16,7 @@ import java.util.List;
 @Setter
 @Builder
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class AlojamientoResquest {
 
     private String titulo;

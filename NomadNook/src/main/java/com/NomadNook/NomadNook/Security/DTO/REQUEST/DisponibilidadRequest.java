@@ -9,8 +9,7 @@ import java.time.LocalDate;
 @Setter
 @Builder
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class DisponibilidadRequest {
 
     private Long id;
