@@ -56,4 +56,8 @@ public class Usuario {
     @JsonManagedReference
     private List<Alojamiento> alojamientos;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+//    @JsonManagedReference
+    private List<Resena> resenas;
+
 }

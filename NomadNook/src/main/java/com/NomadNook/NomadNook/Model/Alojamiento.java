@@ -54,10 +54,12 @@ public class Alojamiento {
     @JsonBackReference
     private Usuario propietario;
 
-
     @OneToMany(mappedBy = "alojamiento", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
     private List<Imagen> imagenes;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Resena> resenas;
 
     public enum TipoAlojamiento {
         PLAYA,MONTANA,NEVADA,SELVA,BOSQUE,CAMPO,

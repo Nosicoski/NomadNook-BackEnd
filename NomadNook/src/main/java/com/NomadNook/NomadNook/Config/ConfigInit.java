@@ -55,7 +55,7 @@ public class ConfigInit {
             Alojamiento cabana = new Alojamiento();
             cabana.setTitulo("Cabaña en el bosque");
             cabana.setDescripcion("Hermosa cabaña rodeada de naturaleza");
-            cabana.setTipo(Alojamiento.TipoAlojamiento.CABAÑA);
+            cabana.setTipo(Alojamiento.TipoAlojamiento.PLAYA);
             cabana.setCapacidad(4);
             cabana.setPrecioPorNoche(new BigDecimal("100.00"));
             cabana.setUbicacion("Bosque Verde");
@@ -67,7 +67,7 @@ public class ConfigInit {
             Alojamiento departamento = new Alojamiento();
             departamento.setTitulo("Departamento céntrico");
             departamento.setDescripcion("Moderno departamento en el centro");
-            departamento.setTipo(Alojamiento.TipoAlojamiento.DEPARTAMENTO);
+            departamento.setTipo(Alojamiento.TipoAlojamiento.BOSQUE);
             departamento.setCapacidad(2);
             departamento.setPrecioPorNoche(new BigDecimal("80.00"));
             departamento.setUbicacion("Centro Ciudad");

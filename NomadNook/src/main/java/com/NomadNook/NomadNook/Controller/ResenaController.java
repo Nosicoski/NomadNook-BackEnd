@@ -1,8 +1,8 @@
 package com.NomadNook.NomadNook.Controller;
 
 
-import com.NomadNook.NomadNook.Model.Reseña;
-import com.NomadNook.NomadNook.Service.IReseñaService;
+import com.NomadNook.NomadNook.Model.Resena;
+import com.NomadNook.NomadNook.Service.IResenaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,16 +10,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/resenas")
-public class ReseñaController { private final IReseñaService resenaService;
+public class ResenaController { private final IResenaService resenaService;
 
-    public ReseñaController(IReseñaService resenaService) {
+    public ResenaController(IResenaService resenaService) {
         this.resenaService = resenaService;
     }
 
 
     // CREA una Reseña
     @PostMapping("/guardar")
-    public ResponseEntity<Reseña> create(@RequestBody Reseña resena) {
+    public ResponseEntity<Resena> create(@RequestBody Resena resena) {
         return ResponseEntity.ok(resenaService.createResena(resena));
     }
 
@@ -27,7 +27,7 @@ public class ReseñaController { private final IReseñaService resenaService;
     // TRAE todas las Reseñas
 
     @GetMapping ("/listarTodos")
-    public ResponseEntity<List<Reseña>> getAll() {
+    public ResponseEntity<List<Resena>> getAll() {
         return ResponseEntity.ok(resenaService.listAllResenas());
     }
 
@@ -35,7 +35,7 @@ public class ReseñaController { private final IReseñaService resenaService;
     // TRAE una Reseña por ID
 
     @GetMapping("/buscar/{id}")
-    public ResponseEntity<Reseña> getById(@PathVariable Long id) {
+    public ResponseEntity<Resena> getById(@PathVariable Long id) {
         return ResponseEntity.ok(resenaService.getResenaById(id));
     }
 
@@ -43,7 +43,7 @@ public class ReseñaController { private final IReseñaService resenaService;
     // ACTUALIZA una Reseña por ID
 
     @PutMapping ("/actualizar/{id}")
-    public ResponseEntity<Reseña> update(@PathVariable Long id, @RequestBody Reseña resena) {
+    public ResponseEntity<Resena> update(@PathVariable Long id, @RequestBody Resena resena) {
         return ResponseEntity.ok(resenaService.updateResena(id, resena));
     }
     // ELIMINA una Reseña por ID
