@@ -3,7 +3,6 @@ package com.NomadNook.NomadNook.Model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Table(name = "resenias")
-public class Reseña {
+public class Resena {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
