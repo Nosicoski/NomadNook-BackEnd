@@ -12,7 +12,7 @@ public interface IAlojamientoService {
     AlojamientoResponse createAlojamiento(AlojamientoRequest requestDTO);
 
     Alojamiento getAlojamientoById(Long id);
-    List<Alojamiento> listAllAlojamientos();
-    Alojamiento updateAlojamiento(Long id, Alojamiento alojamiento);
+    List<AlojamientoResponse> listAllAlojamientos();
+    Alojamiento updateAlojamiento(Long id, AlojamientoRequest alojamientoRequest);
     void deleteAlojamiento(Long id);
 }

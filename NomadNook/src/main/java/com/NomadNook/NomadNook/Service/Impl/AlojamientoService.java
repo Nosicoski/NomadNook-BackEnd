@@ -50,13 +50,16 @@ public class AlojamientoService implements IAlojamientoService {
     }
 
     @Override
-    public List<Alojamiento> listAllAlojamientos() {
-        return alojamientoRepository.findAll();
+    public List<AlojamientoResponse> listAllAlojamientos() {
+        List<Alojamiento> pacientes = alojamientoRepository.findAll();
+        return pacientes.stream()
+                .map(paciente -> modelMapper.map(paciente, AlojamientoResponse.class))
+                .toList();
 
     }
 
     @Override
-    public Alojamiento updateAlojamiento(Long id, Alojamiento alojamiento) {
+    public Alojamiento updateAlojamiento(Long id, AlojamientoRequest alojamientoRequest) {
         // Verificar si el alojamiento con el id existe
         Alojamiento existingAlojamiento = alojamientoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró el alojamiento con id: " + id));
