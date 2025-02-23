@@ -32,6 +32,7 @@ public class AlojamientoController {
     }
 
     // CREA un alojamiento
+    //Recibe como parametros los atributos de Alojamiento Request , es lo que va entre parentesis
     @PostMapping("/guardar")
     public ResponseEntity<Alojamiento> create(@Valid @RequestBody AlojamientoRequest alojamiento) {
         return ResponseEntity.ok(alojamientoService.createAlojamiento(alojamiento));

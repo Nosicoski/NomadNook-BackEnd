@@ -28,4 +28,17 @@ public class AlojamientoRequest {
     public enum TipoAlojamiento {
         PLAYA,MONTANA,NEVADA,SELVA,BOSQUE,CAMPO
     }
+
+    public AlojamientoRequest(String titulo, String descripcion, Alojamiento.TipoAlojamiento tipo, Integer capacidad, BigDecimal precioPorNoche, String ubicacion, String direccion, Boolean disponible, Usuario propietario, List<Imagen> imagenes) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.tipo = tipo;
+        this.capacidad = capacidad;
+        this.precioPorNoche = precioPorNoche;
+        this.ubicacion = ubicacion;
+        this.direccion = direccion;
+        this.disponible = disponible;
+        this.propietario = propietario;
+        this.imagenes = imagenes;
+    }
 }

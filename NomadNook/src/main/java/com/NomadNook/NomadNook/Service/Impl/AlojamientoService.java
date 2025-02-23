@@ -5,7 +5,9 @@ import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
 import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
 import com.NomadNook.NomadNook.Security.DTO.REQUEST.AlojamientoRequest;
+import com.NomadNook.NomadNook.Security.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,31 +21,26 @@ public class AlojamientoService implements IAlojamientoService {
     private final IUsuarioRepository usuarioRepository;
     private final IAlojamientoRepository alojamientoRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(AlojamientoService.class);
+    private ModelMapper modelMapper;
 
-    public AlojamientoService(
-            IAlojamientoRepository alojamientoRepository,
-            IUsuarioRepository usuarioRepository) {
+
+    public AlojamientoService(IAlojamientoRepository alojamientoRepository, IUsuarioRepository usuarioRepository) {
         this.alojamientoRepository = alojamientoRepository;
         this.usuarioRepository = usuarioRepository;
+
     }
 
     @Override
-    public Alojamiento createAlojamiento(AlojamientoRequest requestDTO) {
-        Alojamiento alojamiento = new Alojamiento();
-        alojamiento.setTitulo(requestDTO.getTitulo());
-        alojamiento.setDescripcion(requestDTO.getDescripcion());
-        alojamiento.setTipo(requestDTO.getTipo());
-        alojamiento.setCapacidad(requestDTO.getCapacidad());
-        alojamiento.setPrecioPorNoche(requestDTO.getPrecioPorNoche());
-        alojamiento.setUbicacion(requestDTO.getUbicacion());
-        alojamiento.setDireccion(requestDTO.getDireccion());
-        alojamiento.setDisponible(requestDTO.getDisponible());
-        alojamiento.setPropietario(requestDTO.getPropietario());
-        alojamiento.setImagenes(requestDTO.getImagenes());
+    public AlojamientoResponse createAlojamiento(AlojamientoRequest requestDTO) {
+        // Mapear del DTO de request a la entidad
+        Alojamiento alojamiento = modelMapper.map(requestDTO, Alojamiento.class);
 
+        // Guarda la entidad
+        Alojamiento alojamientoGuardado = alojamientoRepository.save(alojamiento);
 
+        // Mapear la entidad persistida a un DTO de respuesta
+        return modelMapper.map(alojamientoGuardado, AlojamientoResponse.class);
 
-        return alojamientoRepository.save(alojamiento);
     }
 
     @Override
@@ -55,6 +52,7 @@ public class AlojamientoService implements IAlojamientoService {
     @Override
     public List<Alojamiento> listAllAlojamientos() {
         return alojamientoRepository.findAll();
+
     }
 
     @Override
