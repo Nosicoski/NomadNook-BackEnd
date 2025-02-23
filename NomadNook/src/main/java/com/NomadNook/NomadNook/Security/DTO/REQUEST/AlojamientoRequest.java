@@ -3,10 +3,6 @@ package com.NomadNook.NomadNook.Security.DTO.REQUEST;
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Imagen;
 import com.NomadNook.NomadNook.Model.Usuario;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -17,7 +13,7 @@ import java.util.List;
 @Builder
 @Data
 
-public class AlojamientoResquest {
+public class AlojamientoRequest {
 
     private String titulo;
     private String descripcion;

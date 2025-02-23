@@ -2,9 +2,9 @@ package com.NomadNook.NomadNook.Service.Impl;
 
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Alojamiento;
-import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
 import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
+import com.NomadNook.NomadNook.Security.DTO.REQUEST.AlojamientoRequest;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,16 +28,22 @@ public class AlojamientoService implements IAlojamientoService {
     }
 
     @Override
-    public Alojamiento createAlojamiento(Alojamiento alojamiento) {
-        // Verificar si ya existe un alojamiento con el mismo nombre 
-        if (alojamientoRepository.existsByTitulo(alojamiento.getTitulo())) {
-            throw new IllegalArgumentException("Ya existe un alojamiento con el mismo nombre.");
-        }
+    public Alojamiento createAlojamiento(AlojamientoRequest requestDTO) {
+        Alojamiento alojamiento = new Alojamiento();
+        alojamiento.setTitulo(requestDTO.getTitulo());
+        alojamiento.setDescripcion(requestDTO.getDescripcion());
+        alojamiento.setTipo(requestDTO.getTipo());
+        alojamiento.setCapacidad(requestDTO.getCapacidad());
+        alojamiento.setPrecioPorNoche(requestDTO.getPrecioPorNoche());
+        alojamiento.setUbicacion(requestDTO.getUbicacion());
+        alojamiento.setDireccion(requestDTO.getDireccion());
+        alojamiento.setDisponible(requestDTO.getDisponible());
+        alojamiento.setPropietario(requestDTO.getPropietario());
+        alojamiento.setImagenes(requestDTO.getImagenes());
 
-        //Guardar alojamiento
-        Alojamiento savedAlojamiento = alojamientoRepository.save(alojamiento);
-        LOGGER.info("Alojamiento creado con id: {}", savedAlojamiento.getId());
-        return alojamiento;
+
+
+        return alojamientoRepository.save(alojamiento);
     }
 
     @Override
