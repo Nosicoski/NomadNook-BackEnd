@@ -2,6 +2,7 @@ package com.NomadNook.NomadNook.Controller;
 
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Security.DTO.REQUEST.AlojamientoRequest;
+import com.NomadNook.NomadNook.Security.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class AlojamientoController {
     // CREA un alojamiento
     //Recibe como parametros los atributos de Alojamiento Request , es lo que va entre parentesis
     @PostMapping("/guardar")
-    public ResponseEntity<Alojamiento> create(@Valid @RequestBody AlojamientoRequest alojamiento) {
+    public ResponseEntity<AlojamientoResponse> create(@Valid @RequestBody AlojamientoRequest alojamiento) {
         return ResponseEntity.ok(alojamientoService.createAlojamiento(alojamiento));
     }
     // ACTUALIZA un alojamiento (hay que pasarle un ID)

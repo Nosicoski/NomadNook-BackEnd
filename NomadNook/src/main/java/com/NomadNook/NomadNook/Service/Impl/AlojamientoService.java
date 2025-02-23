@@ -32,16 +32,16 @@ public class AlojamientoService implements IAlojamientoService {
 
     @Override
     public AlojamientoResponse createAlojamiento(AlojamientoRequest requestDTO) {
-        // Mapear del DTO de request a la entidad
+        // Mapear el request DTO a la entidad
         Alojamiento alojamiento = modelMapper.map(requestDTO, Alojamiento.class);
 
-        // Guarda la entidad
+        // Guardar la entidad
         Alojamiento alojamientoGuardado = alojamientoRepository.save(alojamiento);
 
         // Mapear la entidad persistida a un DTO de respuesta
         return modelMapper.map(alojamientoGuardado, AlojamientoResponse.class);
-
     }
+
 
     @Override
     public Alojamiento getAlojamientoById(Long id) {
