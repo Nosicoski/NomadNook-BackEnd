@@ -2,9 +2,12 @@ package com.NomadNook.NomadNook.Controller;
 
 
 import com.NomadNook.NomadNook.Model.Usuario;
+import com.NomadNook.NomadNook.Security.DTO.REQUEST.UsuarioRequest;
+import com.NomadNook.NomadNook.Security.DTO.RESPONSE.UsuarioResponse;
 import com.NomadNook.NomadNook.Service.Impl.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,24 +28,24 @@ public class UsuarioController {
 
     // CREA un Usuario
     @PostMapping("/guardar")
-    public ResponseEntity<Usuario> guardarUser(@Valid @RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.createUser(usuario));
+    public ResponseEntity<UsuarioResponse> guardarUser(@Valid @RequestBody UsuarioRequest usuarioRequest) {
+        return ResponseEntity.ok(usuarioService.createUser(usuarioRequest));
     }
     // TRAE todos los Usuarios
     @GetMapping ("/listarTodos")
-    public ResponseEntity<List<Usuario>> listarTodos() {
+    public ResponseEntity<List<UsuarioResponse>> listarTodos() {
         return ResponseEntity.ok(usuarioService.listAllUsers());
     }
     // TRAE un Usuario por ID
     @GetMapping("/buscar/{id}")
-    public ResponseEntity<Usuario> buscarUser(@PathVariable Long id) {
+    public ResponseEntity<UsuarioResponse> buscarUser(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.getUserById(id));
     }
 
     // ACTUALIZA un Usuario por ID
     @PutMapping ("/actualizar/{id}")
-    public ResponseEntity<Usuario> actualizarUser(@PathVariable Long id, @RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.updateUser(id, usuario));
+    public ResponseEntity<UsuarioResponse> actualizarUser(@PathVariable Long id, @RequestBody UsuarioRequest usuarioRequest) {
+        return ResponseEntity.ok(usuarioService.updateUser(id, usuarioRequest));
 
     }
     // ELIMINA un Usuario por ID
