@@ -1,13 +1,17 @@
 package com.NomadNook.NomadNook.Service;
 
+import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Usuario;
+import com.NomadNook.NomadNook.Security.DTO.REQUEST.UsuarioRequest;
+import com.NomadNook.NomadNook.Security.DTO.RESPONSE.UsuarioResponse;
 
 import java.util.List;
 
 public interface IUsuarioService {
-    Usuario createUser(Usuario usuario);
-    Usuario getUserById(Long id);
-    List<Usuario> listAllUsers();
-    Usuario updateUser(Long id, Usuario usuario);
-    void deleteUser(Long id);
+
+    UsuarioResponse createUser(UsuarioRequest usuarioRequest);
+    UsuarioResponse getUserById(Long id);
+    List<UsuarioResponse> listAllUsers();
+    UsuarioResponse updateUser(Long id, UsuarioRequest usuarioRequest);
+    void deleteUser(Long id) ;;
 }
