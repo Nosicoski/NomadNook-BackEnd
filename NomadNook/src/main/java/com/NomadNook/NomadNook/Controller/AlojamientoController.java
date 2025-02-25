@@ -1,8 +1,8 @@
 package com.NomadNook.NomadNook.Controller;
 
 import com.NomadNook.NomadNook.Model.Alojamiento;
-import com.NomadNook.NomadNook.Security.DTO.REQUEST.AlojamientoRequest;
-import com.NomadNook.NomadNook.Security.DTO.RESPONSE.AlojamientoResponse;
+import com.NomadNook.NomadNook.DTO.REQUEST.AlojamientoRequest;
+import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

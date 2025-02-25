@@ -4,15 +4,17 @@ import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
 import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
-import com.NomadNook.NomadNook.Security.DTO.REQUEST.AlojamientoRequest;
-import com.NomadNook.NomadNook.Security.DTO.RESPONSE.AlojamientoResponse;
+import com.NomadNook.NomadNook.DTO.REQUEST.AlojamientoRequest;
+import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +25,9 @@ public class AlojamientoService implements IAlojamientoService {
     private final IAlojamientoRepository alojamientoRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(AlojamientoService.class);
     private ModelMapper modelMapper;
+
+    @Value("${api.path}")
+    private String API_PATH;
 
     @Autowired
     public AlojamientoService(ModelMapper modelMapper, IAlojamientoRepository alojamientoRepository, IUsuarioRepository usuarioRepository) {
@@ -55,11 +60,23 @@ public class AlojamientoService implements IAlojamientoService {
 
     @Override
     public List<AlojamientoResponse> listAllAlojamientos() {
-        List<Alojamiento> pacientes = alojamientoRepository.findAll();
-        return pacientes.stream()
-                .map(paciente -> modelMapper.map(paciente, AlojamientoResponse.class))
-                .toList();
-
+        List<Alojamiento> alojamientos = alojamientoRepository.findAll();
+        List<AlojamientoResponse> listRespAlojamientos = new ArrayList<>();
+        for(Alojamiento alojamiento: alojamientos) {
+            AlojamientoResponse alojamientoResponse = new AlojamientoResponse();
+            alojamientoResponse.setTitulo(alojamiento.getTitulo());
+            alojamientoResponse.setDescripcion(alojamiento.getDescripcion());
+            alojamientoResponse.setTipo(alojamiento.getTipo());
+            alojamientoResponse.setCapacidad(alojamiento.getCapacidad());
+            alojamientoResponse.setPrecioPorNoche(alojamiento.getPrecioPorNoche());
+            alojamientoResponse.setUbicacion(alojamiento.getUbicacion());
+            alojamientoResponse.setDireccion(alojamiento.getDireccion());
+            alojamientoResponse.setDisponible(alojamiento.getDisponible());
+            alojamientoResponse.setPropietario_id(alojamiento.getPropietario().getId());
+            alojamientoResponse.setImagenes(API_PATH + "terminar de crear la ruta");
+            listRespAlojamientos.add(alojamientoResponse);
+        }
+        return listRespAlojamientos;
     }
 
     @Override

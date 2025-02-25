@@ -1,4 +1,4 @@
-package com.NomadNook.NomadNook.Security.DTO.REQUEST;
+package com.NomadNook.NomadNook.DTO.REQUEST;
 
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Usuario;
