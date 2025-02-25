@@ -10,6 +10,7 @@ import com.NomadNook.NomadNook.Service.IAlojamientoService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,12 +24,15 @@ public class AlojamientoService implements IAlojamientoService {
     private final Logger LOGGER = LoggerFactory.getLogger(AlojamientoService.class);
     private ModelMapper modelMapper;
 
-
-    public AlojamientoService(IAlojamientoRepository alojamientoRepository, IUsuarioRepository usuarioRepository) {
+    @Autowired
+    public AlojamientoService(ModelMapper modelMapper, IAlojamientoRepository alojamientoRepository, IUsuarioRepository usuarioRepository) {
+        this.modelMapper = modelMapper;
         this.alojamientoRepository = alojamientoRepository;
         this.usuarioRepository = usuarioRepository;
-
     }
+
+
+
 
     @Override
     public AlojamientoResponse createAlojamiento(AlojamientoRequest requestDTO) {

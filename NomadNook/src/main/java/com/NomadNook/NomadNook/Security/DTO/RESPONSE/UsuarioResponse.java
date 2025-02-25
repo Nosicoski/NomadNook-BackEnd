@@ -11,7 +11,8 @@ import java.util.List;
 @Setter
 @Builder
 @Data
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioResponse {
     private Long id;
     private String nombre;
@@ -25,5 +26,6 @@ public class UsuarioResponse {
         ADMIN, CLIENTE
     }
     private List<Alojamiento> alojamientos;
+
 
 }
