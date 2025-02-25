@@ -1,18 +1,14 @@
 package com.NomadNook.NomadNook.Controller;
 
 
-import com.NomadNook.NomadNook.Model.Usuario;
-import com.NomadNook.NomadNook.Security.DTO.REQUEST.UsuarioRequest;
-import com.NomadNook.NomadNook.Security.DTO.RESPONSE.UsuarioResponse;
+import com.NomadNook.NomadNook.DTO.REQUEST.UsuarioRequest;
+import com.NomadNook.NomadNook.DTO.RESPONSE.UsuarioResponse;
 import com.NomadNook.NomadNook.Service.Impl.UsuarioService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/usuarios")

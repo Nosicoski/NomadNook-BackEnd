@@ -1,7 +1,8 @@
-package com.NomadNook.NomadNook.Security.DTO.RESPONSE;
+package com.NomadNook.NomadNook.DTO.REQUEST;
 
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Usuario;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,9 @@ import java.time.LocalDateTime;
 @Builder
 @Data
 
-public class ResenaResponse {
+public class ResenaRequest {
+
+
     private Long id;
     private Usuario cliente;
     private Alojamiento alojamiento;

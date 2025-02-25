@@ -2,8 +2,8 @@ package com.NomadNook.NomadNook.Service.Impl;
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
-import com.NomadNook.NomadNook.Security.DTO.REQUEST.UsuarioRequest;
-import com.NomadNook.NomadNook.Security.DTO.RESPONSE.UsuarioResponse;
+import com.NomadNook.NomadNook.DTO.REQUEST.UsuarioRequest;
+import com.NomadNook.NomadNook.DTO.RESPONSE.UsuarioResponse;
 import com.NomadNook.NomadNook.Service.IUsuarioService;
 
 import org.modelmapper.ModelMapper;

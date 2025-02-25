@@ -1,4 +1,4 @@
-package com.NomadNook.NomadNook.Security.DTO.RESPONSE;
+package com.NomadNook.NomadNook.DTO.RESPONSE;
 
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Usuario;

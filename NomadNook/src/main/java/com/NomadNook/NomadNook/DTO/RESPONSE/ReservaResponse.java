@@ -1,9 +1,8 @@
-package com.NomadNook.NomadNook.Security.DTO.REQUEST;
+package com.NomadNook.NomadNook.DTO.RESPONSE;
 
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Reserva;
 import com.NomadNook.NomadNook.Model.Usuario;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @Data
 
-public class ReservaRequest {
+public class ReservaResponse {
     private Long id;
     private Usuario cliente;
     private Alojamiento alojamiento;
@@ -27,5 +26,4 @@ public class ReservaRequest {
     public enum EstadoReserva {
         PENDIENTE, CONFIRMADA, CANCELADA, FINALIZADA
     }
-
 }
