@@ -9,6 +9,7 @@ import com.NomadNook.NomadNook.Service.IUsuarioService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,8 @@ public class UsuarioService implements IUsuarioService {
     private final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
 
     // Inyectamos el repositorio y ModelMapper
+
+    @Autowired
     public UsuarioService(IUsuarioRepository usuarioRepository, ModelMapper modelMapper) {
         this.usuarioRepository = usuarioRepository;
         this.modelMapper = modelMapper;

@@ -12,7 +12,8 @@ import java.util.List;
 @Setter
 @Builder
 @Data
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class AlojamientoResponse {
     private String titulo;
     private String descripcion;
@@ -27,4 +28,6 @@ public class AlojamientoResponse {
     public enum TipoAlojamiento {
         PLAYA,MONTANA,NEVADA,SELVA,BOSQUE,CAMPO
     }
+
+
 }
