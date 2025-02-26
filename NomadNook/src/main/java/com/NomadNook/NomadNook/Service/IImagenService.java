@@ -9,6 +9,7 @@ public interface IImagenService {
     ImagenResponse createImagen(Imagen usuario);
     ImagenResponse getImagenById(Long id);
     List<ImagenResponse> listAllImagen();
+    List<ImagenResponse> listAllImagenesByAlojamiento(Long id);
     ImagenResponse updateImagen(Long id, Imagen usuario);
     void deleteImagen(Long id);
 }

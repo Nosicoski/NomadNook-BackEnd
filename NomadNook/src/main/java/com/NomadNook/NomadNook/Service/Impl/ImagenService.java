@@ -3,6 +3,7 @@ package com.NomadNook.NomadNook.Service.Impl;
 import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.DTO.RESPONSE.ImagenResponse;
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
+import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Imagen;
 import com.NomadNook.NomadNook.Repository.IImagenRepository;
 import com.NomadNook.NomadNook.Service.IImagenService;
@@ -103,6 +104,17 @@ public class ImagenService implements IImagenService {
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró la imagen a eliminar con id: " + id));
         imagenRepository.delete(existingImagen);
         LOGGER.info("Imagen eliminada con id: {}", id);
+    }
+
+    public List<ImagenResponse> listAllImagenesByAlojamiento(Long alojamiento_id) {
+        //log.info("Entre al service");
+        List<Imagen> imagenes = imagenRepository.findAllByAlojamientoId(alojamiento_id);
+        List<ImagenResponse> responses = new ArrayList<>();
+        for (Imagen imagen : imagenes) {
+            ImagenResponse imagenResponse = createImagenResponse(imagen);
+            responses.add(imagenResponse);
+        }
+        return responses;
     }
 }
 

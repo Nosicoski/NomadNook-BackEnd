@@ -44,6 +44,7 @@ public class UsuarioService implements IUsuarioService {
         usuarioResponse.setNombre(usuario.getNombre());
         usuarioResponse.setApellido(usuario.getApellido());
         usuarioResponse.setEmail(usuario.getEmail());
+        usuarioResponse.setTelefono(usuario.getTelefono());
         usuarioResponse.setPassword(usuario.getPassword());
         usuarioResponse.setRol(usuario.getRol());
         usuarioResponse.setFechaRegistro(usuario.getFechaRegistro());
