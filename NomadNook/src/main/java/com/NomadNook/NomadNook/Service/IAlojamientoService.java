@@ -12,8 +12,10 @@ public interface IAlojamientoService {
 
     AlojamientoResponse createAlojamiento(AlojamientoRequest requestDTO);
 
-    Alojamiento getAlojamientoById(Long id);
+    AlojamientoResponse getAlojamientoById(Long id);
     List<AlojamientoResponse> listAllAlojamientos();
-    Alojamiento updateAlojamiento(Long id, AlojamientoRequest alojamientoRequest);
+    List<AlojamientoResponse> listAllAlojamientosByPropietario(Long propietario_id);
+    AlojamientoResponse updateAlojamiento(Long id, AlojamientoRequest alojamientoRequest);
     void deleteAlojamiento(Long id)throws ResourceNotFoundException;;
+
 }

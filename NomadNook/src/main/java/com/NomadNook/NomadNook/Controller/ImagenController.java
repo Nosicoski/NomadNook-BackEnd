@@ -25,7 +25,7 @@ public class ImagenController {
     }
 
     @GetMapping("/buscar/{id}")
-    public ResponseEntity<Imagen> getById(@PathVariable Long id) {
+    public ResponseEntity<ImagenResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(imagenService.getImagenById(id));
     }
 
@@ -35,7 +35,7 @@ public class ImagenController {
     }
 
     @PutMapping ("/actualizar/{id}")
-    public ResponseEntity<Imagen> update(@PathVariable Long id, @RequestBody Imagen imagen) {
+    public ResponseEntity<ImagenResponse> update(@PathVariable Long id, @RequestBody Imagen imagen) {
         return ResponseEntity.ok(imagenService.updateImagen(id, imagen));
     }
 

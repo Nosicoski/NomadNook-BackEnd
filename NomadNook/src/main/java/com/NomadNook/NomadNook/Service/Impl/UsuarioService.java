@@ -1,5 +1,7 @@
 package com.NomadNook.NomadNook.Service.Impl;
+import com.NomadNook.NomadNook.DTO.RESPONSE.UsuarioResponse;
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
+import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
 import com.NomadNook.NomadNook.DTO.REQUEST.UsuarioRequest;
@@ -10,8 +12,10 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,12 +27,28 @@ public class UsuarioService implements IUsuarioService {
     private final ModelMapper modelMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
 
+    @Value("${api.path}")
+    private String API_PATH;
+
     // Inyectamos el repositorio y ModelMapper
 
     @Autowired
     public UsuarioService(IUsuarioRepository usuarioRepository, ModelMapper modelMapper) {
         this.usuarioRepository = usuarioRepository;
         this.modelMapper = modelMapper;
+    }
+
+    private UsuarioResponse createUsuarioResponse(Usuario usuario) {
+        UsuarioResponse usuarioResponse = new UsuarioResponse();
+        usuarioResponse.setId(usuario.getId());
+        usuarioResponse.setNombre(usuario.getNombre());
+        usuarioResponse.setApellido(usuario.getApellido());
+        usuarioResponse.setEmail(usuario.getEmail());
+        usuarioResponse.setPassword(usuario.getPassword());
+        usuarioResponse.setRol(usuario.getRol());
+        usuarioResponse.setFechaRegistro(usuario.getFechaRegistro());
+        usuarioResponse.setAlojamientos(API_PATH + "alojamientos/buscar/usuario/" + usuarioResponse.getId());
+        return usuarioResponse;
     }
 
     @Override
@@ -42,23 +62,25 @@ public class UsuarioService implements IUsuarioService {
         Usuario savedUsuario = usuarioRepository.save(usuario);
         LOGGER.info("Usuario creado con id: {} y email: {}", savedUsuario.getId(), savedUsuario.getEmail());
         // Mapear la entidad guardada a un DTO de respuesta
-        return modelMapper.map(savedUsuario, UsuarioResponse.class);
+        return createUsuarioResponse(savedUsuario);
     }
 
     @Override
     public UsuarioResponse getUserById(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró el usuario con id: " + id));
-        return modelMapper.map(usuario, UsuarioResponse.class);
+        return createUsuarioResponse(usuario);
     }
 
     @Override
     public List<UsuarioResponse> listAllUsers() {
         List<Usuario> usuarios = usuarioRepository.findAll();
-        // Convertir cada entidad a su DTO de respuesta
-        return usuarios.stream()
-                .map(usuario -> modelMapper.map(usuario, UsuarioResponse.class))
-                .collect(Collectors.toList());
+        List<UsuarioResponse> responses = new ArrayList<>();
+        for(Usuario usuario: usuarios) {
+            UsuarioResponse usuarioResponse = createUsuarioResponse(usuario);
+            responses.add(usuarioResponse);
+        }
+        return responses;
     }
 
     @Override
@@ -76,7 +98,7 @@ public class UsuarioService implements IUsuarioService {
         modelMapper.map(usuarioRequest, existingUsuario);
         Usuario updatedUsuario = usuarioRepository.save(existingUsuario);
         LOGGER.info("Usuario actualizado con id: {}", updatedUsuario.getId());
-        return modelMapper.map(updatedUsuario, UsuarioResponse.class);
+        return createUsuarioResponse(updatedUsuario);
     }
 
     @Override
@@ -86,4 +108,5 @@ public class UsuarioService implements IUsuarioService {
         usuarioRepository.delete(existingUsuario);
         LOGGER.info("Usuario eliminado con id: {}", id);
     }
+
 }

@@ -25,7 +25,7 @@ public class UsuarioResponse {
     public enum Rol {
         ADMIN, CLIENTE
     }
-//    private List<Alojamiento> alojamientos;
+    private String alojamientos;
 
 
 }

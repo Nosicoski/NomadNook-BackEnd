@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface IImagenService {
     ImagenResponse createImagen(Imagen usuario);
-    Imagen getImagenById(Long id);
+    ImagenResponse getImagenById(Long id);
     List<ImagenResponse> listAllImagen();
-    Imagen updateImagen(Long id, Imagen usuario);
+    ImagenResponse updateImagen(Long id, Imagen usuario);
     void deleteImagen(Long id);
 }
