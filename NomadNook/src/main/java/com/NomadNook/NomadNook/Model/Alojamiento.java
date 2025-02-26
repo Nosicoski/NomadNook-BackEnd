@@ -10,7 +10,10 @@ import lombok.*;
 
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -71,5 +74,13 @@ public class Alojamiento {
     public enum TipoAlojamiento {
         PLAYA,MONTANA,NEVADA,SELVA,BOSQUE,CAMPO
     }
+
+    @ManyToMany
+    @JoinTable(
+            name = "alojamiento_caracteristicas",
+            joinColumns = @JoinColumn(name = "alojamiento_id"),
+            inverseJoinColumns = @JoinColumn(name = "caracteristica_id")
+    )
+    private Set<Caracteristica> caracteristicas = new HashSet<>();
 
 }
