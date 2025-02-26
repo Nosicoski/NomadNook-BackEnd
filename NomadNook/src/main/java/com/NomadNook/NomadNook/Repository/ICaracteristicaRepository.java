@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface ICaracteristicaRepository extends JpaRepository<Caracteristica, UUID> {
+public interface ICaracteristicaRepository extends JpaRepository<Caracteristica, Long> {
 }

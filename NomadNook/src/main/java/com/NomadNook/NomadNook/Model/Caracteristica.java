@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "caracteristicas")
 public class Caracteristica {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
