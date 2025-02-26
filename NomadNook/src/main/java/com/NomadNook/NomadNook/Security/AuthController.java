@@ -94,7 +94,7 @@ public class AuthController {
                     .token(token)
                     .email(usuario.getEmail())
                     .rol(usuario.getRol())
-                    .mensaje("Login exitoso")
+                    .mensaje("Registro exitoso")
                     .build();
 
             return ResponseEntity.ok(response);
