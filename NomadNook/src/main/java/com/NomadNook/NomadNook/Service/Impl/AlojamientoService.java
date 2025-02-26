@@ -51,7 +51,7 @@ public class AlojamientoService implements IAlojamientoService {
         alojamientoResponse.setDireccion(alojamiento.getDireccion());
         alojamientoResponse.setDisponible(alojamiento.getDisponible());
         alojamientoResponse.setPropietario_id(alojamiento.getPropietario().getId());
-        alojamientoResponse.setImagenes(API_PATH + "terminar de crear la ruta");
+        alojamientoResponse.setImagenes(API_PATH + "imagenes/buscar/alojamiento/" + alojamientoResponse.getId());
         return alojamientoResponse;
     }
 

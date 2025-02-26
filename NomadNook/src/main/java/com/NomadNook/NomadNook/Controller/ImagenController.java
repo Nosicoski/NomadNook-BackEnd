@@ -1,5 +1,6 @@
 package com.NomadNook.NomadNook.Controller;
 
+import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.DTO.RESPONSE.ImagenResponse;
 import com.NomadNook.NomadNook.Model.Imagen;
 import com.NomadNook.NomadNook.Service.IImagenService;
@@ -43,5 +44,10 @@ public class ImagenController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         imagenService.deleteImagen(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/buscar/alojamiento/{id}")
+    public ResponseEntity<List<ImagenResponse>> getByAlojamientoId(@PathVariable Long id) {
+        return ResponseEntity.ok(imagenService.listAllImagenesByAlojamiento(id));
     }
 }
