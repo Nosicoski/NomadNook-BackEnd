@@ -28,7 +28,7 @@ public class AlojamientoController {
     // TRAE un alojamiento por ID
 
     @GetMapping("/buscar/{id}")
-    public ResponseEntity<Alojamiento> getById(@PathVariable Long id) {
+    public ResponseEntity<AlojamientoResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(alojamientoService.getAlojamientoById(id));
     }
 
@@ -41,7 +41,7 @@ public class AlojamientoController {
     // ACTUALIZA un alojamiento (hay que pasarle un ID)
 
     @PutMapping ("/actualizar/{id}")
-    public ResponseEntity<Alojamiento> update(@PathVariable Long id, @Valid @RequestBody AlojamientoRequest alojamiento) {
+    public ResponseEntity<AlojamientoResponse> update(@PathVariable Long id, @Valid @RequestBody AlojamientoRequest alojamiento) {
         return ResponseEntity.ok(alojamientoService.updateAlojamiento(id, alojamiento));
     }
     // ELIMINA un alojamiento (hay que pasarle un ID)
@@ -50,5 +50,10 @@ public class AlojamientoController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         alojamientoService.deleteAlojamiento(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/buscar/usuario/{id}")
+    public ResponseEntity<List<AlojamientoResponse>> getByPropietarioId(@PathVariable Long id) {
+        return ResponseEntity.ok(alojamientoService.listAllAlojamientosByPropietario(id));
     }
 }

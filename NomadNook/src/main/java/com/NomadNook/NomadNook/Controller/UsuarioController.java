@@ -3,6 +3,7 @@ package com.NomadNook.NomadNook.Controller;
 
 import com.NomadNook.NomadNook.DTO.REQUEST.UsuarioRequest;
 import com.NomadNook.NomadNook.DTO.RESPONSE.UsuarioResponse;
+import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Service.Impl.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +51,5 @@ public class UsuarioController {
         usuarioService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }
 

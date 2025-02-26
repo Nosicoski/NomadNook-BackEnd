@@ -1,5 +1,6 @@
 package com.NomadNook.NomadNook.Service.Impl;
 
+import com.NomadNook.NomadNook.DTO.RESPONSE.ImagenResponse;
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
@@ -7,6 +8,7 @@ import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
 import com.NomadNook.NomadNook.DTO.REQUEST.AlojamientoRequest;
 import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-
+@Slf4j
 public class AlojamientoService implements IAlojamientoService {
 
     private final IUsuarioRepository usuarioRepository;
@@ -36,8 +38,22 @@ public class AlojamientoService implements IAlojamientoService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    private AlojamientoResponse createAlojamientoResponse(Alojamiento alojamiento) {
 
-
+        AlojamientoResponse alojamientoResponse = new AlojamientoResponse();
+        alojamientoResponse.setId(alojamiento.getId());
+        alojamientoResponse.setTitulo(alojamiento.getTitulo());
+        alojamientoResponse.setDescripcion(alojamiento.getDescripcion());
+        alojamientoResponse.setTipo(alojamiento.getTipo());
+        alojamientoResponse.setCapacidad(alojamiento.getCapacidad());
+        alojamientoResponse.setPrecioPorNoche(alojamiento.getPrecioPorNoche());
+        alojamientoResponse.setUbicacion(alojamiento.getUbicacion());
+        alojamientoResponse.setDireccion(alojamiento.getDireccion());
+        alojamientoResponse.setDisponible(alojamiento.getDisponible());
+        alojamientoResponse.setPropietario_id(alojamiento.getPropietario().getId());
+        alojamientoResponse.setImagenes(API_PATH + "terminar de crear la ruta");
+        return alojamientoResponse;
+    }
 
     @Override
     public AlojamientoResponse createAlojamiento(AlojamientoRequest requestDTO) {
@@ -48,48 +64,34 @@ public class AlojamientoService implements IAlojamientoService {
         Alojamiento alojamientoGuardado = alojamientoRepository.save(alojamiento);
 
         // Mapear la entidad persistida a un DTO de respuesta
-        AlojamientoResponse response = modelMapper.map(alojamientoGuardado, AlojamientoResponse.class);
-        response.setPropietario_id(requestDTO.getPropietario().getId());
-        return response;
+        return createAlojamientoResponse(alojamientoGuardado);
     }
 
 
     @Override
-    public Alojamiento getAlojamientoById(Long id) {
-        return alojamientoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el alojamiento con id: " + id));
+    public AlojamientoResponse getAlojamientoById(Long id) {
+        Alojamiento alojamiento = alojamientoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No se encontró el alojamiento con id: " + id));
+        return createAlojamientoResponse(alojamiento);
     }
 
     @Override
     public List<AlojamientoResponse> listAllAlojamientos() {
         List<Alojamiento> alojamientos = alojamientoRepository.findAll();
-        List<AlojamientoResponse> listRespAlojamientos = new ArrayList<>();
-        for(Alojamiento alojamiento: alojamientos) {
-            AlojamientoResponse alojamientoResponse = new AlojamientoResponse();
-            alojamientoResponse.setTitulo(alojamiento.getTitulo());
-            alojamientoResponse.setDescripcion(alojamiento.getDescripcion());
-            alojamientoResponse.setTipo(alojamiento.getTipo());
-            alojamientoResponse.setCapacidad(alojamiento.getCapacidad());
-            alojamientoResponse.setPrecioPorNoche(alojamiento.getPrecioPorNoche());
-            alojamientoResponse.setUbicacion(alojamiento.getUbicacion());
-            alojamientoResponse.setDireccion(alojamiento.getDireccion());
-            alojamientoResponse.setDisponible(alojamiento.getDisponible());
-            alojamientoResponse.setPropietario_id(alojamiento.getPropietario().getId());
-            alojamientoResponse.setImagenes(API_PATH + "terminar de crear la ruta");
-            listRespAlojamientos.add(alojamientoResponse);
+        List<AlojamientoResponse> responses = new ArrayList<>();
+        for (Alojamiento alojamiento : alojamientos) {
+            AlojamientoResponse alojamientoResponse = createAlojamientoResponse(alojamiento);
+            responses.add(alojamientoResponse);
         }
-        return listRespAlojamientos;
+        return responses;
     }
 
     @Override
-    public Alojamiento updateAlojamiento(Long id, AlojamientoRequest request) {
+    public AlojamientoResponse updateAlojamiento(Long id, AlojamientoRequest request) {
         // Verificar si el alojamiento con el id existe
-        Alojamiento existingAlojamiento = alojamientoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el alojamiento con id: " + id));
+        Alojamiento existingAlojamiento = alojamientoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No se encontró el alojamiento con id: " + id));
 
         // Verificar si el nombre ha cambiado y si ya existe otro alojamiento con ese nombre
-        if (!existingAlojamiento.getTitulo().equals(request.getTitulo()) &&
-                alojamientoRepository.existsByTitulo(request.getTitulo())) {
+        if (!existingAlojamiento.getTitulo().equals(request.getTitulo()) && alojamientoRepository.existsByTitulo(request.getTitulo())) {
             throw new IllegalArgumentException("Ya existe un alojamiento con el mismo nombre");
         }
 
@@ -100,16 +102,26 @@ public class AlojamientoService implements IAlojamientoService {
         // Guardar el alojamiento actualizado
         Alojamiento updatedAlojamiento = alojamientoRepository.save(existingAlojamiento);
         LOGGER.info("Alojamiento actualizado con id: {}", updatedAlojamiento.getId());
-        return updatedAlojamiento;
+        return createAlojamientoResponse(updatedAlojamiento);
     }
 
 
     @Override
     public void deleteAlojamiento(Long id) {
-        Alojamiento existingAlojamiento = alojamientoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el alojamiento a eliminar con id: " + id));
+        Alojamiento existingAlojamiento = alojamientoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No se encontró el alojamiento a eliminar con id: " + id));
         alojamientoRepository.delete(existingAlojamiento);
         LOGGER.info("Alojamiento eliminado con id: {}", id);
+    }
+
+    public List<AlojamientoResponse> listAllAlojamientosByPropietario(Long propietario_id) {
+        //log.info("Entre al service");
+        List<Alojamiento> alojamientos = alojamientoRepository.findAllByPropietarioId(propietario_id);
+        List<AlojamientoResponse> responses = new ArrayList<>();
+        for (Alojamiento alojamiento : alojamientos) {
+            AlojamientoResponse alojamientoResponse = createAlojamientoResponse(alojamiento);
+            responses.add(alojamientoResponse);
+        }
+        return responses;
     }
 }
 

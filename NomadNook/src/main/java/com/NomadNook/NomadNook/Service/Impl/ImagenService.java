@@ -33,6 +33,15 @@ public class ImagenService implements IImagenService {
         this.modelMapper = modelMapper;
     }
 
+    private ImagenResponse createImagenResponse(Imagen imagen) {
+        ImagenResponse imagenResponse = new ImagenResponse();
+        imagenResponse.setId(imagen.getId());
+        imagenResponse.setUrl(imagen.getUrl());
+        imagenResponse.setAlojamiento_id(imagen.getAlojamiento().getId());
+
+        return imagenResponse;
+    }
+
     @Override
     public ImagenResponse createImagen(Imagen imagen) {
         // Validar antes de guardar la imagen
@@ -42,16 +51,16 @@ public class ImagenService implements IImagenService {
         }
 
         Imagen savedImagen = imagenRepository.save(imagen);
-        ImagenResponse response = modelMapper.map(savedImagen, ImagenResponse.class);
-        response.setAlojamiento_id(imagen.getAlojamiento().getId());
+
         LOGGER.info("Imagen creada con id: {}", savedImagen.getId());
-        return response;
+        return createImagenResponse(savedImagen);
     }
 
     @Override
-    public Imagen getImagenById(Long id) {
-        return imagenRepository.findById(id)
+    public ImagenResponse getImagenById(Long id) {
+        Imagen imagen =  imagenRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró la imagen con id: " + id));
+        return createImagenResponse(imagen);
     }
 
     @Override
@@ -60,16 +69,14 @@ public class ImagenService implements IImagenService {
         List<Imagen> imagenes = imagenRepository.findAll();
         List<ImagenResponse> responses = new ArrayList<>();
         for(Imagen imagen: imagenes) {
-            Imagen savedImagen = imagenRepository.save(imagen);
-            ImagenResponse response = modelMapper.map(savedImagen, ImagenResponse.class);
-            response.setAlojamiento_id(imagen.getAlojamiento().getId());
+            ImagenResponse response = createImagenResponse(imagen);
             responses.add(response);
         }
         return responses;
     }
 
     @Override
-    public Imagen updateImagen(Long id, Imagen imagen) {
+    public ImagenResponse updateImagen(Long id, Imagen imagen) {
         // Validación previa
         var violations = validator.validate(imagen);
         if (!violations.isEmpty()) {
@@ -86,7 +93,7 @@ public class ImagenService implements IImagenService {
 
         Imagen updatedImagen = imagenRepository.save(existingImagen);
         LOGGER.info("Imagen actualizada con id: {}", updatedImagen.getId());
-        return updatedImagen;
+        return createImagenResponse(updatedImagen);
     }
 
     @Override
