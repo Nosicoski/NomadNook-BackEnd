@@ -48,7 +48,9 @@ public class AlojamientoService implements IAlojamientoService {
         Alojamiento alojamientoGuardado = alojamientoRepository.save(alojamiento);
 
         // Mapear la entidad persistida a un DTO de respuesta
-        return modelMapper.map(alojamientoGuardado, AlojamientoResponse.class);
+        AlojamientoResponse response = modelMapper.map(alojamientoGuardado, AlojamientoResponse.class);
+        response.setPropietario_id(requestDTO.getPropietario().getId());
+        return response;
     }
 
 

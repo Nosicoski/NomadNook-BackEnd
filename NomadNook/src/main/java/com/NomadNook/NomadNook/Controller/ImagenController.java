@@ -1,5 +1,6 @@
 package com.NomadNook.NomadNook.Controller;
 
+import com.NomadNook.NomadNook.DTO.RESPONSE.ImagenResponse;
 import com.NomadNook.NomadNook.Model.Imagen;
 import com.NomadNook.NomadNook.Service.IImagenService;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ImagenController {
     }
 
     @GetMapping("/listarTodos")
-    public ResponseEntity<List<Imagen>> getAll() {
+    public ResponseEntity<List<ImagenResponse>> getAll() {
         return ResponseEntity.ok(imagenService.listAllImagen());
     }
 
@@ -29,7 +30,7 @@ public class ImagenController {
     }
 
     @PostMapping("/guardar")
-    public ResponseEntity<Imagen> create(@RequestBody Imagen imagen) {
+    public ResponseEntity<ImagenResponse> create(@RequestBody Imagen imagen) {
         return ResponseEntity.ok(imagenService.createImagen(imagen));
     }
 
