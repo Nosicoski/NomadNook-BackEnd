@@ -4,6 +4,7 @@ package com.NomadNook.NomadNook.Controller;
 import com.NomadNook.NomadNook.DTO.REQUEST.UsuarioRequest;
 import com.NomadNook.NomadNook.DTO.RESPONSE.UsuarioResponse;
 import com.NomadNook.NomadNook.Model.Alojamiento;
+import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Service.Impl.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +22,11 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-
-
-    // CREA un Usuario
+    // Para Cargas masivas de Usuario, Alojamiento e Imagenes
     @PostMapping("/guardar")
-    public ResponseEntity<UsuarioResponse> guardarUser(@Valid @RequestBody UsuarioRequest usuarioRequest) {
-        return ResponseEntity.ok(usuarioService.createUser(usuarioRequest));
+    public ResponseEntity<Void> guardarUser(@RequestBody List<Usuario> usuarios) {
+        usuarioService.createUser(usuarios);
+        return ResponseEntity.noContent().build();
     }
     // TRAE todos los Usuarios
     @GetMapping ("/listarTodos")

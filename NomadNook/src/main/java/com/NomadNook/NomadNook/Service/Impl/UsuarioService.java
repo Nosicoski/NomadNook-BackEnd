@@ -53,17 +53,8 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public UsuarioResponse createUser(UsuarioRequest usuarioRequest) {
-        // Verificar que el email no esté registrado
-        if (usuarioRepository.existsByEmail(usuarioRequest.getEmail())) {
-            throw new IllegalArgumentException("El email ya está registrado.");
-        }
-        // Mapear del DTO de request a la entidad
-        Usuario usuario = modelMapper.map(usuarioRequest, Usuario.class);
-        Usuario savedUsuario = usuarioRepository.save(usuario);
-        LOGGER.info("Usuario creado con id: {} y email: {}", savedUsuario.getId(), savedUsuario.getEmail());
-        // Mapear la entidad guardada a un DTO de respuesta
-        return createUsuarioResponse(savedUsuario);
+    public void createUser(List<Usuario> usuarios) {
+        usuarioRepository.saveAll(usuarios);
     }
 
     @Override

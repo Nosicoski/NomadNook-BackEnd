@@ -27,6 +27,22 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        /* Admin tiene permiso a todo
+           Cliente tiene permiso a:
+           - Register y login
+           - Ver todos los alojamientos e imagenes
+           - Ver, modificar y eliminar su perfil de usuario
+           - Ver todas las resenas, y crear, modificar y eliminar sus propias resenas
+           - Ver, crear, modificar y eliminar sus reserva
+           - Ver y crear sus propios pagos
+           Sin autenticacion puede:
+           - Register y login
+           - Ver todos los alojamientos e imagenes
+           - Ver todas las resenas
+         */
+
+
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
