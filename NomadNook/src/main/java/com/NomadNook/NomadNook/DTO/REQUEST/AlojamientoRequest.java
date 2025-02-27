@@ -24,12 +24,17 @@ public class AlojamientoRequest {
     private String direccion;
     private Boolean disponible;
     private Usuario propietario;
-    private List<Imagen> imagenes;
-    public enum TipoAlojamiento {
-        PLAYA,MONTANA,NEVADA,SELVA,BOSQUE,CAMPO
-    }
 
-    public AlojamientoRequest(String titulo, String descripcion, Alojamiento.TipoAlojamiento tipo, Integer capacidad, BigDecimal precioPorNoche, String ubicacion, String direccion, Boolean disponible, Usuario propietario, List<Imagen> imagenes) {
+    public AlojamientoRequest(
+            String titulo,
+            String descripcion,
+            Alojamiento.TipoAlojamiento tipo,
+            Integer capacidad,
+            BigDecimal precioPorNoche,
+            String ubicacion,
+            String direccion,
+            Boolean disponible,
+            Usuario propietario) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.tipo = tipo;
@@ -39,6 +44,11 @@ public class AlojamientoRequest {
         this.direccion = direccion;
         this.disponible = disponible;
         this.propietario = propietario;
-        this.imagenes = imagenes;
+        // this.imagenes = imagenes;
+    }
+
+    //private List<Imagen> imagenes;
+    public enum TipoAlojamiento {
+        PLAYA, MONTANA, NEVADA, SELVA, BOSQUE, CAMPO
     }
 }

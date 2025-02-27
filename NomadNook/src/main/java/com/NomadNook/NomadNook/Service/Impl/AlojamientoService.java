@@ -25,7 +25,6 @@ import java.util.List;
 @Slf4j
 public class AlojamientoService implements IAlojamientoService {
 
-    private final IUsuarioRepository usuarioRepository;
     private final IAlojamientoRepository alojamientoRepository;
     private final ICaracteristicaRepository caracteristicaRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(AlojamientoService.class);
@@ -38,11 +37,9 @@ public class AlojamientoService implements IAlojamientoService {
     public AlojamientoService(
             ModelMapper modelMapper,
             IAlojamientoRepository alojamientoRepository,
-            IUsuarioRepository usuarioRepository,
             ICaracteristicaRepository caracteristicaRepository) {
         this.modelMapper = modelMapper;
         this.alojamientoRepository = alojamientoRepository;
-        this.usuarioRepository = usuarioRepository;
         this.caracteristicaRepository = caracteristicaRepository;
     }
 

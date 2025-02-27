@@ -1,7 +1,9 @@
 package com.NomadNook.NomadNook.Controller;
 
 import com.NomadNook.NomadNook.DTO.REQUEST.AlojamientoRequest;
+import com.NomadNook.NomadNook.DTO.REQUEST.CaracteristicaRequest;
 import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
+import com.NomadNook.NomadNook.DTO.RESPONSE.CaracteristicaResponse;
 import com.NomadNook.NomadNook.Model.Caracteristica;
 import com.NomadNook.NomadNook.Service.Impl.CaracteristicaService;
 import jakarta.validation.Valid;
@@ -20,12 +22,12 @@ public class CaracteristicaController {
     CaracteristicaService caracteristicaService;
 
     @GetMapping("/listarTodos")
-    public ResponseEntity<List<Caracteristica>> getAll() {
+    public ResponseEntity<List<CaracteristicaResponse>> getAll() {
         return ResponseEntity.ok(caracteristicaService.listAllCaracteristicas());
     }
 
     @PostMapping("/guardar")
-    public ResponseEntity<Caracteristica> create(@Valid @RequestBody Caracteristica caracteristica) {
+    public ResponseEntity<CaracteristicaResponse> create(@Valid @RequestBody CaracteristicaRequest caracteristica) {
         return ResponseEntity.ok(caracteristicaService.createCaracteristica(caracteristica));
     }
 }
