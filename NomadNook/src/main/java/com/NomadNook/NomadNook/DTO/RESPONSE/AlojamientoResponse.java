@@ -24,6 +24,7 @@ public class AlojamientoResponse {
     private Boolean disponible;
     private Long propietario_id;
     private String imagenes;
+    private String caracteristicas;
     public enum TipoAlojamiento {
         PLAYA,MONTANA,NEVADA,SELVA,BOSQUE,CAMPO
     }
