@@ -57,5 +57,5 @@ public class Usuario {
     @OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
     private List<Alojamiento> alojamientos;
-    private Set<String> permisos = new HashSet<>();
+//    private Set<String> permisos = new HashSet<>();
 }

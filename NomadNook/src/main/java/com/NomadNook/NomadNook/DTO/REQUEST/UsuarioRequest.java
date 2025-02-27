@@ -32,6 +32,6 @@ public class UsuarioRequest {
         ADMIN, CLIENTE
     }
     private List<Alojamiento> alojamientos;
-
-    private Set<String> permisos = new HashSet<>();
+//
+//    private Set<String> permisos = new HashSet<>();
 }
