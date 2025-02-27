@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -63,7 +64,14 @@ public class UsuarioController {
         return ResponseEntity.ok(updatedUser);
     }
 
-
+//    @PutMapping("/{id}/asignar-permisos")
+//    public ResponseEntity<UsuarioResponse> asignarPermisos(
+//            @PathVariable Long id,
+//            @RequestBody Set<String> metodosPermitidos,
+//            @RequestAttribute Long adminId) {
+//        UsuarioResponse updatedUser = usuarioService.asignarPermisos(id, metodosPermitidos, adminId);
+//        return ResponseEntity.ok(updatedUser);
+//    }
 
 }
 

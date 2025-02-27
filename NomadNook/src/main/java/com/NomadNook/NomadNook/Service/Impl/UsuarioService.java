@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -129,4 +130,28 @@ public class UsuarioService implements IUsuarioService {
 
         return modelMapper.map(usuario, UsuarioResponse.class);
     }
+//    @Override
+//    public UsuarioResponse asignarPermisos(Long userId, Set<String> metodosPermitidos, Long adminId) {
+//        // Verificar que el usuario que realiza la acción es un ADMIN
+//        Usuario admin = usuarioRepository.findById(adminId)
+//                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el usuario administrador con id: " + adminId));
+//        if (admin.getRol() != Usuario.Rol.ADMIN) {
+//            throw new IllegalArgumentException("Solo los administradores pueden asignar permisos.");
+//        }
+//
+//        // Asignar los permisos al usuario
+//        Usuario usuario = usuarioRepository.findById(userId)
+//                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el usuario con id: " + userId));
+//        usuario.setPermisos(metodosPermitidos);
+//        usuarioRepository.save(usuario);
+//
+//        return modelMapper.map(usuario, UsuarioResponse.class);
+//    }
+//
+//    @Override
+//    public boolean tienePermiso(Long userId, String metodoHttp) {
+//        Usuario usuario = usuarioRepository.findById(userId)
+//                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el usuario con id: " + userId));
+//        return usuario.getPermisos().contains(metodoHttp);
+//}
 }

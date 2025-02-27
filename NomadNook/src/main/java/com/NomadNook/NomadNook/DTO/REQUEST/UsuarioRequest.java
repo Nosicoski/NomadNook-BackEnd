@@ -8,7 +8,9 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -31,4 +33,5 @@ public class UsuarioRequest {
     }
     private List<Alojamiento> alojamientos;
 
+    private Set<String> permisos = new HashSet<>();
 }
