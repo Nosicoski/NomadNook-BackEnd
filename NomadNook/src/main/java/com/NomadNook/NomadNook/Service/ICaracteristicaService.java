@@ -8,7 +8,7 @@ public interface ICaracteristicaService {
 
     Caracteristica createCaracteristica(Caracteristica caracteristica);
     Caracteristica getCaracteristicaById(Long id);
-    List<Caracteristica> listAllCaracteristicaes();
+    List<Caracteristica> listAllCaracteristicas();
     Caracteristica updateCaracteristica(Long id, Caracteristica caracteristica);
     void deleteCaracteristica(Long id);
 }
