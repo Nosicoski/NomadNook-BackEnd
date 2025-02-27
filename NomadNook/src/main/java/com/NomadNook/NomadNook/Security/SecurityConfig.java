@@ -30,8 +30,11 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-/*                        .requestMatchers("/api/auth/**").permitAll()
-                          .anyRequest().authenticated() */
+ /* Vincular la autenticacion del admin en el JWT */
+
+                                //                       .requestMatchers("/api/auth/**").permitAll()
+ //                               .requestMatchers("/api/admin/**").hasRole("ADMIN")
+  //                        .anyRequest().authenticated()
 //                        Autoriza todas las rutas para todos
                                 .requestMatchers("/**").permitAll()
                 )

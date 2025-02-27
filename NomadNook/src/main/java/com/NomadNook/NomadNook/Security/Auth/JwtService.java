@@ -35,6 +35,9 @@ public class JwtService {
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+ /* Generar correctamente el JWT para que incluya el rol de usuario */
+
+      //  extraClaims.put("role", user.getRole());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
