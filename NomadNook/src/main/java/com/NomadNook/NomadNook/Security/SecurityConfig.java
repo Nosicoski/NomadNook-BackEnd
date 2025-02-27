@@ -31,13 +31,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                                 // Permite el acceso a las rutas de autenticación sin necesidad de estar autenticado
-                                .requestMatchers("/**").permitAll()
+                                .requestMatchers("/api/auth/**").permitAll()
 
                                 // Requiere rol de ADMIN para acceder a las rutas '/api/admin/**'
-                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/api/**").hasRole("ADMIN")
 
                                 // Cualquier otra ruta requiere autenticación
-                                .anyRequest().authenticated()
+        //                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless porque estamos usando JWT

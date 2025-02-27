@@ -39,7 +39,7 @@ public class JwtService {
         String role = userDetails.getAuthorities().stream()
                 .map(authority -> authority.getAuthority()) // Extrae el nombre del rol
                 .findFirst()
-                .orElse("ROLE_USER"); // Si no tiene rol, asigna un valor por defecto
+                .orElse("ROLE_CLIENTE"); // Si no tiene rol, asigna un valor por defecto
 
         extraClaims.put("role", role);
 

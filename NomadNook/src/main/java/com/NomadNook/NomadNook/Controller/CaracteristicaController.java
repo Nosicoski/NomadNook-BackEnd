@@ -30,4 +30,9 @@ public class CaracteristicaController {
     public ResponseEntity<CaracteristicaResponse> create(@Valid @RequestBody CaracteristicaRequest caracteristica) {
         return ResponseEntity.ok(caracteristicaService.createCaracteristica(caracteristica));
     }
+
+    @GetMapping("/buscar/alojamiento/{id}")
+    public ResponseEntity<List<CaracteristicaResponse>> getByAlojamientoId(@PathVariable Long id) {
+        return ResponseEntity.ok(caracteristicaService.listAllCaracteristicasByAlojamiento(id));
+    }
 }

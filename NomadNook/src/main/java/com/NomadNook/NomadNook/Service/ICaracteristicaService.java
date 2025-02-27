@@ -11,6 +11,7 @@ public interface ICaracteristicaService {
     CaracteristicaResponse createCaracteristica(CaracteristicaRequest request);
     CaracteristicaResponse getCaracteristicaById(Long id);
     List<CaracteristicaResponse> listAllCaracteristicas();
+    List<CaracteristicaResponse> listAllCaracteristicasByAlojamiento(Long id);
     CaracteristicaResponse updateCaracteristica(Long id, CaracteristicaRequest request);
     void deleteCaracteristica(Long id);
 }
