@@ -5,6 +5,7 @@ import com.NomadNook.NomadNook.DTO.RESPONSE.UsuarioResponse;
 import com.NomadNook.NomadNook.Model.Usuario;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IUsuarioService {
 
@@ -14,4 +15,7 @@ public interface IUsuarioService {
     UsuarioResponse updateUser(Long id, UsuarioRequest usuarioRequest);
     void deleteUser(Long id) ;
     UsuarioResponse asignarRolAdmin(Long id);
+    UsuarioResponse desAsignarRolAdmin(Long id);
+//    UsuarioResponse asignarPermisos(Long userId, Set<String> metodosPermitidos, Long adminId);
+//    boolean tienePermiso(Long userId, String metodoHttp);
 }

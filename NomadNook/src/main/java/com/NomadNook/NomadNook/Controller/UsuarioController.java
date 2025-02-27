@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -57,7 +58,20 @@ public class UsuarioController {
         return ResponseEntity.ok(updatedUser);
     }
 
+    @PutMapping("/{id}/desasignar-admin")
+    public ResponseEntity<UsuarioResponse> desAsignarRolAdmin(@PathVariable Long id) {
+        UsuarioResponse updatedUser = usuarioService.desAsignarRolAdmin(id);
+        return ResponseEntity.ok(updatedUser);
+    }
 
+//    @PutMapping("/{id}/asignar-permisos")
+//    public ResponseEntity<UsuarioResponse> asignarPermisos(
+//            @PathVariable Long id,
+//            @RequestBody Set<String> metodosPermitidos,
+//            @RequestAttribute Long adminId) {
+//        UsuarioResponse updatedUser = usuarioService.asignarPermisos(id, metodosPermitidos, adminId);
+//        return ResponseEntity.ok(updatedUser);
+//    }
 
 }
 
