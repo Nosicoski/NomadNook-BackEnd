@@ -6,6 +6,7 @@ import com.NomadNook.NomadNook.DTO.LOGIN.LoginRequest;
 import com.NomadNook.NomadNook.DTO.LOGIN.LoginResponse;
 import com.NomadNook.NomadNook.Security.Auth.JwtService;
 import com.NomadNook.NomadNook.DTO.LOGIN.RegisterRequest;
+import com.NomadNook.NomadNook.Service.Impl.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,7 @@ public class AuthController {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
     private final IUsuarioRepository usuarioRepository;
+    private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
     public AuthenticationManager getAuthenticationManager() {
@@ -51,6 +53,8 @@ public class AuthController {
     public IUsuarioRepository getUsuarioRepository() {
         return usuarioRepository;
     }
+
+    public EmailService getEmailService() { return emailService; }
 
     public PasswordEncoder getPasswordEncoder() {
         return passwordEncoder;
@@ -96,6 +100,8 @@ public class AuthController {
                     .rol(usuario.getRol())
                     .mensaje("Registro exitoso")
                     .build();
+
+            emailService.sendConfirmationEmail(usuario.getEmail(), usuario.getNombre() + " " + usuario.getApellido());
 
             return ResponseEntity.ok(response);
 
