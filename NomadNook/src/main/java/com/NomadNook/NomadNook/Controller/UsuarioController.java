@@ -57,6 +57,12 @@ public class UsuarioController {
         return ResponseEntity.ok(updatedUser);
     }
 
+    @PutMapping("/{id}/desasignar-admin")
+    public ResponseEntity<UsuarioResponse> desAsignarRolAdmin(@PathVariable Long id) {
+        UsuarioResponse updatedUser = usuarioService.desAsignarRolAdmin(id);
+        return ResponseEntity.ok(updatedUser);
+    }
+
 
 
 }

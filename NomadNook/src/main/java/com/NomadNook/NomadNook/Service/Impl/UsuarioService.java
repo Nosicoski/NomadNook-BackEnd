@@ -119,4 +119,14 @@ public class UsuarioService implements IUsuarioService {
 
         return modelMapper.map(usuario, UsuarioResponse.class);
     }
+    @Override
+    public UsuarioResponse desAsignarRolAdmin(Long userId) {
+        Usuario usuario = usuarioRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el usuario con id: " + userId));
+
+        usuario.setRol(Usuario.Rol.CLIENTE);
+        usuarioRepository.save(usuario);
+
+        return modelMapper.map(usuario, UsuarioResponse.class);
+    }
 }

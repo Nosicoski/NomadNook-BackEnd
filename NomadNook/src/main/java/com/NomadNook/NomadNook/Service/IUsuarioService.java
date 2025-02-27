@@ -13,4 +13,5 @@ public interface IUsuarioService {
     UsuarioResponse updateUser(Long id, UsuarioRequest usuarioRequest);
     void deleteUser(Long id) ;
     UsuarioResponse asignarRolAdmin(Long id);
+    UsuarioResponse desAsignarRolAdmin(Long id);
 }
