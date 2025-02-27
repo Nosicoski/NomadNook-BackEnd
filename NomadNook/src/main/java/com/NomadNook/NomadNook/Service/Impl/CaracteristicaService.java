@@ -2,9 +2,11 @@ package com.NomadNook.NomadNook.Service.Impl;
 
 import com.NomadNook.NomadNook.Model.Caracteristica;
 import com.NomadNook.NomadNook.Service.ICaracteristicaService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CaracteristicaService implements ICaracteristicaService {
     @Override
     public Caracteristica createCaracteristica(Caracteristica caracteristica) {
@@ -17,7 +19,7 @@ public class CaracteristicaService implements ICaracteristicaService {
     }
 
     @Override
-    public List<Caracteristica> listAllCaracteristicaes() {
+    public List<Caracteristica> listAllCaracteristicas() {
         return List.of();
     }
 
