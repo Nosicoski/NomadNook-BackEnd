@@ -11,5 +11,6 @@ public interface IUsuarioService {
     UsuarioResponse getUserById(Long id);
     List<UsuarioResponse> listAllUsers();
     UsuarioResponse updateUser(Long id, UsuarioRequest usuarioRequest);
-    void deleteUser(Long id) ;;
+    void deleteUser(Long id) ;
+    UsuarioResponse asignarRolAdmin(Long id);
 }

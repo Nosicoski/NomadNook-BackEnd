@@ -51,5 +51,13 @@ public class UsuarioController {
         usuarioService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+    @PutMapping("/{id}/asignar-admin")
+    public ResponseEntity<UsuarioResponse> asignarRolAdmin(@PathVariable Long id) {
+        UsuarioResponse updatedUser = usuarioService.asignarRolAdmin(id);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+
+
 }
 
