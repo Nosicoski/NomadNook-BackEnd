@@ -109,5 +109,14 @@ public class UsuarioService implements IUsuarioService {
         usuarioRepository.delete(existingUsuario);
         LOGGER.info("Usuario eliminado con id: {}", id);
     }
+    @Override
+    public UsuarioResponse asignarRolAdmin(Long userId) {
+        Usuario usuario = usuarioRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el usuario con id: " + userId));
 
+        usuario.setRol(Usuario.Rol.ADMIN);
+        usuarioRepository.save(usuario);
+
+        return modelMapper.map(usuario, UsuarioResponse.class);
+    }
 }
