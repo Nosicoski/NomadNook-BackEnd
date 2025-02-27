@@ -30,16 +30,17 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
- /* Vincular la autenticacion del admin en el JWT */
-
-                                //                       .requestMatchers("/api/auth/**").permitAll()
- //                               .requestMatchers("/api/admin/**").hasRole("ADMIN")
-  //                        .anyRequest().authenticated()
-//                        Autoriza todas las rutas para todos
+                                // Permite el acceso a las rutas de autenticación sin necesidad de estar autenticado
                                 .requestMatchers("/**").permitAll()
+
+                                // Requiere rol de ADMIN para acceder a las rutas '/api/admin/**'
+                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+
+                                // Cualquier otra ruta requiere autenticación
+                                .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless porque estamos usando JWT
                 )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
