@@ -35,12 +35,17 @@ public class JwtService {
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
- /* Generar correctamente el JWT para que incluya el rol de usuario */
+        // Extraer el primer rol del usuario (suponiendo que solo tiene un rol principal)
+        String role = userDetails.getAuthorities().stream()
+                .map(authority -> authority.getAuthority()) // Extrae el nombre del rol
+                .findFirst()
+                .orElse("ROLE_USER"); // Si no tiene rol, asigna un valor por defecto
 
-      //  extraClaims.put("role", user.getRole());
+        extraClaims.put("role", role);
+
         return Jwts
                 .builder()
-                .setClaims(extraClaims)
+                .setClaims(extraClaims) // Incluye el rol en los claims
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
