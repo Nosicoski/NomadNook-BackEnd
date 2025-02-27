@@ -109,5 +109,19 @@ public class AlojamientoService implements IAlojamientoService {
         alojamientoRepository.delete(existingAlojamiento);
         LOGGER.info("Alojamiento eliminado con id: {}", id);
     }
+
+
+    @Override
+    public List<AlojamientoResponse> searchAlojamientos(String query) {
+        // Buscar alojamientos cuyo título o descripción contenga la consulta
+        List<Alojamiento> alojamientos = alojamientoRepository
+                .findByTituloContainingIgnoreCaseOrDescripcionContainingIgnoreCase(query, query);
+
+        // Convertir cada entidad a su DTO de respuesta utilizando ModelMapper
+        return alojamientos.stream()
+                .map(alojamiento -> modelMapper.map(alojamiento, AlojamientoResponse.class))
+                .toList();
+    }
+
 }
 

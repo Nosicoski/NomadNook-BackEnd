@@ -51,4 +51,14 @@ public class AlojamientoController {
         alojamientoService.deleteAlojamiento(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<List<AlojamientoResponse>> buscarAlojamientos(@RequestParam String query) {
+        System.out.println("Buscando alojamientos con título: " + query);
+        List<AlojamientoResponse> resultado = alojamientoService.searchAlojamientos(query);
+        System.out.println("Resultados encontrados: " + resultado.size());
+        return ResponseEntity.ok(resultado);
+    }
+
+
 }

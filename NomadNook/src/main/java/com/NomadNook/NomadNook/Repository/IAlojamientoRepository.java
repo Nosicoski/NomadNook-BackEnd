@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IAlojamientoRepository extends JpaRepository<Alojamiento, Long> {
 
+    List<Alojamiento> findByTituloContainingIgnoreCaseOrDescripcionContainingIgnoreCase(String titulo, String descripcion);
     // Encuentra todos los alojamientos disponibles
     List<Alojamiento> findByDisponibleTrue();
 

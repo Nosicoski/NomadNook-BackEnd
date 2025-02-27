@@ -15,5 +15,6 @@ public interface IAlojamientoService {
     Alojamiento getAlojamientoById(Long id);
     List<AlojamientoResponse> listAllAlojamientos();
     Alojamiento updateAlojamiento(Long id, AlojamientoRequest alojamientoRequest);
-    void deleteAlojamiento(Long id)throws ResourceNotFoundException;;
+    void deleteAlojamiento(Long id)throws ResourceNotFoundException;
+    List<AlojamientoResponse> searchAlojamientos(String query);
 }
