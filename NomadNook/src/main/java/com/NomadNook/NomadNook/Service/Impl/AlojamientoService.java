@@ -1,5 +1,7 @@
 package com.NomadNook.NomadNook.Service.Impl;
 
+import com.NomadNook.NomadNook.DTO.REQUEST.CaracteristicaRequest;
+import com.NomadNook.NomadNook.DTO.RESPONSE.CaracteristicaResponse;
 import com.NomadNook.NomadNook.DTO.RESPONSE.ImagenResponse;
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Alojamiento;
@@ -10,6 +12,7 @@ import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
 import com.NomadNook.NomadNook.DTO.REQUEST.AlojamientoRequest;
 import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
+import com.NomadNook.NomadNook.Service.ICaracteristicaService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -118,6 +121,7 @@ public class AlojamientoService implements IAlojamientoService {
         LOGGER.info("Alojamiento eliminado con id: {}", id);
     }
 
+    @Override
     public List<AlojamientoResponse> listAllAlojamientosByPropietario(Long propietario_id) {
         //log.info("Entre al service");
         List<Alojamiento> alojamientos = alojamientoRepository.findAllByPropietarioId(propietario_id);
@@ -129,7 +133,8 @@ public class AlojamientoService implements IAlojamientoService {
         return responses;
     }
 
-    public void agregarCaracteristicaAAlojamiento(Long alojamientoId, Long caracteristicaId) {
+    @Override
+    public void agregarCaracteristicaAlojamiento(Long alojamientoId, Long caracteristicaId) {
         Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Alojamiento no encontrado"));
 
@@ -139,5 +144,7 @@ public class AlojamientoService implements IAlojamientoService {
         alojamiento.getCaracteristicas().add(caracteristica);
         alojamientoRepository.save(alojamiento);
     }
+
+
 }
 

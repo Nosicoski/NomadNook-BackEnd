@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()  // Permite acceso a la autenticación
                         .requestMatchers("/api/public/**").permitAll() // Rutas públicas
                         .anyRequest().authenticated() // Todas las demás requieren autenticación
+
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless porque estamos usando JWT
