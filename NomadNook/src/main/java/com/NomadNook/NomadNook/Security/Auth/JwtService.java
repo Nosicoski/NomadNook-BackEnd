@@ -41,6 +41,7 @@ public class JwtService {
                 .findFirst()
                 .orElse("ROLE_CLIENTE"); // Si no tiene rol, asigna un valor por defecto
 
+
         extraClaims.put("role", role);
 
         return Jwts
