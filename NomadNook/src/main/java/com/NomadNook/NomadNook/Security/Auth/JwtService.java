@@ -21,6 +21,9 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
+    // Tiempo de expiración del token en milisegundos (1 día)
+    private static final long TOKEN_EXPIRATION_TIME = 24 * 60 * 60 * 1000;
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -31,15 +34,20 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
+
         return generateToken(new HashMap<>(), userDetails);
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        // Extraer el primer rol del usuario (suponiendo que solo tiene un rol principal)
+        // Extraer el rol del usuario - sin prefijo ROLE_ si lo tiene
         String role = userDetails.getAuthorities().stream()
-                .map(authority -> authority.getAuthority()) // Extrae el nombre del rol
+                .map(authority -> {
+                    String auth = authority.getAuthority();
+                    // Eliminar el prefijo "ROLE_" si existe, para mantener consistencia
+                    return auth.startsWith("ROLE_") ? auth.substring(5) : auth;
+                })
                 .findFirst()
-                .orElse("ROLE_CLIENTE"); // Si no tiene rol, asigna un valor por defecto
+                .orElse("ROLE_CLIENT"); // Si no tiene rol, asigna CLIENT como valor por defecto
 
 
         extraClaims.put("role", role);
@@ -49,7 +57,7 @@ public class JwtService {
                 .setClaims(extraClaims) // Incluye el rol en los claims
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_TIME))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
