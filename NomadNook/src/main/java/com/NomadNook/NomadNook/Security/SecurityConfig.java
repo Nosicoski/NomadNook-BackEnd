@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+
                         // Rutas públicas sin autenticación
                         .requestMatchers("/api/auth/**").permitAll()  // Permite acceso a la autenticación
                         .requestMatchers("/api/public/**").permitAll() // Rutas públicas
@@ -76,6 +77,7 @@ public class SecurityConfig {
 
                         // Cualquier otra ruta requiere autenticación
                         .anyRequest().authenticated()
+
 
                 )
                 .sessionManagement(session -> session
