@@ -22,8 +22,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -72,9 +74,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
-                    // Si el token es válido, asignamos el usuario en el contexto de seguridad
+                    // Extraer el rol del token y convertirlo a autoridad con prefijo ROLE_
                     String role = jwtService.extractClaim(jwt, claims -> claims.get("role", String.class));
-                    Collection<? extends GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(role));
+                    List<GrantedAuthority> authorities = new ArrayList<>();
+                    //Collection<? extends GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(role));
+
+                    // Asegurarnos que el rol tenga el prefijo ROLE_
+                    if (role != null && !role.isEmpty()) {
+                        if (!role.startsWith("ROLE_")) {
+                            authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+                        } else {
+                            authorities.add(new SimpleGrantedAuthority(role));
+                        }
+                    }
+
 
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,

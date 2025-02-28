@@ -77,7 +77,7 @@ public class AuthController {
             usuario.setEmail(request.getEmail());
             usuario.setPassword(passwordEncoder.encode(request.getPassword()));
             usuario.setTelefono(request.getTelefono());
-            usuario.setRol(request.getRol() != null ? request.getRol() : Usuario.Rol.CLIENTE);
+            usuario.setRol(request.getRol() != null ? request.getRol() : Usuario.Rol.ROLE_CLIENT);
             usuario.setFechaRegistro(LocalDateTime.now());
 
             // Guardar usuario
