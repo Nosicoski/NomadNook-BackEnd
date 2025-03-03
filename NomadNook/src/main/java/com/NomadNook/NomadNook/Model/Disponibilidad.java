@@ -3,11 +3,13 @@ package com.NomadNook.NomadNook.Model;
 
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-@Getter
-@Setter
+
 @Entity
 @Data
 @NoArgsConstructor

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;// Nueva entidad Caracteristica
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
 
 @Entity
 @Data
