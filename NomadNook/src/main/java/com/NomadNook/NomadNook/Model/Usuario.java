@@ -51,7 +51,7 @@ public class Usuario {
     private LocalDateTime fechaRegistro;
 
     public enum Rol {
-        ROLE_ADMIN, ROLE_CLIENT
+        ADMIN, CLIENTE
     }
 
     @OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
