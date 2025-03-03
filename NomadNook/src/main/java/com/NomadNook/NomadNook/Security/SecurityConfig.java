@@ -29,55 +29,40 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        /* Admin tiene permiso a todo
-           Cliente tiene permiso a:
-           - Register y login
-           - Ver todos los alojamientos e imagenes
-           - Ver, modificar y eliminar su perfil de usuario
-           - Ver todas las resenas, y crear, modificar y eliminar sus propias resenas
-           - Ver, crear, modificar y eliminar sus reserva
-           - Ver y crear sus propios pagos
-           Sin autenticacion puede:
-           - Register y login
-           - Ver todos los alojamientos e imagenes
-           - Ver todas las resenas
-         */
 
 
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-
                         // Rutas públicas sin autenticación
                         .requestMatchers("/api/auth/**").permitAll()  // Permite acceso a la autenticación
                         .requestMatchers("/api/public/**").permitAll() // Rutas públicas
-                        .requestMatchers(HttpMethod.GET, "api/alojamientos/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "api/imagenes/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "api/resenas/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/alojamientos/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/imagenes/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/resenas/**").permitAll()
                         //.anyRequest().authenticated() // Todas las demás requieren autenticación
 
                         // Reseñas: cliente puede crear, modificar y eliminar sus propias reseñas
-                        .requestMatchers(HttpMethod.POST, "api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
 
-                        .requestMatchers("api/usuarios/register").permitAll() // Permitir acceso al registro
-                        .requestMatchers(HttpMethod.POST, "api/usuarios/register").permitAll()
+                        .requestMatchers("/api/usuarios/register").permitAll() // Permitir acceso al registro
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios/register").permitAll()
 
                         // Reservas: cliente puede ver, crear, modificar y eliminar sus reservas
-                        .requestMatchers("api/reservas/**").hasAnyRole("CLIENT", "ADMIN")
+                        .requestMatchers("/api/reservas/**").hasAnyRole("CLIENT", "ADMIN")
 
                         // Pagos: cliente puede ver y crear sus pagos
-                        .requestMatchers(HttpMethod.GET, "api/pagos/**").hasAnyRole("CLIENT", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "api/pagos/**").hasAnyRole("CLIENT", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/pagos/**").hasAnyRole("CLIENT", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/pagos/**").hasAnyRole("CLIENT", "ADMIN")
 
                         // Admin tiene acceso a todo el resto
-                        .requestMatchers("api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
                         // Cualquier otra ruta requiere autenticación
                         .anyRequest().authenticated()
-
 
                 )
                 .sessionManagement(session -> session
@@ -96,8 +81,7 @@ public class SecurityConfig {
                 "http://localhost:3000",
                 "http://localhost:5173"
         ));
-        // Corregido para permitir todos los métodos HTTP necesarios
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS", "PATCH"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
 

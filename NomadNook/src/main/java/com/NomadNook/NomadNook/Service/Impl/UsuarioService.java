@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -53,29 +52,6 @@ public class UsuarioService implements IUsuarioService {
         usuarioResponse.setAlojamientos(API_PATH + "alojamientos/buscar/usuario/" + usuarioResponse.getId());
         return usuarioResponse;
     }
-    @Override
-    public UsuarioResponse registrarUsuario(UsuarioRequest usuarioRequest) {
-        // Verificar si el email ya está registrado
-        Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuarioRequest.getEmail());
-        if (usuarioExistente.isPresent()) {
-            throw new IllegalArgumentException("El email ya está registrado.");
-        }
-
-        // Crear un nuevo usuario a partir del request
-        Usuario usuario = new Usuario();
-        usuario.setNombre(usuarioRequest.getNombre());
-        usuario.setApellido(usuarioRequest.getApellido());
-        usuario.setEmail(usuarioRequest.getEmail());
-        usuario.setTelefono(usuarioRequest.getTelefono());
-        usuario.setPassword(usuarioRequest.getPassword()); // Asegúrate de cifrar la contraseña
-
-        // Guardar el usuario en la base de datos
-        Usuario usuarioGuardado = usuarioRepository.save(usuario);
-
-        // Convertir el usuario guardado a una respuesta DTO
-        return modelMapper.map(usuarioGuardado, UsuarioResponse.class);
-    }
-
 
     @Override
     public void createUser(List<Usuario> usuarios) {
@@ -130,7 +106,7 @@ public class UsuarioService implements IUsuarioService {
         Usuario usuario = usuarioRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró el usuario con id: " + userId));
 
-        usuario.setRol(Usuario.Rol.ROLE_ADMIN); // Cambio aquí: se usa ROLE_ADMIN
+        usuario.setRol(Usuario.Rol.ADMIN);
         usuarioRepository.save(usuario);
 
         return modelMapper.map(usuario, UsuarioResponse.class);
@@ -140,12 +116,11 @@ public class UsuarioService implements IUsuarioService {
         Usuario usuario = usuarioRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró el usuario con id: " + userId));
 
-        usuario.setRol(Usuario.Rol.ROLE_CLIENT); // Cambio aquí: se usa ROLE_CLIENT
+        usuario.setRol(Usuario.Rol.CLIENTE);
         usuarioRepository.save(usuario);
 
         return modelMapper.map(usuario, UsuarioResponse.class);
     }
-
 //    @Override
 //    public UsuarioResponse asignarPermisos(Long userId, Set<String> metodosPermitidos, Long adminId) {
 //        // Verificar que el usuario que realiza la acción es un ADMIN

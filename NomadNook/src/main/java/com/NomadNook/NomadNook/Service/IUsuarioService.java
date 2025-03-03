@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 public interface IUsuarioService {
-    // Método para crear un usuario
-    UsuarioResponse registrarUsuario(UsuarioRequest usuarioRequest);
-
 
     void createUser(List<Usuario> usuarios);
     UsuarioResponse getUserById(Long id);
