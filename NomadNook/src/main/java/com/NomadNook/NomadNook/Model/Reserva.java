@@ -1,10 +1,10 @@
 package com.NomadNook.NomadNook.Model;
 
-
-
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
