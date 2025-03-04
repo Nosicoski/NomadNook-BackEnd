@@ -25,12 +25,14 @@ jobs:
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
 
       - name: Construir y subir la imagen Docker a ECR
+        working-directory: NomadNook
         run: |
           IMAGE_TAG=latest
           docker build -t ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG .
           docker push ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG
 
       - name: Crear archivo Dockerrun.aws.json
+        working-directory: NomadNook
         run: |
           cat <<EOF > Dockerrun.aws.json
           {
@@ -48,9 +50,11 @@ jobs:
           EOF
 
       - name: Crear ZIP para Elastic Beanstalk
+        working-directory: NomadNook
         run: zip deployment.zip Dockerrun.aws.json
 
       - name: Subir ZIP y desplegar en Elastic Beanstalk
+        working-directory: NomadNook
         run: |
           VERSION_LABEL="deploy-$(date +%Y%m%d%H%M%S)"
           
