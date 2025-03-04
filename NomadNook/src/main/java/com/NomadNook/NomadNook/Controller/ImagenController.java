@@ -2,7 +2,9 @@ package com.NomadNook.NomadNook.Controller;
 
 import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.DTO.RESPONSE.ImagenResponse;
+import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Imagen;
+import com.NomadNook.NomadNook.Service.IAlojamientoService;
 import com.NomadNook.NomadNook.Service.IImagenService;
 import com.NomadNook.NomadNook.Service.Impl.S3Service;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +19,12 @@ import java.util.List;
 public class ImagenController {
 
     private final IImagenService imagenService;
+    private final IAlojamientoService alojamientoService;
     private final S3Service s3Service;
 
-    public ImagenController(IImagenService imagenService, S3Service s3Service) {
+    public ImagenController(IImagenService imagenService, IAlojamientoService alojamientoService, S3Service s3Service) {
         this.imagenService = imagenService;
+        this.alojamientoService = alojamientoService;
         this.s3Service = s3Service;
     }
 
@@ -58,7 +62,8 @@ public class ImagenController {
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(
             @RequestParam("file") MultipartFile file,
-            @RequestParam("name") String name) {
+            @RequestParam("name") String name,
+            @RequestParam("alojamiento") Long alojamiento_id) {
 
         try {
             // Validate file
@@ -69,8 +74,12 @@ public class ImagenController {
             // Upload to S3
             String fileUrl = s3Service.uploadFile(file);
 
-            // You can also save metadata to your database here
-            // saveMetadata(name, fileUrl);
+            Imagen imagen = new Imagen();
+            Alojamiento alojamiento = new Alojamiento();
+            alojamiento.setId(alojamiento_id);
+            imagen.setAlojamiento(alojamiento);
+            imagen.setUrl(fileUrl);
+            imagenService.createImagen(imagen);
 
             return ResponseEntity.ok("File uploaded successfully. URL: " + fileUrl);
         } catch (Exception e) {
