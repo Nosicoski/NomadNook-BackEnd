@@ -137,6 +137,8 @@ public class AuthController {
                     .token(token)
                     .email(usuario.getEmail())
                     .rol(usuario.getRol())
+                    .nombre(usuario.getNombre())
+                    .apellido(usuario.getApellido())
                     .mensaje("Login exitoso")
                     .build();
 
