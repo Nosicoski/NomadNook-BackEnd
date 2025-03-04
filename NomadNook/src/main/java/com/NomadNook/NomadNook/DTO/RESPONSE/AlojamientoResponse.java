@@ -1,12 +1,14 @@
 package com.NomadNook.NomadNook.DTO.RESPONSE;
 
 import com.NomadNook.NomadNook.Model.Alojamiento;
+import com.NomadNook.NomadNook.Model.Caracteristica;
 import com.NomadNook.NomadNook.Model.Imagen;
 import com.NomadNook.NomadNook.Model.Usuario;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Builder
 @Data
@@ -24,7 +26,7 @@ public class AlojamientoResponse {
     private Boolean disponible;
     private Long propietario_id;
     private List<Imagen> imagenes;
-    private String caracteristicas;
+    private Set<Caracteristica> caracteristicas;
     public enum TipoAlojamiento {
         PLAYA,MONTANA,NEVADA,SELVA,BOSQUE,CAMPO
     }
