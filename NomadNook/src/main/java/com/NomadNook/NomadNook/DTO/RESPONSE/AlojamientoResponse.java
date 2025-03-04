@@ -1,7 +1,11 @@
 package com.NomadNook.NomadNook.DTO.RESPONSE;
 
 import com.NomadNook.NomadNook.Model.Alojamiento;
+
+import com.NomadNook.NomadNook.Model.Categoria;
+
 import com.NomadNook.NomadNook.Model.Caracteristica;
+
 import com.NomadNook.NomadNook.Model.Imagen;
 import com.NomadNook.NomadNook.Model.Usuario;
 import lombok.*;
@@ -18,7 +22,6 @@ public class AlojamientoResponse {
     private Long id;
     private String titulo;
     private String descripcion;
-    private Alojamiento.TipoAlojamiento tipo;
     private Integer capacidad;
     private BigDecimal precioPorNoche;
     private String ubicacion;
@@ -26,10 +29,12 @@ public class AlojamientoResponse {
     private Boolean disponible;
     private Long propietario_id;
     private List<Imagen> imagenes;
+
+    private Set<Categoria> categoria;
+
     private Set<Caracteristica> caracteristicas;
-    public enum TipoAlojamiento {
-        PLAYA,MONTANA,NEVADA,SELVA,BOSQUE,CAMPO
-    }
+   
+
 
 
 

@@ -52,7 +52,7 @@ public class AlojamientoService implements IAlojamientoService {
         alojamientoResponse.setId(alojamiento.getId());
         alojamientoResponse.setTitulo(alojamiento.getTitulo());
         alojamientoResponse.setDescripcion(alojamiento.getDescripcion());
-        alojamientoResponse.setTipo(alojamiento.getTipo());
+        alojamientoResponse.setCategoria(alojamiento.getCategorias());
         alojamientoResponse.setCapacidad(alojamiento.getCapacidad());
         alojamientoResponse.setPrecioPorNoche(alojamiento.getPrecioPorNoche());
         alojamientoResponse.setUbicacion(alojamiento.getUbicacion());

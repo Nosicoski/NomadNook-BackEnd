@@ -36,9 +36,7 @@ public class Alojamiento {
     private String descripcion;
 
 
-    @Enumerated(EnumType.STRING)
-    @NotNull(message = "El tipo de alojamiento es obligatorio") // Valida que el tipo no sea nulo
-    private TipoAlojamiento tipo;
+
 
 
     @Min(value = 1, message = "La capacidad debe ser al menos 1")  // Valida que la capacidad sea al menos 1
@@ -73,9 +71,13 @@ public class Alojamiento {
     private List<Imagen> imagenes;
 
 
-    public enum TipoAlojamiento {
-        PLAYA,MONTANA,NEVADA,SELVA,BOSQUE,CAMPO
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "alojamiento_categoria",
+            joinColumns = @JoinColumn(name = "alojamiento_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private Set<Categoria> categorias;
 
     @ManyToMany
     @JoinTable(
