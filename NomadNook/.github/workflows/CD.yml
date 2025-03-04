@@ -1,0 +1,64 @@
+name: Deploy to Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - Luisa-AWS
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar credenciales AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Autenticarse en Amazon ECR
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
+
+      - name: Construir y subir la imagen Docker a ECR
+        run: |
+          IMAGE_TAG=latest
+          docker build -t ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG .
+          docker push ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG
+
+      - name: Crear archivo Dockerrun.aws.json
+        run: |
+          cat <<EOF > Dockerrun.aws.json
+          {
+            "AWSEBDockerrunVersion": "1",
+            "Image": {
+              "Name": "${{ secrets.ECR_REPOSITORY }}:latest",
+              "Update": "true"
+            },
+            "Ports": [
+              {
+                "ContainerPort": "8080"
+              }
+            ]
+          }
+          EOF
+
+      - name: Crear ZIP para Elastic Beanstalk
+        run: zip deployment.zip Dockerrun.aws.json
+
+      - name: Subir ZIP y desplegar en Elastic Beanstalk
+        run: |
+          VERSION_LABEL="deploy-$(date +%Y%m%d%H%M%S)"
+          
+          aws elasticbeanstalk create-application-version \
+            --application-name ${{ secrets.ELASTIC_BEANSTALK_APP_NAME }} \
+            --version-label "$VERSION_LABEL" \
+            --source-bundle S3Bucket="${{ secrets.S3_BUCKET }}",S3Key="deployment.zip"
+          
+          aws elasticbeanstalk update-environment \
+            --environment-name ${{ secrets.ELASTIC_BEANSTALK_ENV }} \
+            --version-label "$VERSION_LABEL"
