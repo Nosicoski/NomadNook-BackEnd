@@ -35,34 +35,35 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                                .requestMatchers("/**").permitAll()
                         // Rutas públicas sin autenticación
-                        .requestMatchers("/api/auth/**").permitAll()  // Permite acceso a la autenticación
-                        .requestMatchers("/api/public/**").permitAll() // Rutas públicas
-                        .requestMatchers(HttpMethod.GET, "/api/alojamientos/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/imagenes/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/resenas/**").permitAll()
-                        //.anyRequest().authenticated() // Todas las demás requieren autenticación
-
-                        // Reseñas: cliente puede crear, modificar y eliminar sus propias reseñas
-                        .requestMatchers(HttpMethod.POST, "/api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
-
-                        .requestMatchers("/api/usuarios/register").permitAll() // Permitir acceso al registro
-                        .requestMatchers(HttpMethod.POST, "/api/usuarios/register").permitAll()
-
-                        // Reservas: cliente puede ver, crear, modificar y eliminar sus reservas
-                        .requestMatchers("/api/reservas/**").hasAnyRole("CLIENT", "ADMIN")
-
-                        // Pagos: cliente puede ver y crear sus pagos
-                        .requestMatchers(HttpMethod.GET, "/api/pagos/**").hasAnyRole("CLIENT", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/pagos/**").hasAnyRole("CLIENT", "ADMIN")
-
-                        // Admin tiene acceso a todo el resto
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-
-                        // Cualquier otra ruta requiere autenticación
-                        .anyRequest().authenticated()
+//                        .requestMatchers("/api/auth/**").permitAll()  // Permite acceso a la autenticación
+//                        .requestMatchers("/api/public/**").permitAll() // Rutas públicas
+//                        .requestMatchers(HttpMethod.GET, "/api/alojamientos/**").permitAll()
+//                        .requestMatchers(HttpMethod.GET, "/api/imagenes/**").permitAll()
+//                        .requestMatchers(HttpMethod.GET, "/api/resenas/**").permitAll()
+//                        //.anyRequest().authenticated() // Todas las demás requieren autenticación
+//
+//                        // Reseñas: cliente puede crear, modificar y eliminar sus propias reseñas
+//                        .requestMatchers(HttpMethod.POST, "/api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
+//                        .requestMatchers(HttpMethod.PUT, "/api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
+//                        .requestMatchers(HttpMethod.DELETE, "/api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
+//
+//                        .requestMatchers("/api/usuarios/register").permitAll() // Permitir acceso al registro
+//                        .requestMatchers(HttpMethod.POST, "/api/usuarios/register").permitAll()
+//
+//                        // Reservas: cliente puede ver, crear, modificar y eliminar sus reservas
+//                        .requestMatchers("/api/reservas/**").hasAnyRole("CLIENT", "ADMIN")
+//
+//                        // Pagos: cliente puede ver y crear sus pagos
+//                        .requestMatchers(HttpMethod.GET, "/api/pagos/**").hasAnyRole("CLIENT", "ADMIN")
+//                        .requestMatchers(HttpMethod.POST, "/api/pagos/**").hasAnyRole("CLIENT", "ADMIN")
+//
+//                        // Admin tiene acceso a todo el resto
+//                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+//
+//                        // Cualquier otra ruta requiere autenticación
+//                        .anyRequest().authenticated()
 
                 )
                 .sessionManagement(session -> session
