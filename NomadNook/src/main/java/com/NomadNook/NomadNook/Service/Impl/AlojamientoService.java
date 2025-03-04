@@ -60,7 +60,7 @@ public class AlojamientoService implements IAlojamientoService {
         alojamientoResponse.setDisponible(alojamiento.getDisponible());
         alojamientoResponse.setPropietario_id(alojamiento.getPropietario().getId());
         alojamientoResponse.setImagenes(alojamiento.getImagenes());
-        alojamientoResponse.setCaracteristicas(API_PATH + "caracteristicas/buscar/alojamiento/" + alojamientoResponse.getId());
+        alojamientoResponse.setCaracteristicas(alojamiento.getCaracteristicas());
         return alojamientoResponse;
     }
 

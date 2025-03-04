@@ -149,7 +149,12 @@
             <artifactId>spring-dotenv</artifactId>
             <version>3.0.0</version>
         </dependency>
-
+        <!-- Dependencia para AWS S3        -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.12.782</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
