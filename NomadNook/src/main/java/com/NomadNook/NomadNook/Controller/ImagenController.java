@@ -4,9 +4,11 @@ import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.DTO.RESPONSE.ImagenResponse;
 import com.NomadNook.NomadNook.Model.Imagen;
 import com.NomadNook.NomadNook.Service.IImagenService;
+import com.NomadNook.NomadNook.Service.Impl.S3Service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,9 +17,11 @@ import java.util.List;
 public class ImagenController {
 
     private final IImagenService imagenService;
+    private final S3Service s3Service;
 
-    public ImagenController(IImagenService imagenService) {
+    public ImagenController(IImagenService imagenService, S3Service s3Service) {
         this.imagenService = imagenService;
+        this.s3Service = s3Service;
     }
 
     @GetMapping("/listarTodos")
@@ -49,5 +53,28 @@ public class ImagenController {
     @GetMapping("/buscar/alojamiento/{id}")
     public ResponseEntity<List<ImagenResponse>> getByAlojamientoId(@PathVariable Long id) {
         return ResponseEntity.ok(imagenService.listAllImagenesByAlojamiento(id));
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> handleFileUpload(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("name") String name) {
+
+        try {
+            // Validate file
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("Please select a file to upload");
+            }
+
+            // Upload to S3
+            String fileUrl = s3Service.uploadFile(file);
+
+            // You can also save metadata to your database here
+            // saveMetadata(name, fileUrl);
+
+            return ResponseEntity.ok("File uploaded successfully. URL: " + fileUrl);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Failed to upload file: " + e.getMessage());
+        }
     }
 }
