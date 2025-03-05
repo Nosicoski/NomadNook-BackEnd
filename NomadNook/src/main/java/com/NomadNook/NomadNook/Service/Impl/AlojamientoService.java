@@ -1,18 +1,16 @@
 package com.NomadNook.NomadNook.Service.Impl;
 
-import com.NomadNook.NomadNook.DTO.REQUEST.CaracteristicaRequest;
-import com.NomadNook.NomadNook.DTO.RESPONSE.CaracteristicaResponse;
-import com.NomadNook.NomadNook.DTO.RESPONSE.ImagenResponse;
+
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Caracteristica;
 import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
 import com.NomadNook.NomadNook.Repository.ICaracteristicaRepository;
-import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
+
 import com.NomadNook.NomadNook.DTO.REQUEST.AlojamientoRequest;
 import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
-import com.NomadNook.NomadNook.Service.ICaracteristicaService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;

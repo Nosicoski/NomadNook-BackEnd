@@ -1,9 +1,9 @@
 package com.NomadNook.NomadNook.Service.Impl;
 
-import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
+
 import com.NomadNook.NomadNook.DTO.RESPONSE.ImagenResponse;
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
-import com.NomadNook.NomadNook.Model.Alojamiento;
+
 import com.NomadNook.NomadNook.Model.Imagen;
 import com.NomadNook.NomadNook.Repository.IImagenRepository;
 import com.NomadNook.NomadNook.Service.IImagenService;
