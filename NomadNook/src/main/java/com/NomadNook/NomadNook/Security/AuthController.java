@@ -89,7 +89,7 @@ public class AuthController {
                             usuario.getEmail(),
                             usuario.getPassword(),
                             Collections.singleton(
-                                    new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()))
+                                    new SimpleGrantedAuthority(usuario.getRol().name()))
                     )
             );
 
@@ -129,7 +129,7 @@ public class AuthController {
                     new User(
                             usuario.getEmail(),
                             usuario.getPassword(),
-                            Collections.singleton(new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()))
+                            Collections.singleton(new SimpleGrantedAuthority(usuario.getRol().name()))
                     )
             );
 

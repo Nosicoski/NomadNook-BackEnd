@@ -44,19 +44,19 @@ public class SecurityConfig {
                         //.anyRequest().authenticated() // Todas las demás requieren autenticación
 
                         // Reseñas: cliente puede crear, modificar y eliminar sus propias reseñas
-                        .requestMatchers(HttpMethod.POST, "/api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/resenas/**").hasAnyRole("CLIENT", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/resenas/**").hasAnyRole("CLIENTE", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/resenas/**").hasAnyRole("CLIENTE", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/resenas/**").hasAnyRole("CLIENTE", "ADMIN")
 
                         .requestMatchers("/api/usuarios/register").permitAll() // Permitir acceso al registro
                         .requestMatchers(HttpMethod.POST, "/api/usuarios/register").permitAll()
 
                         // Reservas: cliente puede ver, crear, modificar y eliminar sus reservas
-                        .requestMatchers("/api/reservas/**").hasAnyRole("CLIENT", "ADMIN")
+                        .requestMatchers("/api/reservas/**").hasAnyRole("CLIENTE", "ADMIN")
 
                         // Pagos: cliente puede ver y crear sus pagos
-                        .requestMatchers(HttpMethod.GET, "/api/pagos/**").hasAnyRole("CLIENT", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/pagos/**").hasAnyRole("CLIENT", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/pagos/**").hasAnyRole("CLIENTE", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/pagos/**").hasAnyRole("CLIENTE", "ADMIN")
 
                         // Admin tiene acceso a todo el resto
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
