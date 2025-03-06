@@ -49,7 +49,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/resenas/**").hasAnyRole("CLIENTE", "ADMIN")
 
                         .requestMatchers("/api/usuarios/register").permitAll() // Permitir acceso al registro
-                        .requestMatchers(HttpMethod.POST, "/api/usuarios/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios/guardar").permitAll()
 
                         // Reservas: cliente puede ver, crear, modificar y eliminar sus reservas
                         .requestMatchers("/api/reservas/**").hasAnyRole("CLIENTE", "ADMIN")
