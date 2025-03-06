@@ -77,6 +77,7 @@ public class Alojamiento {
             joinColumns = @JoinColumn(name = "alojamiento_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id")
     )
+    @JsonManagedReference
     private Set<Categoria> categorias;
 
     @ManyToMany
@@ -85,6 +86,7 @@ public class Alojamiento {
             joinColumns = @JoinColumn(name = "alojamiento_id"),
             inverseJoinColumns = @JoinColumn(name = "caracteristica_id")
     )
+    @JsonManagedReference
     private Set<Caracteristica> caracteristicas = new HashSet<>();
 
 }

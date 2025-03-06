@@ -63,4 +63,12 @@ public class AlojamientoController {
     ) {
         alojamientoService.agregarCaracteristicaAlojamiento(alojamiento_id, caracteristica_id);
     }
+
+    @PostMapping("/{alojamiento_id}/categorias/{categoria_id}")
+    public void addCategoriaToAlojamiento(
+            @PathVariable Long alojamiento_id,
+            @PathVariable Long categoria_id
+    ) {
+        alojamientoService.agregarCategoriaAlojamiento(alojamiento_id, categoria_id);
+    }
 }

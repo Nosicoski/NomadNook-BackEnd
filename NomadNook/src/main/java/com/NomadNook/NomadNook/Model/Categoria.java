@@ -2,6 +2,7 @@ package com.NomadNook.NomadNook.Model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,5 +27,6 @@ public class Categoria {
     private String icono;
 
     @ManyToMany(mappedBy = "categorias")
+    @JsonBackReference
     private List<Alojamiento> alojamientos;
 }
