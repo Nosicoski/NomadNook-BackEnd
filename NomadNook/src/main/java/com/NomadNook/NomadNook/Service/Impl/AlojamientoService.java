@@ -4,11 +4,13 @@ package com.NomadNook.NomadNook.Service.Impl;
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Caracteristica;
+import com.NomadNook.NomadNook.Model.Categoria;
 import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
 import com.NomadNook.NomadNook.Repository.ICaracteristicaRepository;
 
 import com.NomadNook.NomadNook.DTO.REQUEST.AlojamientoRequest;
 import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
+import com.NomadNook.NomadNook.Repository.ICategoriaRepository;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,7 @@ public class AlojamientoService implements IAlojamientoService {
 
     private final IAlojamientoRepository alojamientoRepository;
     private final ICaracteristicaRepository caracteristicaRepository;
+    private final ICategoriaRepository categoriaRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(AlojamientoService.class);
     private ModelMapper modelMapper;
 
@@ -38,10 +41,11 @@ public class AlojamientoService implements IAlojamientoService {
     public AlojamientoService(
             ModelMapper modelMapper,
             IAlojamientoRepository alojamientoRepository,
-            ICaracteristicaRepository caracteristicaRepository) {
+            ICaracteristicaRepository caracteristicaRepository, ICategoriaRepository categoriaRepository) {
         this.modelMapper = modelMapper;
         this.alojamientoRepository = alojamientoRepository;
         this.caracteristicaRepository = caracteristicaRepository;
+        this.categoriaRepository = categoriaRepository;
     }
 
     private AlojamientoResponse createAlojamientoResponse(Alojamiento alojamiento) {
@@ -141,6 +145,18 @@ public class AlojamientoService implements IAlojamientoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Característica no encontrada"));
 
         alojamiento.getCaracteristicas().add(caracteristica);
+        alojamientoRepository.save(alojamiento);
+    }
+
+    @Override
+    public void agregarCategoriaAlojamiento(Long alojamientoId, Long  categoriaId) {
+        Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Alojamiento no encontrado"));
+
+        Categoria categoria = categoriaRepository.findById(categoriaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Categoria no encontrada"));
+
+        alojamiento.getCategorias().add(categoria);
         alojamientoRepository.save(alojamiento);
     }
 

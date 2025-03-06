@@ -19,4 +19,5 @@ public interface IAlojamientoService {
     AlojamientoResponse updateAlojamiento(Long id, AlojamientoRequest alojamientoRequest);
     void deleteAlojamiento(Long id)throws ResourceNotFoundException;;
     void agregarCaracteristicaAlojamiento(Long alojamiento_id, Long caracteristica_id);
+    void agregarCategoriaAlojamiento(Long alojamiento_id, Long categoria_id);
 }
