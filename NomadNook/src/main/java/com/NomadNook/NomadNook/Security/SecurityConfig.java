@@ -43,6 +43,18 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/resenas/**").permitAll()
                         //.anyRequest().authenticated() // Todas las demás requieren autenticación
 
+                        // Rutas de Características
+                        .requestMatchers(HttpMethod.GET, "/api/caracteristicas/**").hasAnyRole("CLIENTE", "ADMIN")  // CLIENTE y ADMIN pueden ver
+                        .requestMatchers(HttpMethod.POST, "/api/caracteristicas/**").hasRole("ADMIN")  // Solo ADMIN puede agregar
+                        .requestMatchers(HttpMethod.PUT, "/api/caracteristicas/**").hasRole("ADMIN")  // Solo ADMIN puede modificar
+                        .requestMatchers(HttpMethod.DELETE, "/api/caracteristicas/**").hasRole("ADMIN")  // Solo ADMIN puede eliminar
+
+                        // Rutas de Categorías
+                        .requestMatchers(HttpMethod.GET, "/api/categorias/**").hasAnyRole("CLIENTE", "ADMIN")  // CLIENTE y ADMIN pueden ver
+                        .requestMatchers(HttpMethod.POST, "/api/categorias/**").hasRole("ADMIN")  // Solo ADMIN puede agregar
+                        .requestMatchers(HttpMethod.PUT, "/api/categorias/**").hasRole("ADMIN")  // Solo ADMIN puede modificar
+                        .requestMatchers(HttpMethod.DELETE, "/api/categorias/**").hasRole("ADMIN")  // Solo ADMIN puede eliminar
+
                         // Reseñas: cliente puede crear, modificar y eliminar sus propias reseñas
                         .requestMatchers(HttpMethod.POST, "/api/resenas/**").hasAnyRole("CLIENTE", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/resenas/**").hasAnyRole("CLIENTE", "ADMIN")
