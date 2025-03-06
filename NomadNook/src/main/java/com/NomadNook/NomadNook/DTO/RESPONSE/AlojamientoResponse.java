@@ -29,9 +29,7 @@ public class AlojamientoResponse {
     private Boolean disponible;
     private Long propietario_id;
     private List<Imagen> imagenes;
-
-    private Set<Categoria> categoria;
-
+    private Set<Categoria> categorias;
     private Set<Caracteristica> caracteristicas;
    
 
