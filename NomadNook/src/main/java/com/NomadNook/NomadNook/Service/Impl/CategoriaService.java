@@ -1,34 +1,108 @@
 package com.NomadNook.NomadNook.Service.Impl;
 
 
+import com.NomadNook.NomadNook.DTO.REQUEST.CategoriaRequest;
+import com.NomadNook.NomadNook.DTO.RESPONSE.CaracteristicaResponse;
+import com.NomadNook.NomadNook.DTO.RESPONSE.CategoriaResponse;
+import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
+import com.NomadNook.NomadNook.Model.Alojamiento;
+import com.NomadNook.NomadNook.Model.Caracteristica;
 import com.NomadNook.NomadNook.Model.Categoria;
-
 import com.NomadNook.NomadNook.Repository.ICategoriaRepository;
+import com.NomadNook.NomadNook.Service.ICategoriaService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
-public class CategoriaService {
+
+public class CategoriaService implements ICategoriaService {
 
     private final ICategoriaRepository categoriaRepository;
+    private final Logger LOGGER = LoggerFactory.getLogger(CategoriaService.class);
+    private final ModelMapper modelMapper;
 
-    public List<Categoria> obtenerTodas() {
-        return categoriaRepository.findAll();
+    public CategoriaService(ICategoriaRepository categoriaRepository, ModelMapper modelMapper) {
+        this.categoriaRepository = categoriaRepository;
+        this.modelMapper = modelMapper;
     }
 
-    public Optional<Categoria> obtenerPorId(Long id) {
-        return categoriaRepository.findById(id);
+
+    private CategoriaResponse createCategoriaResponse(Categoria categoria) {
+        CategoriaResponse response = new CategoriaResponse();
+        response.setId(categoria.getId());
+        response.setIcono(categoria.getIcono());
+        response.setDescripcion(categoria.getDescripcion());
+        response.setNombre(categoria.getNombre());
+        return response;
     }
 
-    public Categoria guardar(Categoria categoria) {
-        return categoriaRepository.save(categoria);
+
+    @Override
+    public CategoriaResponse createCategoria(CategoriaRequest request) {
+        Categoria categoria = modelMapper.map(request, Categoria.class);
+
+        Categoria categoriaGuardada = categoriaRepository.save(categoria);
+        return createCategoriaResponse(categoriaGuardada);
     }
 
-    public void eliminar(Long id) {
-        categoriaRepository.deleteById(id);
+    @Override
+    public CategoriaResponse getCategoriaById(Long id) {
+        Categoria categoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró la característica con id: " + id));
+
+        return createCategoriaResponse(categoria);
+    }
+
+    @Override
+    public List<CategoriaResponse> listAllCategoria() {
+        List<Categoria> categorias = categoriaRepository.findAll();
+        List<CategoriaResponse> responses = new ArrayList<>();
+        for(Categoria categoria: categorias) {
+            CategoriaResponse response = createCategoriaResponse(categoria);
+            responses.add(response);
+        }
+        return responses;
+    }
+
+    @Override
+    public List<CategoriaResponse> listAllCategoriaByAlojamiento(Long id) {
+        List<Categoria> categorias = categoriaRepository.findCategoriaByAlojamientoId(id);
+        List<CategoriaResponse> responses = new ArrayList<>();
+        for(Categoria categoria: categorias) {
+            CategoriaResponse response = createCategoriaResponse(categoria);
+            responses.add(response);
+        }
+        return responses;
+    }
+
+    @Override
+    public CategoriaResponse updateCategoria(Long id, CategoriaRequest request) {
+        Categoria existingCategoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró la característica con id: " + id));
+
+        if(!existingCategoria.getNombre().equals(request.getNombre())
+                && categoriaRepository.existsByNombre(request.getNombre())) {
+            throw new IllegalArgumentException("Ya existe una caracteristica con el mismo nombre");
+        }
+
+        modelMapper.map(request, existingCategoria);
+
+        Categoria updatedCategoria = categoriaRepository.save(existingCategoria);
+        LOGGER.info("Caracteristica actualizada con id: {}", updatedCategoria.getId());
+        return createCategoriaResponse(updatedCategoria);
+    }
+
+    @Override
+    public void deleteCategoria(Long id) {
+        Categoria existingCategoria = categoriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No se encontró la categoria a eliminar con id: " + id));
+        categoriaRepository.delete(existingCategoria);
+        LOGGER.info("Alojamiento eliminado con id: {}", id);
     }
 }
