@@ -19,11 +19,11 @@ public class Categoria {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String nombre; // Ejemplo: "Casa", "Departamento", "Hostel"
+    private String nombre;
 
-    private String descripcion; // Información adicional sobre la categoría
+    private String descripcion;
 
-    private String icono; // Nombre del icono o URL
+    private String icono;
 
     @ManyToMany(mappedBy = "categorias")
     private List<Alojamiento> alojamientos;

@@ -1,7 +1,6 @@
 package com.NomadNook.NomadNook.Service.Impl;
 
 import com.NomadNook.NomadNook.Model.Pago;
-import com.NomadNook.NomadNook.Model.Reserva;
 import com.NomadNook.NomadNook.Repository.IPagoRepository;
 import com.NomadNook.NomadNook.Repository.IReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
