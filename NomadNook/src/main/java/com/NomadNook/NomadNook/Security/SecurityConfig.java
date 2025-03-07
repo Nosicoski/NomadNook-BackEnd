@@ -45,33 +45,33 @@ public class SecurityConfig {
 
                         // Rutas de Características
                         .requestMatchers(HttpMethod.GET, "/api/caracteristicas/**").permitAll()  // CLIENTE y ADMIN pueden ver
-                        .requestMatchers(HttpMethod.POST, "/api/caracteristicas/**").hasRole("ADMIN")  // Solo ADMIN puede agregar
-                        .requestMatchers(HttpMethod.PUT, "/api/caracteristicas/**").hasRole("ADMIN")  // Solo ADMIN puede modificar
-                        .requestMatchers(HttpMethod.DELETE, "/api/caracteristicas/**").hasRole("ADMIN")  // Solo ADMIN puede eliminar
+                        .requestMatchers(HttpMethod.POST, "/api/caracteristicas/**").hasAuthority("ADMIN")  // Solo ADMIN puede agregar
+                        .requestMatchers(HttpMethod.PUT, "/api/caracteristicas/**").hasAuthority("ADMIN")  // Solo ADMIN puede modificar
+                        .requestMatchers(HttpMethod.DELETE, "/api/caracteristicas/**").hasAuthority("ADMIN")  // Solo ADMIN puede eliminar
 
                         // Rutas de Categorías
                         .requestMatchers(HttpMethod.GET, "/api/categorias/**").permitAll()  // CLIENTE y ADMIN pueden ver
-                        .requestMatchers(HttpMethod.POST, "/api/categorias/**").hasRole("ADMIN")  // Solo ADMIN puede agregar
-                        .requestMatchers(HttpMethod.PUT, "/api/categorias/**").hasRole("ADMIN")  // Solo ADMIN puede modificar
-                        .requestMatchers(HttpMethod.DELETE, "/api/categorias/**").hasRole("ADMIN")  // Solo ADMIN puede eliminar
+                        .requestMatchers(HttpMethod.POST, "/api/categorias/**").hasAuthority("ADMIN")  // Solo ADMIN puede agregar
+                        .requestMatchers(HttpMethod.PUT, "/api/categorias/**").hasAuthority("ADMIN")  // Solo ADMIN puede modificar
+                        .requestMatchers(HttpMethod.DELETE, "/api/categorias/**").hasAuthority("ADMIN")  // Solo ADMIN puede eliminar
 
                         // Reseñas: cliente puede crear, modificar y eliminar sus propias reseñas
-                        .requestMatchers(HttpMethod.POST, "/api/resenas/**").hasAnyRole("CLIENTE", "ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/resenas/**").hasAnyRole("CLIENTE", "ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/resenas/**").hasAnyRole("CLIENTE", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/resenas/**").hasAnyAuthority("CLIENTE", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/resenas/**").hasAnyAuthority("CLIENTE", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/resenas/**").hasAnyAuthority("CLIENTE", "ADMIN")
 
                         .requestMatchers("/api/usuarios/register").permitAll() // Permitir acceso al registro
                         .requestMatchers(HttpMethod.POST, "/api/usuarios/guardar").permitAll()
 
                         // Reservas: cliente puede ver, crear, modificar y eliminar sus reservas
-                        .requestMatchers("/api/reservas/**").hasAnyRole("CLIENTE", "ADMIN")
+                        .requestMatchers("/api/reservas/**").hasAnyAuthority("CLIENTE", "ADMIN")
 
                         // Pagos: cliente puede ver y crear sus pagos
-                        .requestMatchers(HttpMethod.GET, "/api/pagos/**").hasAnyRole("CLIENTE", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/pagos/**").hasAnyRole("CLIENTE", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/pagos/**").hasAnyAuthority("CLIENTE", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/pagos/**").hasAnyAuthority("CLIENTE", "ADMIN")
 
                         // Admin tiene acceso a todo el resto
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
 
                         // Cualquier otra ruta requiere autenticación
                         .anyRequest().authenticated()
