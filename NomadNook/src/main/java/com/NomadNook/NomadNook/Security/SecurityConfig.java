@@ -44,13 +44,13 @@ public class SecurityConfig {
                         //.anyRequest().authenticated() // Todas las demás requieren autenticación
 
                         // Rutas de Características
-                        .requestMatchers(HttpMethod.GET, "/api/caracteristicas/**").permitAll()  // CLIENTE y ADMIN pueden ver
+                        .requestMatchers(HttpMethod.GET, "/api/caracteristicas/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/caracteristicas/**").hasAuthority("ADMIN")  // Solo ADMIN puede agregar
                         .requestMatchers(HttpMethod.PUT, "/api/caracteristicas/**").hasAuthority("ADMIN")  // Solo ADMIN puede modificar
                         .requestMatchers(HttpMethod.DELETE, "/api/caracteristicas/**").hasAuthority("ADMIN")  // Solo ADMIN puede eliminar
 
                         // Rutas de Categorías
-                        .requestMatchers(HttpMethod.GET, "/api/categorias/**").permitAll()  // CLIENTE y ADMIN pueden ver
+                        .requestMatchers(HttpMethod.GET, "/api/categorias/**").permitAll() 
                         .requestMatchers(HttpMethod.POST, "/api/categorias/**").hasAuthority("ADMIN")  // Solo ADMIN puede agregar
                         .requestMatchers(HttpMethod.PUT, "/api/categorias/**").hasAuthority("ADMIN")  // Solo ADMIN puede modificar
                         .requestMatchers(HttpMethod.DELETE, "/api/categorias/**").hasAuthority("ADMIN")  // Solo ADMIN puede eliminar
@@ -61,7 +61,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/resenas/**").hasAnyAuthority("CLIENTE", "ADMIN")
 
                         .requestMatchers("/api/usuarios/register").permitAll() // Permitir acceso al registro
-                        .requestMatchers(HttpMethod.POST, "/api/usuarios/guardar").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/usuarios/**").hasAuthority("ADMIN")
 
                         // Reservas: cliente puede ver, crear, modificar y eliminar sus reservas
                         .requestMatchers("/api/reservas/**").hasAnyAuthority("CLIENTE", "ADMIN")
@@ -91,7 +91,9 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000",
-                "http://localhost:5173"
+                "http://localhost:5173",
+                "https://nomad-nook.vercel.app/",
+                "https://main.d11kq4f727i0g3.amplifyapp.com/"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));

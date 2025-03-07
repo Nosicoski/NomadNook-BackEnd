@@ -31,7 +31,7 @@ public class UsuarioRequest {
     public enum Rol {
         ADMIN, CLIENTE
     }
-    private List<Alojamiento> alojamientos;
+ //   private List<Alojamiento> alojamientos;
 //
 //    private Set<String> permisos = new HashSet<>();
 }

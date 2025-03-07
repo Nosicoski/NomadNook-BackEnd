@@ -52,13 +52,13 @@ public class UsuarioController {
         usuarioService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-    @PutMapping("/{id}/asignar-admin")
+    @PutMapping("/asignar-admin/{id}")
     public ResponseEntity<UsuarioResponse> asignarRolAdmin(@PathVariable Long id) {
         UsuarioResponse updatedUser = usuarioService.asignarRolAdmin(id);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @PutMapping("/{id}/desasignar-admin")
+    @PutMapping("/desasignar-admin/{id}")
     public ResponseEntity<UsuarioResponse> desAsignarRolAdmin(@PathVariable Long id) {
         UsuarioResponse updatedUser = usuarioService.desAsignarRolAdmin(id);
         return ResponseEntity.ok(updatedUser);
