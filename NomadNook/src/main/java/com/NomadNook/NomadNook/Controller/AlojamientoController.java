@@ -3,6 +3,7 @@ package com.NomadNook.NomadNook.Controller;
 import com.NomadNook.NomadNook.DTO.REQUEST.AlojamientoRequest;
 import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.Model.Caracteristica;
+import com.NomadNook.NomadNook.Model.Categoria;
 import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
 import jakarta.validation.Valid;
@@ -82,5 +83,13 @@ public class AlojamientoController {
             @PathVariable Long categoria_id
     ) {
         alojamientoService.agregarCategoriaAlojamiento(alojamiento_id, categoria_id);
+    }
+
+    @PostMapping("/{alojamiento_id}/categorias")
+    public void addListaCategoriasToAlojamiento(
+            @PathVariable Long alojamiento_id,
+            @RequestBody Set<Categoria> categorias
+    ) {
+        alojamientoService.agregarCategoriasAlojamiento(alojamiento_id, categorias);
     }
 }
