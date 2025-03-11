@@ -166,10 +166,18 @@ public class AlojamientoService implements IAlojamientoService {
         Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Alojamiento no encontrado"));
 
-
-
         alojamiento.setCaracteristicas(caracteristicas);
         alojamientoRepository.save(alojamiento);
+    }
+
+    @Override
+    public void agregarCategoriasAlojamiento(Long alojamientoId, Set<Categoria> categorias) {
+        Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Alojamiento no encontrado"));
+
+        alojamiento.setCategorias(categorias);
+        alojamientoRepository.save(alojamiento);
+
     }
 
 
