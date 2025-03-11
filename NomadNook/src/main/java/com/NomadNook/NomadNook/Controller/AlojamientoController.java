@@ -2,12 +2,16 @@ package com.NomadNook.NomadNook.Controller;
 
 import com.NomadNook.NomadNook.DTO.REQUEST.AlojamientoRequest;
 import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
+import com.NomadNook.NomadNook.Model.Caracteristica;
+import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
+
 @RestController
 @RequestMapping("/api/alojamientos")
 
@@ -62,6 +66,14 @@ public class AlojamientoController {
             @PathVariable Long caracteristica_id
     ) {
         alojamientoService.agregarCaracteristicaAlojamiento(alojamiento_id, caracteristica_id);
+    }
+
+    @PostMapping("/{alojamiento_id}/caracteristicas")
+    public void addListaCaracteristicasToAlojamiento(
+            @PathVariable Long alojamiento_id,
+            @RequestBody Set<Caracteristica> caracteristicas
+    ) {
+        alojamientoService.agregarCaracteristicasAlojamiento(alojamiento_id, caracteristicas);
     }
 
     @PostMapping("/{alojamiento_id}/categorias/{categoria_id}")

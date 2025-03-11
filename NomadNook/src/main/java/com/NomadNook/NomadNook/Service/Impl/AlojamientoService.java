@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -157,6 +158,17 @@ public class AlojamientoService implements IAlojamientoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Categoria no encontrada"));
 
         alojamiento.getCategorias().add(categoria);
+        alojamientoRepository.save(alojamiento);
+    }
+
+    @Override
+    public void agregarCaracteristicasAlojamiento(Long alojamientoId, Set<Caracteristica> caracteristicas) {
+        Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Alojamiento no encontrado"));
+
+
+
+        alojamiento.setCaracteristicas(caracteristicas);
         alojamientoRepository.save(alojamiento);
     }
 
