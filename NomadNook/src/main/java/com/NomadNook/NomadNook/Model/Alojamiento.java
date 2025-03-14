@@ -10,6 +10,8 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 import java.math.BigDecimal;
@@ -78,7 +80,6 @@ public class Alojamiento {
             joinColumns = @JoinColumn(name = "alojamiento_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id")
     )
-    @JsonIgnore
     private Set<Categoria> categorias;
 
     @ManyToMany
@@ -87,7 +88,6 @@ public class Alojamiento {
             joinColumns = @JoinColumn(name = "alojamiento_id"),
             inverseJoinColumns = @JoinColumn(name = "caracteristica_id")
     )
-    @JsonIgnore
     private Set<Caracteristica> caracteristicas;
 
 }

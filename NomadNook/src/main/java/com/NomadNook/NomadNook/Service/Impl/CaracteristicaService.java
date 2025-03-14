@@ -3,9 +3,12 @@ package com.NomadNook.NomadNook.Service.Impl;
 import com.NomadNook.NomadNook.DTO.REQUEST.CaracteristicaRequest;
 import com.NomadNook.NomadNook.DTO.RESPONSE.CaracteristicaResponse;
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
+import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Caracteristica;
+import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
 import com.NomadNook.NomadNook.Repository.ICaracteristicaRepository;
 import com.NomadNook.NomadNook.Service.ICaracteristicaService;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +21,13 @@ import java.util.List;
 public class CaracteristicaService implements ICaracteristicaService {
 
     private final ICaracteristicaRepository caracteristicaRepository;
+    private final IAlojamientoRepository alojamientoRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(CaracteristicaService.class);
     private final ModelMapper modelMapper;
 
-    public CaracteristicaService(ICaracteristicaRepository caractereisticaRepository, ModelMapper modelMapper) {
+    public CaracteristicaService(ICaracteristicaRepository caractereisticaRepository, IAlojamientoRepository alojamientoRepository, ModelMapper modelMapper) {
         this.caracteristicaRepository = caractereisticaRepository;
+        this.alojamientoRepository = alojamientoRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -91,7 +96,19 @@ public class CaracteristicaService implements ICaracteristicaService {
 
     @Override
     public void deleteCaracteristica(Long id) {
+        Caracteristica caracteristica = caracteristicaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Caracteristica not found"));
 
+        List<Alojamiento> associatedAlojamientos = alojamientoRepository
+                .findByCaracteristicas(caracteristica);
+
+        for (Alojamiento alojamiento : associatedAlojamientos) {
+            alojamiento.getCaracteristicas().remove(caracteristica);
+            alojamientoRepository.save(alojamiento);
+        }
+
+        caracteristicaRepository.delete(caracteristica);
+        LOGGER.info("Caracteristica eliminada con id: {}", id);
     }
 }
 

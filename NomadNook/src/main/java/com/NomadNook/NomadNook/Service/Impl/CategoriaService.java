@@ -8,8 +8,10 @@ import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Caracteristica;
 import com.NomadNook.NomadNook.Model.Categoria;
+import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
 import com.NomadNook.NomadNook.Repository.ICategoriaRepository;
 import com.NomadNook.NomadNook.Service.ICategoriaService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -25,11 +27,13 @@ import java.util.Optional;
 public class CategoriaService implements ICategoriaService {
 
     private final ICategoriaRepository categoriaRepository;
+    private final IAlojamientoRepository alojamientoRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(CategoriaService.class);
     private final ModelMapper modelMapper;
 
-    public CategoriaService(ICategoriaRepository categoriaRepository, ModelMapper modelMapper) {
+    public CategoriaService(ICategoriaRepository categoriaRepository, IAlojamientoRepository alojamientoRepository, ModelMapper modelMapper) {
         this.categoriaRepository = categoriaRepository;
+        this.alojamientoRepository = alojamientoRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -101,8 +105,18 @@ public class CategoriaService implements ICategoriaService {
 
     @Override
     public void deleteCategoria(Long id) {
-        Categoria existingCategoria = categoriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No se encontró la categoria a eliminar con id: " + id));
-        categoriaRepository.delete(existingCategoria);
-        LOGGER.info("Alojamiento eliminado con id: {}", id);
+        Categoria categoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Categoria not found"));
+
+        List<Alojamiento> associatedAlojamientos = alojamientoRepository
+                .findByCategorias(categoria);
+
+        for (Alojamiento alojamiento : associatedAlojamientos) {
+            alojamiento.getCategorias().remove(categoria);
+            alojamientoRepository.save(alojamiento);
+        }
+
+        categoriaRepository.delete(categoria);
+        LOGGER.info("Categoria eliminada con id: {}", id);
     }
 }
