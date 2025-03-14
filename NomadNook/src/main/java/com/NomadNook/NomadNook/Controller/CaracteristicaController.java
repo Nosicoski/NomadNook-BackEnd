@@ -4,7 +4,9 @@ import com.NomadNook.NomadNook.DTO.REQUEST.AlojamientoRequest;
 import com.NomadNook.NomadNook.DTO.REQUEST.CaracteristicaRequest;
 import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.DTO.RESPONSE.CaracteristicaResponse;
+import com.NomadNook.NomadNook.DTO.RESPONSE.ImagenResponse;
 import com.NomadNook.NomadNook.Model.Caracteristica;
+import com.NomadNook.NomadNook.Model.Imagen;
 import com.NomadNook.NomadNook.Service.Impl.CaracteristicaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,4 +37,16 @@ public class CaracteristicaController {
     public ResponseEntity<List<CaracteristicaResponse>> getByAlojamientoId(@PathVariable Long id) {
         return ResponseEntity.ok(caracteristicaService.listAllCaracteristicasByAlojamiento(id));
     }
+
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        caracteristicaService.deleteCaracteristica(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping ("/actualizar/{id}")
+    public ResponseEntity<CaracteristicaResponse> update(@PathVariable Long id, @RequestBody CaracteristicaRequest caracteristica) {
+        return ResponseEntity.ok(caracteristicaService.updateCaracteristica(id, caracteristica));
+    }
+
 }

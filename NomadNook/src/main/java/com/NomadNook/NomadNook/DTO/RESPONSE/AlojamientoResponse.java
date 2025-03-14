@@ -31,10 +31,4 @@ public class AlojamientoResponse {
     private List<Imagen> imagenes;
     private Set<Categoria> categorias;
     private Set<Caracteristica> caracteristicas;
-   
-
-
-
-
-
 }
