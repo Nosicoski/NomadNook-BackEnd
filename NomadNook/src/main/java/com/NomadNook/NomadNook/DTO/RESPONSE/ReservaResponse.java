@@ -9,15 +9,15 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class ReservaResponse {
     private Long id;
-    private Usuario cliente;
-    private Alojamiento alojamiento;
+    private Long cliente;
+    private Long alojamiento;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private BigDecimal total;
