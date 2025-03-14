@@ -25,7 +25,7 @@ public class AlojamientoRequest {
     private String direccion;
     private Boolean disponible;
     private Usuario propietario;
-    private List<Imagen> imagenes;
+//    private List<Imagen> imagenes;
 //    private Set<Categoria> categorias;
 //    private Set<Caracteristica> caracteristicas;
 
