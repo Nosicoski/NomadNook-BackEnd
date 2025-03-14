@@ -30,7 +30,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 
-
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
@@ -50,7 +49,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/caracteristicas/**").hasAuthority("ADMIN")  // Solo ADMIN puede eliminar
 
                         // Rutas de Categorías
-                        .requestMatchers(HttpMethod.GET, "/api/categorias/**").permitAll() 
+                        .requestMatchers(HttpMethod.GET, "/api/categorias/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/categorias/**").hasAuthority("ADMIN")  // Solo ADMIN puede agregar
                         .requestMatchers(HttpMethod.PUT, "/api/categorias/**").hasAuthority("ADMIN")  // Solo ADMIN puede modificar
                         .requestMatchers(HttpMethod.DELETE, "/api/categorias/**").hasAuthority("ADMIN")  // Solo ADMIN puede eliminar
