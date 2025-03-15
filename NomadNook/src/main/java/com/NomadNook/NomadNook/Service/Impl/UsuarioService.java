@@ -1,7 +1,9 @@
 package com.NomadNook.NomadNook.Service.Impl;
 import com.NomadNook.NomadNook.DTO.RESPONSE.UsuarioResponse;
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
+import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Usuario;
+import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
 import com.NomadNook.NomadNook.Repository.IUsuarioRepository;
 import com.NomadNook.NomadNook.DTO.REQUEST.UsuarioRequest;
 import com.NomadNook.NomadNook.Service.IUsuarioService;
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class UsuarioService implements IUsuarioService {
 
     private final IUsuarioRepository usuarioRepository;
+    private final IAlojamientoRepository alojamientoRepository;
     private final ModelMapper modelMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
 
@@ -30,8 +33,9 @@ public class UsuarioService implements IUsuarioService {
     // Inyectamos el repositorio y ModelMapper
 
     @Autowired
-    public UsuarioService(IUsuarioRepository usuarioRepository, ModelMapper modelMapper) {
+    public UsuarioService(IUsuarioRepository usuarioRepository, IAlojamientoRepository alojamientoRepository, ModelMapper modelMapper) {
         this.usuarioRepository = usuarioRepository;
+        this.alojamientoRepository = alojamientoRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -45,8 +49,13 @@ public class UsuarioService implements IUsuarioService {
         usuarioResponse.setPassword(usuario.getPassword());
         usuarioResponse.setRol(usuario.getRol());
         usuarioResponse.setFechaRegistro(usuario.getFechaRegistro());
+        usuarioResponse.setFavoritos(
+                usuario.getAlojamientosFavoritos().stream().map(Alojamiento::getId).toList()
+        );
         usuarioResponse.setAlojamientos(API_PATH + "alojamientos/buscar/usuario/" + usuarioResponse.getId());
+
         return usuarioResponse;
+
     }
 
     @Override
@@ -117,28 +126,7 @@ public class UsuarioService implements IUsuarioService {
 
         return modelMapper.map(usuario, UsuarioResponse.class);
     }
-//    @Override
-//    public UsuarioResponse asignarPermisos(Long userId, Set<String> metodosPermitidos, Long adminId) {
-//        // Verificar que el usuario que realiza la acción es un ADMIN
-//        Usuario admin = usuarioRepository.findById(adminId)
-//                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el usuario administrador con id: " + adminId));
-//        if (admin.getRol() != Usuario.Rol.ADMIN) {
-//            throw new IllegalArgumentException("Solo los administradores pueden asignar permisos.");
-//        }
-//
-//        // Asignar los permisos al usuario
-//        Usuario usuario = usuarioRepository.findById(userId)
-//                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el usuario con id: " + userId));
-//        usuario.setPermisos(metodosPermitidos);
-//        usuarioRepository.save(usuario);
-//
-//        return modelMapper.map(usuario, UsuarioResponse.class);
-//    }
-//
-//    @Override
-//    public boolean tienePermiso(Long userId, String metodoHttp) {
-//        Usuario usuario = usuarioRepository.findById(userId)
-//                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el usuario con id: " + userId));
-//        return usuario.getPermisos().contains(metodoHttp);
-//}
-}
+
+
+    }
+
