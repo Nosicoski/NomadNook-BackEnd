@@ -29,7 +29,7 @@ public class UsuarioResponse {
     }
     private String alojamientos;
 
-//    private Set<String> permisos = new HashSet<>();
+    private List<Long> favoritos;
 
 
 }

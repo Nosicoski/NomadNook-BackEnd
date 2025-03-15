@@ -58,4 +58,12 @@ public class Usuario {
     @JsonManagedReference
     private List<Alojamiento> alojamientos;
 //    private Set<String> permisos = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "favoritos",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "alojamiento_id")
+    )
+    private List<Alojamiento> alojamientosFavoritos;
 }

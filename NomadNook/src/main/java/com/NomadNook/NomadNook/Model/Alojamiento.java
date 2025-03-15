@@ -87,4 +87,6 @@ public class Alojamiento {
     )
     private Set<Caracteristica> caracteristicas = new HashSet<>();
 
+    @ManyToMany(mappedBy = "alojamientosFavoritos")
+    private List<Usuario> usuariosQueFavoritan;
 }
