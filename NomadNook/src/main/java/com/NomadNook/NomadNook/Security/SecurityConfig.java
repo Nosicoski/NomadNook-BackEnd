@@ -1,6 +1,7 @@
 package com.NomadNook.NomadNook.Security;
 
 import com.NomadNook.NomadNook.Security.Auth.JwtAuthenticationFilter;
+import com.NomadNook.NomadNook.Security.Auth.OAuth2AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -25,6 +27,8 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
+    private final OAuth2UserService oAuth2UserService;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,7 +39,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         // Rutas públicas sin autenticación
-                        .requestMatchers("/api/auth/**").permitAll()  // Permite acceso a la autenticación
+                        .requestMatchers("/api/auth/**","/oauth2/**", "/login/**", "/oauth2/authorization/**").permitAll()  // Permite acceso a la autenticación
                         .requestMatchers("/api/public/**").permitAll() // Rutas públicas
                         .requestMatchers(HttpMethod.GET, "/api/alojamientos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/imagenes/**").permitAll()
@@ -79,6 +83,11 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
 
                 )
+//                .oauth2Login(oauth2 -> oauth2
+//                        .loginPage("/login")
+//                        .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
+//                        .successHandler(oAuth2AuthenticationSuccessHandler)
+//                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless porque estamos usando JWT
                 )
