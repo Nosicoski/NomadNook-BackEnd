@@ -2,14 +2,18 @@ package com.NomadNook.NomadNook.Controller;
 
 import com.NomadNook.NomadNook.Model.Disponibilidad;
 import com.NomadNook.NomadNook.Service.IDisponibilidadService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/disponibilidades")
-public class DisponibilidadController {  private final IDisponibilidadService disponibilidadService;
+public class  DisponibilidadController {  private final IDisponibilidadService disponibilidadService;
 
     public DisponibilidadController(IDisponibilidadService disponibilidadService) {
         this.disponibilidadService = disponibilidadService;
@@ -50,6 +54,21 @@ public class DisponibilidadController {  private final IDisponibilidadService di
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         disponibilidadService.deleteDisponibilidad(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{alojamientoId}")
+    public ResponseEntity<Map<String, Object>> obtenerDisponibilidad(
+            @PathVariable Long alojamientoId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+
+        List<LocalDate> diasNoDisponibles = disponibilidadService.obtenerDiasNoDisponibles(alojamientoId, fechaInicio, fechaFin);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("alojamientoId", alojamientoId);
+        response.put("diasNoDisponibles", diasNoDisponibles);
+
+        return ResponseEntity.ok(response);
     }
 
 }
