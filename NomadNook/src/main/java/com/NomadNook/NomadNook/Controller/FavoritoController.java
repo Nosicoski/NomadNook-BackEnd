@@ -1,7 +1,10 @@
 package com.NomadNook.NomadNook.Controller;
 
 import com.NomadNook.NomadNook.DTO.REQUEST.FavoritoRequest;
+import com.NomadNook.NomadNook.DTO.RESPONSE.FavoritoResponse;
+import com.NomadNook.NomadNook.DTO.RESPONSE.UsuarioResponse;
 import com.NomadNook.NomadNook.Model.Alojamiento;
+import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Service.Impl.FavoritoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,18 +24,23 @@ public class FavoritoController {
         this.favoritoService = favoritoService;
     }
 
-    // Marcar un alojamiento como favorito
+
     @PostMapping("/marcar")
-    public ResponseEntity<Void> marcarFavorito(@RequestBody FavoritoRequest request) {
+    public ResponseEntity<FavoritoResponse> marcarFavorito(@RequestBody FavoritoRequest request) {
         try {
             favoritoService.marcarFavorito(request.getUsuario_id(), request.getAlojamiento_id());
-            return new ResponseEntity<>(HttpStatus.CREATED); // 201 Created
+
+            // Crear la respuesta con el usuario_id y alojamiento_id
+            FavoritoResponse response = new FavoritoResponse(request.getUsuario_id(), request.getAlojamiento_id());
+
+            // Devolver la respuesta con el código 201 Created
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // 400 Bad Request
         }
     }
 
-    // Quitar un alojamiento de favoritos
+
     @DeleteMapping("/quitar")
     public ResponseEntity<Void> quitarFavorito(@RequestBody FavoritoRequest request) {
         try {
@@ -43,14 +51,29 @@ public class FavoritoController {
         }
     }
 
-    // Obtener todos los favoritos de un usuario
+
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<Alojamiento>> obtenerFavoritos(@PathVariable Long usuarioId) {
+    public ResponseEntity<UsuarioResponse> obtenerFavoritos(@PathVariable Long usuarioId) {
         try {
-            List<Alojamiento> favoritos = favoritoService.obtenerFavoritos(usuarioId);
-            return new ResponseEntity<>(favoritos, HttpStatus.OK); // 200 OK
+
+            Usuario usuario = favoritoService.obtenerUsuarioConFavoritos(usuarioId);
+
+            // Crear la respuesta usando UsuarioResponse
+            UsuarioResponse response = UsuarioResponse.builder()
+                    .id(usuario.getId())
+                    .nombre(usuario.getNombre())
+                    .apellido(usuario.getApellido())
+                    .email(usuario.getEmail())
+                    .rol(usuario.getRol())
+
+
+                    .alojamientosFavoritos(usuario.getAlojamientosFavoritos())
+                    .build();
+
+            // Devolver la respuesta con el código 200 OK
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 Not Found
         }
     }
-}
+    }

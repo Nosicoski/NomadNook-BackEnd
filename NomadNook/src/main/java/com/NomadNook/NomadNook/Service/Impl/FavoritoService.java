@@ -47,11 +47,8 @@ public class FavoritoService {
                 );
     }
 
-    public List<Alojamiento> obtenerFavoritos(Long usuarioId) {
-        Usuario usuario = usuarioRepository.findById(usuarioId)
+    public Usuario obtenerUsuarioConFavoritos(Long usuarioId) {
+        return usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
-        return favoritoRepository.findByUsuario(usuario).stream()
-                .map(Favorito::getAlojamiento)
-                .toList();
     }
 }

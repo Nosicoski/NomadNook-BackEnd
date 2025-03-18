@@ -49,13 +49,11 @@ public class UsuarioService implements IUsuarioService {
         usuarioResponse.setPassword(usuario.getPassword());
         usuarioResponse.setRol(usuario.getRol());
         usuarioResponse.setFechaRegistro(usuario.getFechaRegistro());
-        usuarioResponse.setFavoritos(
-                usuario.getAlojamientosFavoritos().stream().map(Alojamiento::getId).toList()
-        );
-        usuarioResponse.setAlojamientos(API_PATH + "alojamientos/buscar/usuario/" + usuarioResponse.getId());
+
+        // Asignar la lista completa de alojamientos favoritos
+        usuarioResponse.setAlojamientosFavoritos(usuario.getAlojamientosFavoritos());
 
         return usuarioResponse;
-
     }
 
     @Override

@@ -5,9 +5,7 @@ import com.NomadNook.NomadNook.Model.Usuario;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -29,7 +27,7 @@ public class UsuarioResponse {
     }
     private String alojamientos;
 
-    private List<Long> favoritos;
+    private List<Alojamiento> alojamientosFavoritos;
 
 
 }
