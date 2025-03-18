@@ -71,6 +71,7 @@ public class Alojamiento {
 
     @OneToMany(mappedBy = "alojamiento", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
+    @NotEmpty(message = "Debe haber al menos una imagen asociada al alojamiento") 
     private List<Imagen> imagenes;
 
 
