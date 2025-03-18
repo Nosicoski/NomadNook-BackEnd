@@ -90,4 +90,6 @@ public class Alojamiento {
     )
     private Set<Caracteristica> caracteristicas;
 
+    @ManyToMany(mappedBy = "alojamientosFavoritos")
+    private List<Usuario> usuariosQueFavoritan;
 }
