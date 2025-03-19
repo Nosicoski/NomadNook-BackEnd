@@ -1,5 +1,6 @@
 package com.NomadNook.NomadNook.Controller;
 
+import com.NomadNook.NomadNook.DTO.RESPONSE.ReservaRangoResponse;
 import com.NomadNook.NomadNook.Model.Disponibilidad;
 import com.NomadNook.NomadNook.Service.IDisponibilidadService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -82,6 +83,21 @@ public class  DisponibilidadController {  private final IDisponibilidadService d
         Map<String, Object> response = new HashMap<>();
         response.put("alojamientoId", alojamientoId);
         response.put("diasNoDisponibles", diasDisponibles);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/rango/{alojamientoId}")
+    public ResponseEntity<Map<String, Object>> rangoNoDisponible(
+            @PathVariable Long alojamientoId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+
+        List<ReservaRangoResponse> rangosNoDisponibles = disponibilidadService.obtenerRangosNoDisponibles(alojamientoId, fechaInicio, fechaFin);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("alojamientoId", alojamientoId);
+        response.put("rangosNoDisponibles", rangosNoDisponibles);
 
         return ResponseEntity.ok(response);
     }

@@ -1,5 +1,6 @@
 package com.NomadNook.NomadNook.Service;
 
+import com.NomadNook.NomadNook.DTO.RESPONSE.ReservaRangoResponse;
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Disponibilidad;
 
@@ -14,4 +15,6 @@ public interface IDisponibilidadService {
     void deleteDisponibilidad(Long id);
     List<LocalDate> obtenerDiasNoDisponibles(Long alojamientoId, LocalDate fechaInicio, LocalDate fechaFin);
     List<LocalDate> obtenerDiasDisponibles(Long alojamientoId, LocalDate fechaInicio, LocalDate fechaFin);
+
+    List<ReservaRangoResponse> obtenerRangosNoDisponibles(Long alojamientoId, LocalDate fechaInicio, LocalDate fechaFin);
 }

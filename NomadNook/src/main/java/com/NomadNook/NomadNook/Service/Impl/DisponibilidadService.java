@@ -1,5 +1,6 @@
 package com.NomadNook.NomadNook.Service.Impl;
 
+import com.NomadNook.NomadNook.DTO.RESPONSE.ReservaRangoResponse;
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Disponibilidad;
 import com.NomadNook.NomadNook.Model.Reserva;
@@ -117,5 +118,27 @@ public class DisponibilidadService implements IDisponibilidadService {  private 
         todosLosDias.removeAll(diasNoDisponibles);
 
         return todosLosDias;
+    }
+
+    public List<ReservaRangoResponse> obtenerRangosNoDisponibles(Long alojamientoId, LocalDate fechaInicio, LocalDate fechaFin) {
+        // Obtener todas las reservas confirmadas o pendientes para el alojamiento en el rango de fechas
+        List<Reserva> reservas = reservaRepository.findByAlojamientoIdAndEstadoInAndFechaInicioLessThanEqualAndFechaFinGreaterThanEqual(
+                alojamientoId,
+                Arrays.asList(Reserva.EstadoReserva.CONFIRMADA, Reserva.EstadoReserva.PENDIENTE),
+                fechaFin,
+                fechaInicio
+        );
+
+        List<ReservaRangoResponse> rangosNoDisponibles = new ArrayList<>();
+
+        // Para cada reserva, añadir todos los días entre fechaInicio y fechaFin
+        for (Reserva reserva : reservas) {
+            ReservaRangoResponse rango = new ReservaRangoResponse();
+            rango.setFechaInicio(reserva.getFechaInicio());
+            rango.setFechaFin(reserva.getFechaFin());
+            rangosNoDisponibles.add(rango);
+        }
+
+        return rangosNoDisponibles;
     }
 }
