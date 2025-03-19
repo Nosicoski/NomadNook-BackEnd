@@ -73,14 +73,14 @@ public class DisponibilidadService implements IDisponibilidadService {  private 
 
         List<LocalDate> diasNoDisponibles = new ArrayList<>();
 
-//        // Para cada reserva, añadir todos los días entre fechaInicio y fechaFin
-//        for (Reserva reserva : reservas) {
-//            LocalDate fecha = reserva.getFechaInicio();
-//            while (!fecha.isAfter(reserva.getFechaFin())) {
-//                diasNoDisponibles.add(fecha);
-//                fecha = fecha.plusDays(1);
-//            }
-//        }
+        // Para cada reserva, añadir todos los días entre fechaInicio y fechaFin
+        for (Reserva reserva : reservas) {
+            LocalDate fecha = reserva.getFechaInicio();
+            while (!fecha.isAfter(reserva.getFechaFin())) {
+                diasNoDisponibles.add(fecha);
+                fecha = fecha.plusDays(1);
+            }
+        }
 
         return diasNoDisponibles;
     }
