@@ -56,8 +56,8 @@ public class  DisponibilidadController {  private final IDisponibilidadService d
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{alojamientoId}")
-    public ResponseEntity<Map<String, Object>> obtenerDisponibilidad(
+    @GetMapping("/noDisponible/{alojamientoId}")
+    public ResponseEntity<Map<String, Object>> obtenerNoDisponible(
             @PathVariable Long alojamientoId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
@@ -67,6 +67,21 @@ public class  DisponibilidadController {  private final IDisponibilidadService d
         Map<String, Object> response = new HashMap<>();
         response.put("alojamientoId", alojamientoId);
         response.put("diasNoDisponibles", diasNoDisponibles);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/disponible/{alojamientoId}")
+    public ResponseEntity<Map<String, Object>> obtenerDisponible(
+            @PathVariable Long alojamientoId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+
+        List<LocalDate> diasDisponibles = disponibilidadService.obtenerDiasDisponibles(alojamientoId, fechaInicio, fechaFin);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("alojamientoId", alojamientoId);
+        response.put("diasNoDisponibles", diasDisponibles);
 
         return ResponseEntity.ok(response);
     }

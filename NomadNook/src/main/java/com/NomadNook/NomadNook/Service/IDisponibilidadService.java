@@ -13,4 +13,5 @@ public interface IDisponibilidadService {
     Disponibilidad updateDisponibilidad(Long id, Disponibilidad disponibilidad);
     void deleteDisponibilidad(Long id);
     List<LocalDate> obtenerDiasNoDisponibles(Long alojamientoId, LocalDate fechaInicio, LocalDate fechaFin);
+    List<LocalDate> obtenerDiasDisponibles(Long alojamientoId, LocalDate fechaInicio, LocalDate fechaFin);
 }
