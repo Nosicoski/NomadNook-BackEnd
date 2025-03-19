@@ -62,6 +62,7 @@ public class DisponibilidadService implements IDisponibilidadService {  private 
         LOGGER.info("Disponibilidad eliminada con id: {}", id);
     }
 
+    //Cuando haya tiempo, refactorizar
     public List<LocalDate> obtenerDiasNoDisponibles(Long alojamientoId, LocalDate fechaInicio, LocalDate fechaFin) {
         // Obtener todas las reservas confirmadas o pendientes para el alojamiento en el rango de fechas
         List<Reserva> reservas = reservaRepository.findByAlojamientoIdAndEstadoInAndFechaInicioLessThanEqualAndFechaFinGreaterThanEqual(
@@ -83,5 +84,38 @@ public class DisponibilidadService implements IDisponibilidadService {  private 
         }
 
         return diasNoDisponibles;
+    }
+
+    public List<LocalDate> obtenerDiasDisponibles(Long alojamientoId, LocalDate fechaInicio, LocalDate fechaFin) {
+        // Obtener todas las reservas confirmadas o pendientes para el alojamiento en el rango de fechas
+        List<Reserva> reservas = reservaRepository.findByAlojamientoIdAndEstadoInAndFechaInicioLessThanEqualAndFechaFinGreaterThanEqual(
+                alojamientoId,
+                Arrays.asList(Reserva.EstadoReserva.CONFIRMADA, Reserva.EstadoReserva.PENDIENTE),
+                fechaFin,
+                fechaInicio
+        );
+
+        // Crear lista de todos los días en el rango
+        List<LocalDate> todosLosDias = new ArrayList<>();
+        LocalDate fecha = fechaInicio;
+        while (!fecha.isAfter(fechaFin)) {
+            todosLosDias.add(fecha);
+            fecha = fecha.plusDays(1);
+        }
+
+        // Crear lista de días no disponibles
+        List<LocalDate> diasNoDisponibles = new ArrayList<>();
+        for (Reserva reserva : reservas) {
+            LocalDate fechaReserva = reserva.getFechaInicio();
+            while (!fechaReserva.isAfter(reserva.getFechaFin())) {
+                diasNoDisponibles.add(fechaReserva);
+                fechaReserva = fechaReserva.plusDays(1);
+            }
+        }
+
+        // Eliminar días no disponibles de la lista de todos los días
+        todosLosDias.removeAll(diasNoDisponibles);
+
+        return todosLosDias;
     }
 }
