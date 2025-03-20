@@ -184,7 +184,27 @@ public class AlojamientoService implements IAlojamientoService {
 
     }
 
+    @Override
+    public List<AlojamientoResponse> buscarAlojamientosDisponibles(LocalDate fechaInicio, LocalDate fechaFin) {
+        // Validación de fechas
+        if (fechaInicio == null || fechaFin == null) {
+            throw new IllegalArgumentException("Las fechas no pueden ser nulas");
+        }
 
+        if (fechaInicio.isAfter(fechaFin)) {
+            throw new IllegalArgumentException("La fecha de inicio no puede ser posterior a la fecha de fin");
+        }
+
+        List<Alojamiento> alojamientos = alojamientoRepository.findAvailableAlojamientosInDateRange(fechaInicio, fechaFin);
+        List<AlojamientoResponse> responses = new ArrayList<>();
+        for(Alojamiento alojamiento : alojamientos) {
+            AlojamientoResponse response = createAlojamientoResponse(alojamiento);
+            responses.add(response);
+        }
+
+        // Usar el método del repositorio
+        return responses;
+    }
 
 
 }
