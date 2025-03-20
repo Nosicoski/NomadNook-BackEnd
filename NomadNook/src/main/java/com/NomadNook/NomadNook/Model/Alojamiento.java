@@ -79,7 +79,7 @@ public class Alojamiento {
 
     @OneToMany(mappedBy = "alojamiento", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
-    @NotEmpty(message = "Debe haber al menos una imagen asociada al alojamiento") 
+//    @NotEmpty(message = "Debe haber al menos una imagen asociada al alojamiento")
     private List<Imagen> imagenes;
 
 
@@ -99,6 +99,4 @@ public class Alojamiento {
     )
     private Set<Caracteristica> caracteristicas;
 
-    @ManyToMany(mappedBy = "alojamientosFavoritos")
-    private List<Usuario> usuariosQueFavoritan;
 }
