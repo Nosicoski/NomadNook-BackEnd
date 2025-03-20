@@ -1,13 +1,19 @@
 package com.NomadNook.NomadNook.DTO.RESPONSE;
 
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class FavoritoResponse {
     private Long usuario_id;
-    private Long alojamiento_id;
+    private AlojamientoResponse alojamiento; // Cambiado de alojamiento_id a objeto completo
 
     // Constructor
-    public FavoritoResponse(Long usuario_id, Long alojamiento_id) {
+    public FavoritoResponse(Long usuario_id, AlojamientoResponse alojamiento) {
         this.usuario_id = usuario_id;
-        this.alojamiento_id = alojamiento_id;
+        this.alojamiento = alojamiento;
     }
 
     // Getters y Setters
@@ -19,11 +25,11 @@ public class FavoritoResponse {
         this.usuario_id = usuario_id;
     }
 
-    public Long getAlojamiento_id() {
-        return alojamiento_id;
+    public AlojamientoResponse getAlojamiento() {
+        return alojamiento;
     }
 
-    public void setAlojamiento_id(Long alojamiento_id) {
-        this.alojamiento_id = alojamiento_id;
+    public void setAlojamiento(AlojamientoResponse alojamiento) {
+        this.alojamiento = alojamiento;
     }
 }

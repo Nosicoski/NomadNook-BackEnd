@@ -1,5 +1,7 @@
 package com.NomadNook.NomadNook.Model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Table(name = "favoritos")
+
 public class Favorito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,9 +18,12 @@ public class Favorito {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
+
     private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "alojamiento_id", nullable = false)
+
     private Alojamiento alojamiento;
+
 }
