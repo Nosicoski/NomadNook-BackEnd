@@ -74,7 +74,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/pagos/**").hasAnyAuthority("CLIENTE", "ADMIN")
 
                         // FAVORITOS: cliente puede ver y marcar los alojamientos
-                        .requestMatchers(HttpMethod.POST, "/favoritos/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/favoritos/marcar").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/favoritos/usuario/{usuarioId}").permitAll()
 
                         // Admin tiene acceso a todo el resto
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
