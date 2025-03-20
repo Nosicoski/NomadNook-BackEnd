@@ -134,6 +134,7 @@ public class AuthController {
 
             LoginResponse response = LoginResponse.builder()
                     .token(token)
+                    .id(usuario.getId())
                     .email(usuario.getEmail())
                     .rol(usuario.getRol())
                     .nombre(usuario.getNombre())

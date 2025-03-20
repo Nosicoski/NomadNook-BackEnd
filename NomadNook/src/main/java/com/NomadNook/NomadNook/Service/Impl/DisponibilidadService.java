@@ -1,9 +1,13 @@
 package com.NomadNook.NomadNook.Service.Impl;
 
+import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoReducidoResponse;
+import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.DTO.RESPONSE.ReservaRangoResponse;
 import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
+import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Disponibilidad;
 import com.NomadNook.NomadNook.Model.Reserva;
+import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
 import com.NomadNook.NomadNook.Repository.IDisponibilidadRepository;
 import com.NomadNook.NomadNook.Repository.IReservaRepository;
 import com.NomadNook.NomadNook.Service.IDisponibilidadService;
@@ -20,10 +24,12 @@ import java.util.List;
 public class DisponibilidadService implements IDisponibilidadService {  private final IDisponibilidadRepository disponibilidadRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(DisponibilidadService.class);
     private final IReservaRepository reservaRepository;
+    private final IAlojamientoRepository alojamientoRepository;
 
-    public DisponibilidadService(IDisponibilidadRepository disponibilidadRepository, IReservaRepository reservaRepository) {
+    public DisponibilidadService(IDisponibilidadRepository disponibilidadRepository, IReservaRepository reservaRepository, IAlojamientoRepository alojamientoRespository) {
         this.disponibilidadRepository = disponibilidadRepository;
         this.reservaRepository = reservaRepository;
+        this.alojamientoRepository = alojamientoRespository;
     }
 
     @Override
@@ -140,5 +146,32 @@ public class DisponibilidadService implements IDisponibilidadService {  private 
         }
 
         return rangosNoDisponibles;
+    }
+
+    public List<AlojamientoReducidoResponse> buscarAlojamientosDisponibles(LocalDate fechaInicio, LocalDate fechaFin) {
+        // Obtener todos los alojamientos
+        List<Alojamiento> todosAlojamientos = alojamientoRepository.findAll();
+
+        List<AlojamientoReducidoResponse> alojamientosDisponibles = new ArrayList<>();
+
+        for (Alojamiento alojamiento : todosAlojamientos) {
+            List<Reserva> reservasExistentes = reservaRepository.findByAlojamientoIdAndEstadoInAndFechaInicioLessThanEqualAndFechaFinGreaterThanEqual(
+                    alojamiento.getId(),
+                    Arrays.asList(Reserva.EstadoReserva.CONFIRMADA, Reserva.EstadoReserva.PENDIENTE),
+                    fechaFin,
+                    fechaInicio
+            );
+
+            if (reservasExistentes.isEmpty()) {
+                AlojamientoReducidoResponse response = new AlojamientoReducidoResponse();
+                response.setId(alojamiento.getId());
+                response.setTitulo(alojamiento.getTitulo());
+                response.setDescripcion(alojamiento.getDescripcion());
+
+                alojamientosDisponibles.add(response);
+            }
+        }
+
+        return alojamientosDisponibles;
     }
 }

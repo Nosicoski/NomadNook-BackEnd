@@ -1,5 +1,6 @@
 package com.NomadNook.NomadNook.Repository;
 
+import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Reserva;
 import org.springframework.data.jpa.repository.JpaRepository;
 
