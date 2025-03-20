@@ -1,5 +1,6 @@
 package com.NomadNook.NomadNook.Service.Impl;
 
+import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Favorito;
 import com.NomadNook.NomadNook.Model.Usuario;
@@ -10,8 +11,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class FavoritoService {
@@ -19,7 +18,7 @@ public class FavoritoService {
     private final IUsuarioRepository usuarioRepository;
     private final IAlojamientoRepository alojamientoRepository;
 
-    public void marcarFavorito(Long usuarioId, Long alojamientoId) {
+    public Alojamiento marcarFavorito(Long usuarioId, Long alojamientoId) {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
         Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
@@ -32,6 +31,7 @@ public class FavoritoService {
         favorito.setUsuario(usuario);
         favorito.setAlojamiento(alojamiento);
         favoritoRepository.save(favorito);
+        return alojamiento;
     }
 
     public void quitarFavorito(Long usuarioId, Long alojamientoId) {
@@ -48,7 +48,8 @@ public class FavoritoService {
     }
 
     public Usuario obtenerUsuarioConFavoritos(Long usuarioId) {
+        // Ejemplo: Usa el repositorio de Usuario para obtener el usuario con sus favoritos
         return usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con ID: " + usuarioId));
     }
 }

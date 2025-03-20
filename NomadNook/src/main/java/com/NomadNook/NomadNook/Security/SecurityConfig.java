@@ -59,7 +59,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/pagos/**").hasAnyRole("CLIENT", "ADMIN")
 
                         // FAVORITOS: cliente puede ver y marcar los alojamientos
-                        .requestMatchers(HttpMethod.POST, "/api/favoritos/marcar").hasAnyRole("CLIENT", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/favoritos/**").permitAll()
 
                         // Admin tiene acceso a todo el resto
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
