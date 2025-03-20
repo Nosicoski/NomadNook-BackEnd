@@ -5,12 +5,14 @@ import com.NomadNook.NomadNook.Exception.ResourceNotFoundException;
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Caracteristica;
 import com.NomadNook.NomadNook.Model.Categoria;
+import com.NomadNook.NomadNook.Model.Reserva;
 import com.NomadNook.NomadNook.Repository.IAlojamientoRepository;
 import com.NomadNook.NomadNook.Repository.ICaracteristicaRepository;
 
 import com.NomadNook.NomadNook.DTO.REQUEST.AlojamientoRequest;
 import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.Repository.ICategoriaRepository;
+import com.NomadNook.NomadNook.Repository.IReservaRepository;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -42,7 +46,7 @@ public class AlojamientoService implements IAlojamientoService {
     public AlojamientoService(
             ModelMapper modelMapper,
             IAlojamientoRepository alojamientoRepository,
-            ICaracteristicaRepository caracteristicaRepository, ICategoriaRepository categoriaRepository) {
+            ICaracteristicaRepository caracteristicaRepository, ICategoriaRepository categoriaRepository, IReservaRepository reservaRepository) {
         this.modelMapper = modelMapper;
         this.alojamientoRepository = alojamientoRepository;
         this.caracteristicaRepository = caracteristicaRepository;
@@ -179,6 +183,8 @@ public class AlojamientoService implements IAlojamientoService {
         alojamientoRepository.save(alojamiento);
 
     }
+
+
 
 
 }

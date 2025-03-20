@@ -1,5 +1,7 @@
 package com.NomadNook.NomadNook.Controller;
 
+import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoReducidoResponse;
+import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.DTO.RESPONSE.ReservaRangoResponse;
 import com.NomadNook.NomadNook.Model.Disponibilidad;
 import com.NomadNook.NomadNook.Service.IDisponibilidadService;
@@ -102,4 +104,15 @@ public class  DisponibilidadController {  private final IDisponibilidadService d
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/disponible/")
+    public ResponseEntity<List<AlojamientoReducidoResponse>> obtenerAlojamientosDisponible(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+
+        List<AlojamientoReducidoResponse> alojamientos = disponibilidadService.buscarAlojamientosDisponibles(fechaInicio, fechaFin);
+
+
+
+        return ResponseEntity.ok(alojamientos);
+    }
 }
