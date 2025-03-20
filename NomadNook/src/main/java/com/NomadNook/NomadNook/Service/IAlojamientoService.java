@@ -28,4 +28,5 @@ public interface IAlojamientoService {
 
     void agregarCategoriasAlojamiento(Long alojamientoId, Set<Categoria> categorias);
 
+    List<AlojamientoResponse> buscarAlojamientosDisponibles(LocalDate fechaInicio, LocalDate fechaFin);
 }

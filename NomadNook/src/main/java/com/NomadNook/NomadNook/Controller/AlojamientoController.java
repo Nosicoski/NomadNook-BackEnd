@@ -7,9 +7,11 @@ import com.NomadNook.NomadNook.Model.Categoria;
 import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
 import jakarta.validation.Valid;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -91,6 +93,20 @@ public class AlojamientoController {
             @RequestBody Set<Categoria> categorias
     ) {
         alojamientoService.agregarCategoriasAlojamiento(alojamiento_id, categorias);
+    }
+
+    @GetMapping("/disponibles")
+    public ResponseEntity<List<AlojamientoResponse>> getAvailableAlojamientos(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+
+        try {
+            List<AlojamientoResponse> alojamientosDisponibles =
+                    alojamientoService.buscarAlojamientosDisponibles(fechaInicio, fechaFin);
+            return ResponseEntity.ok(alojamientosDisponibles);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }
