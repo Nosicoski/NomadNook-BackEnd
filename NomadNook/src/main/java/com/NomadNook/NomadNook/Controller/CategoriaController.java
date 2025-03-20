@@ -42,4 +42,15 @@ public class CategoriaController {
     public ResponseEntity<List<CategoriaResponse>> getByAlojamientoId(@PathVariable Long id) {
         return ResponseEntity.ok(categoriaService.listAllCategoriaByAlojamiento(id));
     }
+
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        categoriaService.deleteCategoria(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping ("/actualizar/{id}")
+    public ResponseEntity<CategoriaResponse> update(@PathVariable Long id, @RequestBody CategoriaRequest categoria) {
+        return ResponseEntity.ok(categoriaService.updateCategoria(id, categoria));
+    }
 }

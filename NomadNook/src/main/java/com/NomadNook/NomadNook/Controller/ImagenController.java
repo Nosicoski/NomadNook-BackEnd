@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -60,30 +62,43 @@ public class ImagenController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> handleFileUpload(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("name") String name,
+    public ResponseEntity<List<String>> handleMultipleFileUpload(
+            @RequestParam("files") MultipartFile[] files,
             @RequestParam("alojamiento") Long alojamiento_id) {
 
+        if (files == null || files.length == 0) {
+            return ResponseEntity.badRequest().body(Collections.singletonList("No files provided"));
+        }
+
+        List<String> uploadedFileUrls = new ArrayList<>();
+
         try {
-            // Validate file
-            if (file.isEmpty()) {
-                return ResponseEntity.badRequest().body("Please select a file to upload");
+            for (MultipartFile file : files) {
+                if (file.isEmpty()) {
+                    continue;
+                }
+
+                String fileUrl = s3Service.uploadFile(file);
+
+                Imagen imagen = new Imagen();
+                Alojamiento alojamiento = new Alojamiento();
+                alojamiento.setId(alojamiento_id);
+                imagen.setAlojamiento(alojamiento);
+                imagen.setUrl(fileUrl);
+                imagenService.createImagen(imagen);
+
+                uploadedFileUrls.add(fileUrl);
             }
 
-            // Upload to S3
-            String fileUrl = s3Service.uploadFile(file);
+            if (uploadedFileUrls.isEmpty()) {
+                return ResponseEntity.badRequest().body(Collections.singletonList("No valid files uploaded"));
+            }
 
-            Imagen imagen = new Imagen();
-            Alojamiento alojamiento = new Alojamiento();
-            alojamiento.setId(alojamiento_id);
-            imagen.setAlojamiento(alojamiento);
-            imagen.setUrl(fileUrl);
-            imagenService.createImagen(imagen);
-
-            return ResponseEntity.ok("File uploaded successfully. URL: " + fileUrl);
+            return ResponseEntity.ok(uploadedFileUrls);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Failed to upload file: " + e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body(Collections.singletonList("Failed to upload files: " + e.getMessage()));
         }
     }
+
 }

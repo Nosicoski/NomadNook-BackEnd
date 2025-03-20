@@ -11,40 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginResponse {
+    private Long id;
     private String token;
     private String email;
     private Usuario.Rol rol;
     private String mensaje;
+    private String nombre;
+    private String apellido;
 
-    public String getToken() {
-        return token;
-    }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Usuario.Rol getRol() {
-        return rol;
-    }
-
-    public void setRol(Usuario.Rol rol) {
-        this.rol = rol;
-    }
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
 }

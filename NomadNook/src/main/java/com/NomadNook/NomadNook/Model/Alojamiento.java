@@ -3,7 +3,10 @@ package com.NomadNook.NomadNook.Model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -11,9 +14,12 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +46,6 @@ public class Alojamiento {
 
     @NotBlank(message = "La descripción no puede estar vacía") // Valida que el campo no sea nulo ni vacío
     private String descripcion;
-
 
 
 
@@ -92,7 +97,7 @@ public class Alojamiento {
             joinColumns = @JoinColumn(name = "alojamiento_id"),
             inverseJoinColumns = @JoinColumn(name = "caracteristica_id")
     )
-    private Set<Caracteristica> caracteristicas = new HashSet<>();
+    private Set<Caracteristica> caracteristicas;
 
     @ManyToMany(mappedBy = "alojamientosFavoritos")
     private List<Usuario> usuariosQueFavoritan;

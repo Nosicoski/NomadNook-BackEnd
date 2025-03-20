@@ -39,7 +39,7 @@ public class JwtService {
         String role = userDetails.getAuthorities().stream()
                 .map(authority -> authority.getAuthority()) // Extrae el nombre del rol
                 .findFirst()
-                .orElse("ROLE_CLIENTE"); // Si no tiene rol, asigna un valor por defecto
+                .orElse("CLIENTE"); // Si no tiene rol, asigna un valor por defecto
 
 
         extraClaims.put("role", role);
@@ -49,7 +49,7 @@ public class JwtService {
                 .setClaims(extraClaims) // Incluye el rol en los claims
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

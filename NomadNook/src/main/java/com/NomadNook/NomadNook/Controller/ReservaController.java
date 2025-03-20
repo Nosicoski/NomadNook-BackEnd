@@ -1,5 +1,6 @@
 package com.NomadNook.NomadNook.Controller;
 
+import com.NomadNook.NomadNook.DTO.RESPONSE.ReservaResponse;
 import com.NomadNook.NomadNook.Model.Reserva;
 import com.NomadNook.NomadNook.Service.IReservaService;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,8 @@ public class ReservaController {private final IReservaService reservaService;
 
     // CREA una Reserva
     @PostMapping("/guardar")
-    public ResponseEntity<Reserva> createReserva(@RequestBody Reserva reserva) {
-        Reserva createdReserva = reservaService.createReserva(reserva);
+    public ResponseEntity<ReservaResponse> createReserva(@RequestBody Reserva reserva) {
+        ReservaResponse createdReserva = reservaService.createReserva(reserva);
         return ResponseEntity.ok(createdReserva);
     }
 
@@ -28,15 +29,15 @@ public class ReservaController {private final IReservaService reservaService;
     // TRAE todas las Reservas
 
     @GetMapping ("/listarTodos")
-    public ResponseEntity<List<Reserva>> getAllReservas() {
-        List<Reserva> reservas = reservaService.listAllReservas();
+    public ResponseEntity<List<ReservaResponse>> getAllReservas() {
+        List<ReservaResponse> reservas = reservaService.listAllReservas();
         return ResponseEntity.ok(reservas);
     }
     // TRAE una Reserva por ID
 
     @GetMapping("/buscar/{id}")
-    public ResponseEntity<Reserva> getReservaById(@PathVariable Long id) {
-        Reserva reserva = reservaService.getReservaById(id);
+    public ResponseEntity<ReservaResponse> getReservaById(@PathVariable Long id) {
+        ReservaResponse reserva = reservaService.getReservaById(id);
         return ResponseEntity.ok(reserva);
     }
 
@@ -44,8 +45,8 @@ public class ReservaController {private final IReservaService reservaService;
     // ACTUALIZA una Reserva por ID
 
     @PutMapping ("/actualizar/{id}")
-    public ResponseEntity<Reserva> updateReserva(@PathVariable Long id, @RequestBody Reserva reserva) {
-        Reserva updatedReserva = reservaService.updateReserva(id, reserva);
+    public ResponseEntity<ReservaResponse> updateReserva(@PathVariable Long id, @RequestBody Reserva reserva) {
+        ReservaResponse updatedReserva = reservaService.updateReserva(id, reserva);
         return ResponseEntity.ok(updatedReserva);
     }
 

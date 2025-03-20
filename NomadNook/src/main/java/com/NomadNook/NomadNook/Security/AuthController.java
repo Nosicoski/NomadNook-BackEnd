@@ -7,6 +7,7 @@ import com.NomadNook.NomadNook.DTO.LOGIN.LoginResponse;
 import com.NomadNook.NomadNook.Security.Auth.JwtService;
 import com.NomadNook.NomadNook.DTO.LOGIN.RegisterRequest;
 import com.NomadNook.NomadNook.Service.Impl.EmailService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +19,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
@@ -89,7 +88,7 @@ public class AuthController {
                             usuario.getEmail(),
                             usuario.getPassword(),
                             Collections.singleton(
-                                    new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()))
+                                    new SimpleGrantedAuthority(usuario.getRol().name()))
                     )
             );
 
@@ -129,14 +128,17 @@ public class AuthController {
                     new User(
                             usuario.getEmail(),
                             usuario.getPassword(),
-                            Collections.singleton(new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()))
+                            Collections.singleton(new SimpleGrantedAuthority(usuario.getRol().name()))
                     )
             );
 
             LoginResponse response = LoginResponse.builder()
                     .token(token)
+                    .id(usuario.getId())
                     .email(usuario.getEmail())
                     .rol(usuario.getRol())
+                    .nombre(usuario.getNombre())
+                    .apellido(usuario.getApellido())
                     .mensaje("Login exitoso")
                     .build();
 
@@ -157,4 +159,5 @@ public class AuthController {
                     .body(response);
         }
     }
+
 }
