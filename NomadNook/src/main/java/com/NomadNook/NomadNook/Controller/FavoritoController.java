@@ -71,17 +71,12 @@ public class FavoritoController {
 
 
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<FavoritoResponse>> obtenerFavoritos(@PathVariable Long usuarioId) {
+    public ResponseEntity<List<AlojamientoResponse>> obtenerFavoritos(@PathVariable Long usuarioId) {
         try {
+            Usuario usuario = favoritoService.obtenerUsuarioConFavoritos(usuarioId); // Ahora sí recibe un Usuario
 
-            Usuario usuario = favoritoService.obtenerUsuarioConFavoritos(usuarioId);
-
-
-            List<FavoritoResponse> response = usuario.getAlojamientosFavoritos().stream()
-                    .map(alojamiento -> new FavoritoResponse(
-                            usuario.getId(),
-                            modelMapper.map(alojamiento, AlojamientoResponse.class)
-                    ))
+            List<AlojamientoResponse> response = usuario.getAlojamientosFavoritos().stream()
+                    .map(alojamiento -> modelMapper.map(alojamiento, AlojamientoResponse.class))
                     .collect(Collectors.toList());
 
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -90,3 +85,4 @@ public class FavoritoController {
         }
     }
     }
+

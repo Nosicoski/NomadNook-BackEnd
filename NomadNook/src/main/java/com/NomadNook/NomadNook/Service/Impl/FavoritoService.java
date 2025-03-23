@@ -11,6 +11,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class FavoritoService {
@@ -48,8 +50,12 @@ public class FavoritoService {
     }
 
     public Usuario obtenerUsuarioConFavoritos(Long usuarioId) {
-        // Ejemplo: Usa el repositorio de Usuario para obtener el usuario con sus favoritos
-        return usuarioRepository.findById(usuarioId)
+        Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con ID: " + usuarioId));
+
+        // Forzar la carga de la relación (si es Lazy)
+        usuario.getAlojamientosFavoritos().size(); // Truco para inicializar la colección
+
+        return usuario;
     }
 }
