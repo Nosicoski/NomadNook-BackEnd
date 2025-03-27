@@ -38,15 +38,14 @@ public class FavoritoService {
 
     public void quitarFavorito(Long usuarioId, Long alojamientoId) {
         Usuario usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Usuario con ID " + usuarioId + " no encontrado"));
         Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
-                .orElseThrow(() -> new EntityNotFoundException("Alojamiento no encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Alojamiento con ID " + alojamientoId + " no encontrado"));
 
-        favoritoRepository.findByUsuarioAndAlojamiento(usuario, alojamiento)
-                .ifPresentOrElse(
-                        favoritoRepository::delete,
-                        () -> { throw new IllegalStateException("El alojamiento no está en favoritos."); }
-                );
+        Favorito favorito = favoritoRepository.findByUsuarioAndAlojamiento(usuario, alojamiento)
+                .orElseThrow(() -> new IllegalStateException("El alojamiento no está en la lista de favoritos del usuario"));
+
+        favoritoRepository.delete(favorito);
     }
 
     public Usuario obtenerUsuarioConFavoritos(Long usuarioId) {

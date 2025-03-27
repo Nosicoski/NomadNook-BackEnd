@@ -7,6 +7,7 @@ import com.NomadNook.NomadNook.DTO.RESPONSE.UsuarioResponse;
 import com.NomadNook.NomadNook.Model.Alojamiento;
 import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Service.Impl.FavoritoService;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,16 +61,19 @@ public class FavoritoController {
         }
     }
 
-    @DeleteMapping("/quitar")
-    public ResponseEntity<Void> quitarFavorito(@RequestBody FavoritoRequest request) {
+   @DeleteMapping("/quitar")
+    public ResponseEntity<String> quitarFavorito(@RequestBody FavoritoRequest request) {
         try {
             favoritoService.quitarFavorito(request.getUsuario_id(), request.getAlojamiento_id());
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
+            return new ResponseEntity<>("Favorito eliminado correctamente", HttpStatus.NO_CONTENT);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (IllegalStateException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // 400 Bad Request
+            return new ResponseEntity<>("Ocurrió un error inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
 
     @GetMapping("/usuario/{usuarioId}")
