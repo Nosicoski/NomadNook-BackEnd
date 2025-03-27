@@ -93,7 +93,6 @@ public class AlojamientoController {
         alojamientoService.agregarCategoriasAlojamiento(alojamiento_id, categorias);
     }
 
-
     @GetMapping("/listarTodos")
     public ResponseEntity<List<AlojamientoResponse>> getAll(
             @RequestParam(name = "fechaInicio", required = false)
@@ -129,5 +128,19 @@ public class AlojamientoController {
         return ResponseEntity.ok(response);
     }
 
+
+    @GetMapping("/disponibles")
+    public ResponseEntity<List<AlojamientoResponse>> getAvailableAlojamientos(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+
+        try {
+            List<AlojamientoResponse> alojamientosDisponibles =
+                    alojamientoService.buscarAlojamientosDisponibles(fechaInicio, fechaFin);
+            return ResponseEntity.ok(alojamientosDisponibles);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 }
