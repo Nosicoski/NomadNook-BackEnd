@@ -29,7 +29,7 @@ public class AlojamientoResponse {
     private Set<Categoria> categorias;
     private Set<Caracteristica> caracteristicas;
 
-    
+
     private LocalDate fechaReservaInicio;
     private LocalDate fechaReservaFin;
 }
