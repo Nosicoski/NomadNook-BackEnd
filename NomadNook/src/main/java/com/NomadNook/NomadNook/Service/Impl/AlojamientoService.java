@@ -38,6 +38,7 @@ public class AlojamientoService implements IAlojamientoService {
     private final ICategoriaRepository categoriaRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(AlojamientoService.class);
     private ModelMapper modelMapper;
+    private final IReservaRepository reservaRepository;
 
     @Value("${api.path}")
     private String API_PATH;
@@ -46,11 +47,14 @@ public class AlojamientoService implements IAlojamientoService {
     public AlojamientoService(
             ModelMapper modelMapper,
             IAlojamientoRepository alojamientoRepository,
-            ICaracteristicaRepository caracteristicaRepository, ICategoriaRepository categoriaRepository, IReservaRepository reservaRepository) {
+            ICaracteristicaRepository caracteristicaRepository,
+            ICategoriaRepository categoriaRepository,
+            IReservaRepository reservaRepository) {
         this.modelMapper = modelMapper;
         this.alojamientoRepository = alojamientoRepository;
         this.caracteristicaRepository = caracteristicaRepository;
         this.categoriaRepository = categoriaRepository;
+        this.reservaRepository = reservaRepository;
     }
 
     private AlojamientoResponse createAlojamientoResponse(Alojamiento alojamiento) {
@@ -68,18 +72,23 @@ public class AlojamientoService implements IAlojamientoService {
         alojamientoResponse.setPropietario_id(alojamiento.getPropietario().getId());
         alojamientoResponse.setImagenes(alojamiento.getImagenes());
         alojamientoResponse.setCaracteristicas(alojamiento.getCaracteristicas());
+
+
+        alojamientoResponse.setFechaReservaInicio(alojamiento.getFechaReservaInicio());
+        alojamientoResponse.setFechaReservaFin(alojamiento.getFechaReservaFin());
+
         return alojamientoResponse;
     }
 
     @Override
     public AlojamientoResponse createAlojamiento(AlojamientoRequest requestDTO) {
-        // Mapear el request DTO a la entidad
+
         Alojamiento alojamiento = modelMapper.map(requestDTO, Alojamiento.class);
 
-        // Guardar la entidad
+
         Alojamiento alojamientoGuardado = alojamientoRepository.save(alojamiento);
 
-        // Mapear la entidad persistida a un DTO de respuesta
+
         return createAlojamientoResponse(alojamientoGuardado);
     }
 
@@ -103,19 +112,18 @@ public class AlojamientoService implements IAlojamientoService {
 
     @Override
     public AlojamientoResponse updateAlojamiento(Long id, AlojamientoRequest request) {
-        // Verificar si el alojamiento con el id existe
+
         Alojamiento existingAlojamiento = alojamientoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No se encontró el alojamiento con id: " + id));
 
-        // Verificar si el nombre ha cambiado y si ya existe otro alojamiento con ese nombre
+
         if (!existingAlojamiento.getTitulo().equals(request.getTitulo()) && alojamientoRepository.existsByTitulo(request.getTitulo())) {
             throw new IllegalArgumentException("Ya existe un alojamiento con el mismo nombre");
         }
 
-        // Usar ModelMapper para actualizar la entidad existente con los valores del request DTO.
-        // Esto copia las propiedades con nombres y tipos coincidentes.
+
         modelMapper.map(request, existingAlojamiento);
 
-        // Guardar el alojamiento actualizado
+
         Alojamiento updatedAlojamiento = alojamientoRepository.save(existingAlojamiento);
         LOGGER.info("Alojamiento actualizado con id: {}", updatedAlojamiento.getId());
         return createAlojamientoResponse(updatedAlojamiento);
@@ -131,7 +139,7 @@ public class AlojamientoService implements IAlojamientoService {
 
     @Override
     public List<AlojamientoResponse> listAllAlojamientosByPropietario(Long propietario_id) {
-        //log.info("Entre al service");
+
         List<Alojamiento> alojamientos = alojamientoRepository.findAllByPropietarioId(propietario_id);
         List<AlojamientoResponse> responses = new ArrayList<>();
         for (Alojamiento alojamiento : alojamientos) {
@@ -185,6 +193,23 @@ public class AlojamientoService implements IAlojamientoService {
     }
 
     @Override
+    public boolean isAlojamientoDisponible(Long alojamientoId, LocalDate fechaInicio, LocalDate fechaFin) {
+        // Define los estados de reserva que consideras para bloquear el alojamiento.
+        // Por ejemplo, supongamos que solo consideramos el estado CONFIRMADA.
+        List<Reserva.EstadoReserva> estadosValidos = Arrays.asList(Reserva.EstadoReserva.CONFIRMADA);
+
+        List<Reserva> reservas = reservaRepository
+                .findByAlojamientoIdAndEstadoInAndFechaInicioLessThanEqualAndFechaFinGreaterThanEqual(
+                        alojamientoId,
+                        estadosValidos,
+                        fechaFin,   // fecha máxima: la fechaFin de la consulta
+                        fechaInicio // fecha mínima: la fechaInicio de la consulta
+                );
+
+        // Si no hay reservas que se solapen, el alojamiento está disponible.
+        return reservas.isEmpty();
+    }
+
     public List<AlojamientoResponse> buscarAlojamientosDisponibles(LocalDate fechaInicio, LocalDate fechaFin) {
         // Validación de fechas
         if (fechaInicio == null || fechaFin == null) {

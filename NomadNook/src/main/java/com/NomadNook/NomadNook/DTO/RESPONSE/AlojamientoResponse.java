@@ -1,16 +1,13 @@
+
 package com.NomadNook.NomadNook.DTO.RESPONSE;
 
-import com.NomadNook.NomadNook.Model.Alojamiento;
-
 import com.NomadNook.NomadNook.Model.Categoria;
-
 import com.NomadNook.NomadNook.Model.Caracteristica;
-
 import com.NomadNook.NomadNook.Model.Imagen;
-import com.NomadNook.NomadNook.Model.Usuario;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -31,4 +28,8 @@ public class AlojamientoResponse {
     private List<Imagen> imagenes;
     private Set<Categoria> categorias;
     private Set<Caracteristica> caracteristicas;
+
+    
+    private LocalDate fechaReservaInicio;
+    private LocalDate fechaReservaFin;
 }

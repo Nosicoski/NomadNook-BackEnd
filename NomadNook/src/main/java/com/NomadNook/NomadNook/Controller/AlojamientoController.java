@@ -4,7 +4,6 @@ import com.NomadNook.NomadNook.DTO.REQUEST.AlojamientoRequest;
 import com.NomadNook.NomadNook.DTO.RESPONSE.AlojamientoResponse;
 import com.NomadNook.NomadNook.Model.Caracteristica;
 import com.NomadNook.NomadNook.Model.Categoria;
-import com.NomadNook.NomadNook.Model.Usuario;
 import com.NomadNook.NomadNook.Service.IAlojamientoService;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -25,32 +26,29 @@ public class AlojamientoController {
     public AlojamientoController(IAlojamientoService alojamientoService) {
         this.alojamientoService = alojamientoService;
     }
-// TRAE todos los alojamientos
 
-    @GetMapping ("/listarTodos")
-    public ResponseEntity<List<AlojamientoResponse>> getAll() {
-        return ResponseEntity.ok(alojamientoService.listAllAlojamientos());
-    }
-    // TRAE un alojamiento por ID
+
+
+
 
     @GetMapping("/buscar/{id}")
     public ResponseEntity<AlojamientoResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(alojamientoService.getAlojamientoById(id));
     }
 
-    // CREA un alojamiento
-    //Recibe como parametros los atributos de Alojamiento Request, es lo que va entre parentesis
+
+
     @PostMapping("/guardar")
     public ResponseEntity<AlojamientoResponse> create(@Valid @RequestBody AlojamientoRequest alojamiento) {
         return ResponseEntity.ok(alojamientoService.createAlojamiento(alojamiento));
     }
-    // ACTUALIZA un alojamiento (hay que pasarle un ID)
+
 
     @PutMapping ("/actualizar/{id}")
     public ResponseEntity<AlojamientoResponse> update(@PathVariable Long id, @Valid @RequestBody AlojamientoRequest alojamiento) {
         return ResponseEntity.ok(alojamientoService.updateAlojamiento(id, alojamiento));
     }
-    // ELIMINA un alojamiento (hay que pasarle un ID)
+
 
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -94,6 +92,42 @@ public class AlojamientoController {
     ) {
         alojamientoService.agregarCategoriasAlojamiento(alojamiento_id, categorias);
     }
+
+    @GetMapping("/listarTodos")
+    public ResponseEntity<List<AlojamientoResponse>> getAll(
+            @RequestParam(name = "fechaInicio", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam(name = "fechaFin", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+
+        List<AlojamientoResponse> responses = alojamientoService.listAllAlojamientos();
+
+        if(fechaInicio != null && fechaFin != null) {
+            for (AlojamientoResponse resp : responses) {
+                resp.setFechaReservaInicio(fechaInicio);
+                resp.setFechaReservaFin(fechaFin);
+                boolean disponible = alojamientoService.isAlojamientoDisponible(resp.getId(), fechaInicio, fechaFin);
+                resp.setDisponible(disponible);
+            }
+        }
+
+        return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping("/{alojamientoId}/disponibilidad")
+    public ResponseEntity<Map<String, Boolean>> checkDisponibilidad(
+            @PathVariable Long alojamientoId,
+            @RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam("fechaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+
+        boolean disponible = alojamientoService.isAlojamientoDisponible(alojamientoId, fechaInicio, fechaFin);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("disponible", disponible);
+
+        return ResponseEntity.ok(response);
+    }
+
 
     @GetMapping("/disponibles")
     public ResponseEntity<List<AlojamientoResponse>> getAvailableAlojamientos(
