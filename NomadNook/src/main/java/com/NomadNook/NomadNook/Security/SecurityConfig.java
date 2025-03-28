@@ -44,6 +44,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/alojamientos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/imagenes/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/resenas/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/disponibilidades/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/reservas/**").permitAll()
                         //.anyRequest().authenticated() // Todas las demás requieren autenticación
 
                         // Rutas de Características
