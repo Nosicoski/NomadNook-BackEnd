@@ -230,6 +230,12 @@ public class AlojamientoService implements IAlojamientoService {
         // Usar el método del repositorio
         return responses;
     }
+    @Override
+    public int contarUsuariosFavoritos(Long alojamientoId) {
+        Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Alojamiento no encontrado"));
+        return alojamiento.getUsuariosFavoritos().size();
+    }
 
 
 }
