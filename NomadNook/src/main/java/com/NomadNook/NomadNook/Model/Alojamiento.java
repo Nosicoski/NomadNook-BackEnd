@@ -103,4 +103,11 @@ public class Alojamiento {
     @Transient
     private LocalDate fechaReservaFin;
 
+    @ManyToMany
+    @JoinTable(
+            name = "favoritos",
+            joinColumns = @JoinColumn(name = "alojamiento_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
+    )
+    private Set<Usuario> usuariosFavoritos;
 }

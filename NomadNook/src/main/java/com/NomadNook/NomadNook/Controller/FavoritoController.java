@@ -50,7 +50,8 @@ public class FavoritoController {
                     alojamiento.getCategorias(),
                     alojamiento.getCaracteristicas(),
                     alojamiento.getFechaReservaInicio(),
-                    alojamiento.getFechaReservaFin()
+                    alojamiento.getFechaReservaFin(),
+                    alojamiento.getUsuariosFavoritos().size()
             );
 
             FavoritoResponse response = new FavoritoResponse(request.getUsuario_id(), alojamientoResponse);

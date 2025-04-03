@@ -32,4 +32,6 @@ public class AlojamientoResponse {
 
     private LocalDate fechaReservaInicio;
     private LocalDate fechaReservaFin;
+
+    private int cantidadFavoritos;
 }

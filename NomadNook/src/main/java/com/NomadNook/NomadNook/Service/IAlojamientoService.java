@@ -27,6 +27,7 @@ public interface IAlojamientoService {
     void agregarCaracteristicasAlojamiento(Long alojamientoId, Set<Caracteristica> caracteristicas);
 
     void agregarCategoriasAlojamiento(Long alojamientoId, Set<Categoria> categorias);
+    int contarUsuariosFavoritos(Long alojamientoId);
 
     boolean isAlojamientoDisponible(Long alojamientoId, LocalDate fechaInicio, LocalDate fechaFin);
     List<AlojamientoResponse> buscarAlojamientosDisponibles(LocalDate fechaInicio, LocalDate fechaFin);

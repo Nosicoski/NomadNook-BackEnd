@@ -94,7 +94,7 @@ public class AlojamientoController {
     }
 
     @GetMapping("/listarTodos")
-    public ResponseEntity<List<AlojamientoResponse>> getAll(
+    public ResponseEntity<Map<String, Object>> getAll(
             @RequestParam(name = "fechaInicio", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
             @RequestParam(name = "fechaFin", required = false)
@@ -102,8 +102,11 @@ public class AlojamientoController {
 
         List<AlojamientoResponse> responses = alojamientoService.listAllAlojamientos();
 
-        if(fechaInicio != null && fechaFin != null) {
-            for (AlojamientoResponse resp : responses) {
+        for (AlojamientoResponse resp : responses) {
+            int cantidadFavoritos = alojamientoService.contarUsuariosFavoritos(resp.getId());
+            resp.setCantidadFavoritos(cantidadFavoritos);
+
+            if (fechaInicio != null && fechaFin != null) {
                 resp.setFechaReservaInicio(fechaInicio);
                 resp.setFechaReservaFin(fechaFin);
                 boolean disponible = alojamientoService.isAlojamientoDisponible(resp.getId(), fechaInicio, fechaFin);
@@ -111,7 +114,10 @@ public class AlojamientoController {
             }
         }
 
-        return ResponseEntity.ok(responses);
+        Map<String, Object> response = new HashMap<>();
+        response.put("alojamientos", responses); // Solo devuelve el array de alojamientos
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{alojamientoId}/disponibilidad")
@@ -141,6 +147,14 @@ public class AlojamientoController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
+
+
     }
+    @GetMapping("/{id}/favoritos")
+    public ResponseEntity<Integer> contarFavoritos(@PathVariable Long id) {
+        int cantidad = alojamientoService.contarUsuariosFavoritos(id);
+        return ResponseEntity.ok(cantidad);
+    }
+
 
 }
