@@ -94,7 +94,7 @@ public class AlojamientoController {
     }
 
     @GetMapping("/listarTodos")
-    public ResponseEntity<Map<String, Object>> getAll(
+    public ResponseEntity<List<AlojamientoResponse>> getAll(
             @RequestParam(name = "fechaInicio", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
             @RequestParam(name = "fechaFin", required = false)
@@ -107,17 +107,14 @@ public class AlojamientoController {
             resp.setCantidadFavoritos(cantidadFavoritos);
 
             if (fechaInicio != null && fechaFin != null) {
-                resp.setFechaReservaInicio(fechaInicio);
-                resp.setFechaReservaFin(fechaFin);
                 boolean disponible = alojamientoService.isAlojamientoDisponible(resp.getId(), fechaInicio, fechaFin);
                 resp.setDisponible(disponible);
+            } else {
+                resp.setDisponible(true); 
             }
         }
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("alojamientos", responses); // Solo devuelve el array de alojamientos
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/{alojamientoId}/disponibilidad")
